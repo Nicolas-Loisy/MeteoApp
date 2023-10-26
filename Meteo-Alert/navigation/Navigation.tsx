@@ -2,21 +2,24 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-/**
- *  Pages
- */
-import HomeScreen from "../pages/HomeScreen";
-import Profile from "../pages/Profile";
+import Connexion from "../pages/Connexion";
+import Inscription from "../pages/Inscription";
+import Accueil from "../pages/Accueil";
+import DetailLieu from "../pages/DetailLieu";
+import RechercheLieu from "../pages/RechercheLieu";
 
 const Stack = createStackNavigator();
 
 export default function Navigation() {
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="HomeScreen">
-            <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
-        </Stack.Navigator>
+      <Stack.Navigator initialRouteName="Connexion">
+        <Stack.Screen name="Connexion" component={Connexion} options={{ headerShown: false }} />
+        <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
+        <Stack.Screen name="Accueil" component={Accueil} options={{ headerShown: false }} />
+        <Stack.Screen name="RechercheLieu" component={RechercheLieu} options={{ headerShown: false }} />
+        <Stack.Screen name="DetailLieu" component={DetailLieu} options={{ headerShown: false }} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
