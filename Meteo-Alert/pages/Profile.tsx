@@ -1,7 +1,12 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
+import { NavigationProp } from '@react-navigation/native';
 
-const Profile = ({ navigation }) => {
+interface ProfileProps {
+  navigation: NavigationProp<any>;
+}
+
+const Profile: React.FC<ProfileProps> = ({ navigation }) => {
   return (
     <View>
       <Text>Page profile</Text>
