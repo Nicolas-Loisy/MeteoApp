@@ -1,11 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
+import LayoutTemplate from '../components/organisms/LayoutTemplate';
 
 const Accueil = () => {
   return (
-    <View>
-
-    </View>
+    <LayoutTemplate>
+      <Text>Contenu de la page d'accueil</Text>
+    </LayoutTemplate>
   );
 };
 
