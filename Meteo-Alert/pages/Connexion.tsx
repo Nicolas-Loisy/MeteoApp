@@ -13,17 +13,13 @@ const Connexion = () => {
   const [motDePasse, setMotDePasse] = useState('');
 
   const handleConnexion = () => {
-
-    // Exemple fictif de connexion
     if (email && motDePasse) {
-      // Connectez-vous avec serviceCompte
       serviceCompte.connexion(email, motDePasse)
         .then((utilisateur) => {
           console.log(utilisateur);
           navigation.navigate('Accueil');
         })
         .catch((error) => {
-          // Gérez les erreurs de connexion ici
           console.error('Erreur de connexion :', error);
         });
     }
@@ -45,7 +41,7 @@ const Connexion = () => {
       <TextInput
         style={styles.input}
         placeholder="Mot de passe"
-        secureTextEntry={true} // Masque le mot de passe
+        secureTextEntry={true}
         value={motDePasse}
         onChangeText={setMotDePasse}
       />
