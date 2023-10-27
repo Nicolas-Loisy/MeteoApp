@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, Pressable, TextInput } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import ServiceCompteFactory from '../services/ServiceCompteFactory';
+import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
 
 const Connexion = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();

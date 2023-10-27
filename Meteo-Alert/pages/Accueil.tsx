@@ -1,30 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import ServiceCompteFactory from '../services/ServiceCompteFactory';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useUserContext } from '../services/compteUtilisateur/UserContext';
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const serviceCompte = ServiceCompteFactory.getServiceCompte();
+  const { statutConnecte, serviceCompte } = useUserContext();
 
-  serviceCompte.checkConnexion()
-  .then((statut) => {
-    if (!statut) {
-      navigation.navigate('Connexion')
+  useEffect(() => {
+    if(!statutConnecte) {
+      navigation.navigate('Connexion');
     }
-  })
+  }, [statutConnecte]);
 
   const handleDeconnexion = () => {
-    serviceCompte.deconnexion()
-    .then(() => {
-      serviceCompte.checkConnexion()
-      .then((statut) => {
-        if (!statut) {
-          navigation.navigate('Connexion')
-        }
-      })
-    })
+    serviceCompte.deconnexion();
   };
 
   return (

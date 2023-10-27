@@ -2,13 +2,15 @@ import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth } from "firebase/auth";
 import { ref, set, get, Database, getDatabase } from 'firebase/database';
 
-import Utilisateur from "../models/Utilisateur";
+import Utilisateur from "../../models/Utilisateur";
+import iObserverConnexion from "./iObserverConnexion";
 
 export default class ServiceCompteFirebase {
   private app: FirebaseApp;
   private auth: Auth;
   private database: Database;
   private token: string | any;
+  private observers: iObserverConnexion[];
 
   constructor() {
     const firebaseConfig = {
@@ -25,8 +27,38 @@ export default class ServiceCompteFirebase {
     this.auth = getAuth(this.app);
     this.database = getDatabase(this.app);
     this.token = null;
+    this.observers = [];
   }
 
+  /*----------------------- OBSERVER --------------------*/
+  public addObserver(observer: iObserverConnexion): void {
+    const isExist = this.observers.includes(observer);
+    if (isExist) {
+      return console.log('Subject: Observer has been attached already.');
+    }
+
+    this.observers.push(observer);
+    console.log('Subject: Attached an observer.');
+  }
+
+  public remObserver(observer: iObserverConnexion): void {
+    const observerIndex = this.observers.indexOf(observer);
+    if (observerIndex === -1) {
+      return console.log('Subject: Nonexistent observer.');
+    }
+
+    this.observers.splice(observerIndex, 1);
+    console.log('Subject: Detached an observer.');
+  }
+
+  private notify(): void {
+    console.log('Subject: Notifying observers...');
+    for (const observer of this.observers) {
+      observer.update(this.token !== null);
+    }
+  }
+
+  /*------------ FONCTION DE COMPTE FIREBASE ------------*/
   public async inscription(mail: string, password: string, userData: Object): Promise<Utilisateur | any> {
     try {
       //Inscription
@@ -48,6 +80,7 @@ export default class ServiceCompteFirebase {
 
       let utilisateur = new Utilisateur(userData)
 
+      this.notify();
       return utilisateur;
     } catch (error: any) {
       const errorMessage = error.message;
@@ -71,6 +104,7 @@ export default class ServiceCompteFirebase {
 
       let utilisateur = new Utilisateur(userData)
 
+      this.notify();
       return utilisateur;
     } catch (error: any) {
       const errorMessage = error.message;
@@ -78,18 +112,9 @@ export default class ServiceCompteFirebase {
     }
   }
 
-  public async checkConnexion(): Promise<boolean> {
-    try {
-      let user = this.auth.currentUser;
-      return user ? true : false;
-    } catch (error : any) {
-      const errorMessage = error.message;
-      throw new Error(errorMessage);
-    }
-  }  
-
-  public async deconnexion() {
+  public async deconnexion() : Promise<any> {
     await this.auth.signOut();
     this.token = null;
+    this.notify();
   }
 }
