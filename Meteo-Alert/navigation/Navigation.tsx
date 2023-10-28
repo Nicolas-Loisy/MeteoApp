@@ -13,7 +13,7 @@ const Stack = createStackNavigator();
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Connexion">
+      <Stack.Navigator initialRouteName="Accueil">
         <Stack.Screen name="Connexion" component={Connexion} options={{ headerShown: false }} />
         <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
         <Stack.Screen name="Accueil" component={Accueil} options={{ headerShown: false }} />

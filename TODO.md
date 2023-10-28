@@ -6,14 +6,14 @@ Project Description
 
 ### Todo
 
-- [ ] Pattern Builder pour données Méteo  
-- [ ] Rédaction ReadMe  
-- [ ] Init projet  
 - [ ] Mettre en place un Observer observable (Détection d'évenements) => Behavioral Patterns  
 
 ### In Progress
 
+- [ ] Pattern Builder pour données Méteo  
 
 ### Done ✓
 
+- [x] Init projet  
+- [x] Rédaction ReadMe  
 
