@@ -1,10 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
+import LayoutTemplate from '../components/organisms/LayoutTemplate';
 
 const DetailLieu = () => {
   return (
-    <View>
-    </View>
+    <LayoutTemplate>
+      <View>
+      </View>
+    </LayoutTemplate>
   );
 };
 

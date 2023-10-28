@@ -4,6 +4,7 @@ import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useUserContext } from '../services/compteUtilisateur/UserContext';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
+import Button from '../components/atoms/Button';
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -25,9 +26,12 @@ const Accueil = () => {
         <Text>Accueil</Text>
 
         {/* Bouton de connexion */}
-        <Pressable style={styles.button} onPress={handleDeconnexion}>
-          <Text>Deconnexion</Text>
-        </Pressable>
+        <Button
+          onPress={handleDeconnexion}
+          title="Déconnexion"
+          styleBtn="whiteBg"
+        />
+
       </View>
     </LayoutTemplate>
   );

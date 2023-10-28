@@ -3,6 +3,9 @@ import { View, StyleSheet, Text, Pressable, TextInput } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
+import Button from '../components/atoms/Button';
+import LayoutTemplate from '../components/organisms/LayoutTemplate';
+import ClickableText from '../components/atoms/ClickableText';
 
 const Connexion = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -26,37 +29,47 @@ const Connexion = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Connexion</Text>
-
-      {/* Formulaire d'adresse e-mail */}
-      <TextInput
-        style={styles.input}
-        placeholder="E-mail"
-        value={email}
-        onChangeText={setEmail}
-      />
-
-      {/* Formulaire de mot de passe */}
-      <TextInput
-        style={styles.input}
-        placeholder="Mot de passe"
-        secureTextEntry={true}
-        value={motDePasse}
-        onChangeText={setMotDePasse}
-      />
-
-      {/* Bouton de connexion */}
-      <Pressable style={styles.button} onPress={handleConnexion}>
+    <LayoutTemplate>
+      <View style={styles.container}>
         <Text>Connexion</Text>
-      </Pressable>
 
-      {/* Bouton pour aller à la page d'inscription */}
-      <Pressable onPress={() => navigation.navigate('Inscription')}>
-        <Text>Aller à l'Inscription</Text>
-      </Pressable>
+        {/* Formulaire d'adresse e-mail */}
+        <TextInput
+          style={styles.input}
+          placeholder="E-mail"
+          value={email}
+          onChangeText={setEmail}
+        />
 
-    </View>
+        {/* Formulaire de mot de passe */}
+        <TextInput
+          style={styles.input}
+          placeholder="Mot de passe"
+          secureTextEntry={true}
+          value={motDePasse}
+          onChangeText={setMotDePasse}
+        />
+
+        <ClickableText
+            text="Mot de passe oublié ?"
+            // onPress={}
+        />
+
+        {/* Bouton de connexion */}
+        <Button
+            onPress={handleConnexion}
+            title="Connexion"
+            styleBtn="whiteBg"
+        />
+
+        {/* Bouton pour aller à la page d'inscription */}
+        <Button
+            onPress={() => navigation.navigate('Inscription')}
+            title="Pas encore de compte ?"
+            styleBtn="noBg"
+        />
+      </View>
+    </LayoutTemplate>
   );
 };
 

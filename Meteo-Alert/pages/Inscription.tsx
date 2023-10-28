@@ -3,6 +3,9 @@ import { View, StyleSheet, Text, Pressable, TextInput } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
+import Button from '../components/atoms/Button';
+import ClickableText from '../components/atoms/ClickableText';
+import LayoutTemplate from '../components/organisms/LayoutTemplate';
 
 const Inscription = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -31,45 +34,49 @@ const Inscription = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Inscription</Text>
-
-      {/* Formulaire de prénom */}
-      <TextInput
-        style={styles.input}
-        placeholder="Prénom"
-        value={prenom}
-        onChangeText={setPrenom}
-      />
-      
-      {/* Formulaire d'adresse e-mail */}
-      <TextInput
-        style={styles.input}
-        placeholder="E-mail"
-        value={email}
-        onChangeText={setEmail}
-      />
-
-      {/* Formulaire de mot de passe */}
-      <TextInput
-        style={styles.input}
-        placeholder="Mot de passe"
-        secureTextEntry={true} // Masque le mot de passe
-        value={motDePasse}
-        onChangeText={setMotDePasse}
-      />
-
-      {/* Bouton de Inscription */}
-      <Pressable style={styles.button} onPress={handleInscription}>
+    <LayoutTemplate>
+      <View style={styles.container}>
         <Text>Inscription</Text>
-      </Pressable>
 
-      {/* Bouton pour aller à la page d'inscription */}
-      <Pressable onPress={() => navigation.navigate('Connexion')}>
-        <Text>Aller à la connexion</Text>
-      </Pressable>
+        {/* Formulaire de prénom */}
+        <TextInput
+          style={styles.input}
+          placeholder="Prénom"
+          value={prenom}
+          onChangeText={setPrenom}
+        />
+        
+        {/* Formulaire d'adresse e-mail */}
+        <TextInput
+          style={styles.input}
+          placeholder="E-mail"
+          value={email}
+          onChangeText={setEmail}
+        />
 
-    </View>
+        {/* Formulaire de mot de passe */}
+        <TextInput
+          style={styles.input}
+          placeholder="Mot de passe"
+          secureTextEntry={true} // Masque le mot de passe
+          value={motDePasse}
+          onChangeText={setMotDePasse}
+        />
+
+        {/* Bouton de Inscription */}
+        <Button
+            onPress={handleInscription}
+            title="S'inscrire"
+            styleBtn="whiteBg"
+        />
+
+        {/* Bouton pour aller à la page d'inscription */}
+        <ClickableText
+          text="Déjà inscrit ?"
+          onPress={() => navigation.navigate('Connexion')}
+        />
+      </View>
+    </LayoutTemplate>
   );
 };
 
