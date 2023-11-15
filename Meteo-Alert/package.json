@@ -23,6 +23,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.6",
+    "react-native-animatable": "^1.4.0",
     "react-native-config": "^1.5.1",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-web": "~0.19.6",

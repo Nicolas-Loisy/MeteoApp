@@ -5,6 +5,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useUserContext } from '../services/compteUtilisateur/UserContext';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import Button from '../components/atoms/Button';
+import EngrenageParametre from '../components/atoms/EngrenageParametre';
+import VoletParametre from '../components/organisms/VoletParametre';
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -20,10 +22,22 @@ const Accueil = () => {
     serviceCompte.deconnexion();
   };
 
+  const [isVoletOpen, setIsVoletOpen] = useState(false);
+
+  const handleOpenVolet = () => {
+    setIsVoletOpen(true);
+  };
+
+  const handleCloseVolet = () => {
+    setIsVoletOpen(false);
+  };
+
   return (
     <LayoutTemplate>
       <View style={styles.container}>
         <Text>Accueil</Text>
+        <VoletParametre isOpen={isVoletOpen} onClose={handleCloseVolet} />
+        <EngrenageParametre onOpenVolet={handleOpenVolet} />
 
         {/* Bouton de connexion */}
         <Button
