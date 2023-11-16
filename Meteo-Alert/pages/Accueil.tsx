@@ -7,6 +7,7 @@ import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import Button from '../components/atoms/Button';
 import EngrenageParametre from '../components/atoms/EngrenageParametre';
 import VoletParametre from '../components/organisms/VoletParametre';
+import MyStatusBar from '../components/atoms/MyStatusBar';
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -33,6 +34,8 @@ const Accueil = () => {
   };
 
   return (
+    <>
+    <MyStatusBar/>
     <LayoutTemplate>
       <View style={styles.container}>
         <Text>Accueil</Text>
@@ -48,6 +51,7 @@ const Accueil = () => {
 
       </View>
     </LayoutTemplate>
+    </>
   );
 };
 
@@ -56,6 +60,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: 'blue', 
   },
   button: {
     borderWidth: 1,

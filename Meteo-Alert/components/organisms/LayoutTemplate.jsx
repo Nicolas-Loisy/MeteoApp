@@ -4,26 +4,26 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const LayoutTemplate = ({ children }) => {
   return (
-    // <SafeAreaView style={{ flex: 1 }}>
-    <LinearGradient
-      colors={['#F8EBFF', '#AAD0EE', '#40A3DA']}
-      style={styles.container}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0.8 }}
-    >
-      <View style={styles.header}>
-        {/* Contenu de l'en-tête */}
-      </View>
-            
-      <View style={styles.content}>
-        {children}
-      </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <LinearGradient
+        colors={['#F8EBFF', '#AAD0EE', '#40A3DA']}
+        style={styles.container}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0.8 }}
+      >
+        <View style={styles.header}>
+          {/* Contenu de l'en-tête */}
+        </View>
 
-      <View style={styles.footer}>
-        {/* Contenu du pied de page */}
-      </View>
-    </LinearGradient>
-    // </SafeAreaView>
+        <View style={styles.content}>
+          {children}
+        </View>
+
+        <View style={styles.footer}>
+          {/* Contenu du pied de page */}
+        </View>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
