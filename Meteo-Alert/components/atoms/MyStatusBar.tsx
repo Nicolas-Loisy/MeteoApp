@@ -11,7 +11,7 @@ const MyStatusBar: React.FC<StatusBarProps> = ({ }) => {
         backgroundColor="black"
         barStyle={"light-content"}
         showHideTransition={"fade"}
-        hidden={true}
+        hidden={false}
     />
   );
 };
