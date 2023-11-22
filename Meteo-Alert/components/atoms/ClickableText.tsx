@@ -17,7 +17,6 @@ const ClickableText: React.FC<ClickableTextProps> = ({ text, onPress }) => {
 const styles = StyleSheet.create({
   clickableText: {
     color: '#FFF',
-    fontFamily: 'Inter',
     fontSize: 14,
     fontStyle: 'normal',
     fontWeight: '400',

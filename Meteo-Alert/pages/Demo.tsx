@@ -1,28 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { ParamListBase, useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useUserContext } from '../services/compteUtilisateur/UserContext';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
-import Button from '../components/atoms/Button';
 import EngrenageParametre from '../components/atoms/EngrenageParametre';
 import VoletParametre from '../components/organisms/VoletParametre';
 import MyStatusBar from '../components/atoms/MyStatusBar';
+import ClickableText from '../components/atoms/ClickableText';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Button from '../components/atoms/Button';
+import Criteria from '../components/atoms/Criteria';
 
-const Accueil = () => {
+const Demo = () => {
+
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const { statutConnecte, serviceCompte } = useUserContext();
-
-  useEffect(() => {
-    if(!statutConnecte) {
-      navigation.navigate('Connexion');
-    }
-  }, [statutConnecte]);
-
-  const handleDeconnexion = () => {
-    serviceCompte.deconnexion();
-  };
-
   const [isVoletOpen, setIsVoletOpen] = useState(false);
 
   const handleOpenVolet = () => {
@@ -38,17 +28,20 @@ const Accueil = () => {
     <MyStatusBar/>
     <LayoutTemplate>
       <View style={styles.container}>
-        <Text>Accueil</Text>
+        <ClickableText
+            text="ClickableText"
+            onPress={() => navigation.navigate('Connexion')}
+        />
         <VoletParametre isOpen={isVoletOpen} onClose={handleCloseVolet} />
         <EngrenageParametre onOpenVolet={handleOpenVolet} />
-
-        {/* Bouton de connexion */}
         <Button
-          onPress={handleDeconnexion}
-          title="Déconnexion"
+          onPress={handleOpenVolet}
+          title="Button"
           styleBtn="whiteBg"
         />
 
+        <Criteria valid={true} text="Critère 1" />
+        <Criteria valid={false} text="Critère 2" />
       </View>
     </LayoutTemplate>
     </>
@@ -70,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Accueil;
+export default Demo;

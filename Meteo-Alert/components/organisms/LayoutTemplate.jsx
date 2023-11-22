@@ -1,27 +1,29 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import {SafeAreaView, View, StyleSheet, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const LayoutTemplate = ({ children }) => {
   return (
-    <LinearGradient
-      colors={['#F8EBFF', '#AAD0EE', '#40A3DA']}
-      style={styles.container}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-    >
-      <View style={styles.header}>
-        {/* Contenu de l'en-tête */}
-      </View>
-            
-      <View style={styles.content}>
-        {children}
-      </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <LinearGradient
+        colors={['#F8EBFF', '#AAD0EE', '#40A3DA']}
+        style={styles.container}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0.8 }}
+      >
+        <View style={styles.header}>
+          {/* Contenu de l'en-tête */}
+        </View>
 
-      <View style={styles.footer}>
-        {/* Contenu du pied de page */}
-      </View>
-    </LinearGradient>
+        <View style={styles.content}>
+          {children}
+        </View>
+
+        <View style={styles.footer}>
+          {/* Contenu du pied de page */}
+        </View>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
