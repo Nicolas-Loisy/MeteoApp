@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Image, StyleSheet } from 'react-native';
 
 interface EngrenageParametreProps {
   onOpenVolet: () => void;
@@ -8,8 +8,10 @@ interface EngrenageParametreProps {
 const EngrenageParametre: React.FC<EngrenageParametreProps> = ({ onOpenVolet }) => {
   return (
     <TouchableOpacity onPress={onOpenVolet}>
-      {/* Logo engrenage */}
-      <Text style={styles.logo}>⚙️</Text>
+      <Image
+        source={require('../../assets/icons/gear-solid.png')}
+        style={{ width: 30, height: 30 }}
+      />
     </TouchableOpacity>
   );
 };

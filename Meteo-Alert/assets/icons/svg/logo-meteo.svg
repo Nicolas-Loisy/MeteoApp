@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="5 4 40 38" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 0)" gradientUnits="userSpaceOnUse" id="LinearGradient" x1="6.2206" x2="37.4077" y1="5.2206" y2="36.4077">
+<stop offset="0" stop-color="#fed100"/>
+<stop offset="1" stop-color="#e36001"/>
+</linearGradient>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 0)" gradientUnits="userSpaceOnUse" id="LinearGradient_2" x1="29.373" x2="37.6396" y1="20.6679" y2="39.1462">
+<stop offset="0" stop-color="#fcfcfc"/>
+<stop offset="1" stop-color="#c3c9cd"/>
+</linearGradient>
+</defs>
+<g id="Sans-titre">
+<path d="M24 4C13.507 4 5 12.507 5 23C5 33.493 13.507 42 24 42C34.493 42 43 33.493 43 23C43 12.507 34.493 4 24 4Z" fill="url(#LinearGradient)" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M38.998 23.485C36.595 18.603 27.504 19.006 25.632 25.622C18.475 25.872 17.863 37.852 25 37.729C25.857 37.729 31.558 37.729 35.995 37.729C39.918 34.53 42.52 29.794 42.922 24.44C42.198 23.776 40.326 23.219 38.998 23.485Z" fill="#000000" fill-rule="nonzero" opacity="0.05" stroke="none"/>
+<path d="M38.925 23.674C36.331 18.813 27.547 19.509 25.85 25.755C19.18 25.975 18.838 36.762 25.499 36.819C26.389 36.827 33.024 36.819 36.904 36.819C40.266 33.771 42.495 29.485 42.903 24.679C42.057 23.948 40.297 23.425 38.925 23.674Z" fill="#000000" fill-rule="nonzero" opacity="0.07" stroke="none"/>
+<path d="M38.852 23.863C36.066 19.022 27.589 20.011 26.069 25.888C19.886 26.078 19.815 35.856 26 35.91C26.923 35.918 34.491 35.91 37.815 35.91C40.617 33.013 42.472 29.177 42.886 24.92C41.916 24.121 40.267 23.631 38.852 23.863Z" fill="#000000" fill-rule="nonzero" opacity="0.07" stroke="none"/>
+<path d="M39.5 24C39.255 24 39.016 24.022 38.779 24.053C37.518 22.21 35.401 21 33 21C29.822 21 27.142 23.12 26.288 26.021C23.904 26.134 22 28.087 22 30.5C22 32.985 24.015 35 26.5 35C27.585 35 38.375 35 39.5 35C42.538 35 45 32.538 45 29.5C45 26.462 42.538 24 39.5 24Z" fill="url(#LinearGradient_2)" fill-rule="nonzero" opacity="1" stroke="none"/>
+</g>
+</svg>
