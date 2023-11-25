@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import Logo from './Logo';
 
 interface CriteriaProps {
   valid: boolean;
@@ -7,14 +8,14 @@ interface CriteriaProps {
 }
 
 const Criteria: React.FC<CriteriaProps> = ({ valid, text }) => {
-    const logoStyle = valid ? styles.validLogo : styles.invalidLogo;
+    const logoStyle = valid ? '#1E375A' : '#C83434'; // Couleur bleue #1E375A pour le logo valid ET Couleur rouge #C83434 pour le logo invalid
 
     return (
         <View style={styles.container}>
         {valid ? (
-            <Image source={require('../../assets/icons/circle-check-regular.png')} style={[styles.logo, logoStyle]} />
+            <Logo imageSource={require('../../assets/icons/circle-check-regular.png')} color={logoStyle} size={22}/>
         ) : (
-            <Image source={require('../../assets/icons/circle-xmark-regular.png')} style={[styles.logo, logoStyle]} />
+            <Logo imageSource={require('../../assets/icons/circle-xmark-regular.png')} color={logoStyle} size={22}/>
         )}
         <Text style={styles.text}>{text}</Text>
         </View>
@@ -26,17 +27,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     margin: 3,
-  },
-  logo: {
-    width: 22,
-    height: 22,
-    marginRight: 10,
-  },
-  validLogo: {
-    tintColor: '#1E375A', // Couleur bleue pour le logo valid
-  },
-  invalidLogo: {
-    tintColor: '#C83434', // Couleur rouge pour le logo invalid
   },
   text: {
     color: '#1E375A',

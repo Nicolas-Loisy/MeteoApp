@@ -14,6 +14,7 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
       animationType="none"
       visible={isOpen}
       onRequestClose={onClose}
+      // statusBarTranslucent
     >
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay} />

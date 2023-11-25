@@ -9,6 +9,7 @@ import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Button from '../components/atoms/Button';
 import Criteria from '../components/atoms/Criteria';
+import Field from '../components/molecules/Field';
 
 const Demo = () => {
 
@@ -42,6 +43,9 @@ const Demo = () => {
 
         <Criteria valid={true} text="Critère 1" />
         <Criteria valid={false} text="Critère 2" />
+
+        <Field iconSource={require('../assets/icons/at-solid.png')} fieldName="Adresse mail"/>
+        <Field iconSource={require('../assets/icons/key-solid.png')} fieldName="Mot de passe"/>
       </View>
     </LayoutTemplate>
     </>
