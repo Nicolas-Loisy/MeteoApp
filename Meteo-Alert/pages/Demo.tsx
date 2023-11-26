@@ -44,8 +44,8 @@ const Demo = () => {
         <Criteria valid={true} text="Critère 1" />
         <Criteria valid={false} text="Critère 2" />
 
-        <Field iconSource={require('../assets/icons/at-solid.png')} fieldName="Adresse mail"/>
-        <Field iconSource={require('../assets/icons/key-solid.png')} fieldName="Mot de passe"/>
+        <Field onChangeText={() => null} iconSource={require('../assets/icons/at-solid.png')} fieldName="Adresse mail"/>
+        <Field onChangeText={() => null} iconSource={require('../assets/icons/key-solid.png')} fieldName="Mot de passe" isPassword/>
       </View>
     </LayoutTemplate>
     </>

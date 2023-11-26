@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Pressable, TextInput } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
 import Button from '../components/atoms/Button';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import ClickableText from '../components/atoms/ClickableText';
+import Field from '../components/molecules/Field';
 
 const Connexion = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -34,25 +35,14 @@ const Connexion = () => {
         <Text>Connexion</Text>
 
         {/* Formulaire d'adresse e-mail */}
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          value={email}
-          onChangeText={setEmail}
-        />
-
+        <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} defaultValue={email} fieldName="E-mail" />
         {/* Formulaire de mot de passe */}
-        <TextInput
-          style={styles.input}
-          placeholder="Mot de passe"
-          secureTextEntry={true}
-          value={motDePasse}
-          onChangeText={setMotDePasse}
-        />
+        <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} defaultValue={motDePasse} fieldName="Mot de passe" isPassword/>
+
 
         <ClickableText
             text="Mot de passe oublié ?"
-            // onPress={}
+            onPress={() => null}
         />
 
         {/* Bouton de connexion */}
