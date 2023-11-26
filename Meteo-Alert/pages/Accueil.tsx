@@ -8,8 +8,11 @@ import Button from '../components/atoms/Button';
 import EngrenageParametre from '../components/atoms/EngrenageParametre';
 import VoletParametre from '../components/organisms/VoletParametre';
 import MyStatusBar from '../components/atoms/MyStatusBar';
+import { useTranslation } from 'react-i18next';
 
 const Accueil = () => {
+  const { t } = useTranslation();
+
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { statutConnecte, serviceCompte } = useUserContext();
 
@@ -38,17 +41,16 @@ const Accueil = () => {
     <MyStatusBar/>
     <LayoutTemplate>
       <View style={styles.container}>
-        <Text>Accueil</Text>
+        <Text>{t('accueil.titre')}</Text>
         <VoletParametre isOpen={isVoletOpen} onClose={handleCloseVolet} />
         <EngrenageParametre onOpenVolet={handleOpenVolet} />
 
         {/* Bouton de connexion */}
         <Button
           onPress={handleDeconnexion}
-          title="Déconnexion"
+          title={t('accueil.deconnexion')}
           styleBtn="whiteBg"
         />
-
       </View>
     </LayoutTemplate>
     </>
