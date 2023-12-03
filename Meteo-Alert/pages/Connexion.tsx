@@ -7,8 +7,11 @@ import Button from '../components/atoms/Button';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import ClickableText from '../components/atoms/ClickableText';
 import Field from '../components/molecules/Field';
+import { useTranslation } from 'react-i18next';
 
 const Connexion = () => {
+  const { t } = useTranslation();
+
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const serviceCompte = ServiceCompteFactory.getServiceCompte();
 
@@ -32,30 +35,30 @@ const Connexion = () => {
   return (
     <LayoutTemplate>
       <View style={styles.container}>
-        <Text>Connexion</Text>
+        <Text>{t('connexion.titre')}</Text>
 
         {/* Formulaire d'adresse e-mail */}
-        <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} defaultValue={email} fieldName="E-mail" />
+        <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} defaultValue={email} fieldName={t('connexion.email')}/>
         {/* Formulaire de mot de passe */}
-        <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} defaultValue={motDePasse} fieldName="Mot de passe" isPassword/>
+        <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} defaultValue={motDePasse} fieldName={t('connexion.mdp')} isPassword/>
 
 
         <ClickableText
-            text="Mot de passe oublié ?"
+            text={t('connexion.forget_mdp')}
             onPress={() => null}
         />
 
         {/* Bouton de connexion */}
         <Button
             onPress={handleConnexion}
-            title="Connexion"
+            title={t('connexion.connexion')}
             styleBtn="whiteBg"
         />
 
         {/* Bouton pour aller à la page d'inscription */}
         <Button
             onPress={() => navigation.navigate('Inscription')}
-            title="Pas encore de compte ?"
+            title={t('connexion.redirect_inscription')}
             styleBtn="noBg"
         />
       </View>

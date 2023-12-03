@@ -4,7 +4,7 @@ import { UserProvider } from './services/compteUtilisateur/UserContext';
 import * as NavigationBar from 'expo-navigation-bar';
 import * as Font from 'expo-font';
 import {Text} from 'react-native';
-
+import './i18n';
 
 const App = () => {
   

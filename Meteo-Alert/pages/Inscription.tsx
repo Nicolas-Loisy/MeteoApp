@@ -6,8 +6,11 @@ import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFac
 import Button from '../components/atoms/Button';
 import ClickableText from '../components/atoms/ClickableText';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
+import { useTranslation } from 'react-i18next';
 
 const Inscription = () => {
+  const { t } = useTranslation();
+
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const serviceCompte = ServiceCompteFactory.getServiceCompte();
 
@@ -41,7 +44,7 @@ const Inscription = () => {
         {/* Formulaire de prénom */}
         <TextInput
           style={styles.input}
-          placeholder="Prénom"
+          placeholder= {t('inscription.prenom')}
           value={prenom}
           onChangeText={setPrenom}
         />
@@ -49,7 +52,7 @@ const Inscription = () => {
         {/* Formulaire d'adresse e-mail */}
         <TextInput
           style={styles.input}
-          placeholder="E-mail"
+          placeholder= {t('inscription.email')}
           value={email}
           onChangeText={setEmail}
         />
@@ -57,7 +60,7 @@ const Inscription = () => {
         {/* Formulaire de mot de passe */}
         <TextInput
           style={styles.input}
-          placeholder="Mot de passe"
+          placeholder={t('inscription.mdp')}
           secureTextEntry={true} // Masque le mot de passe
           value={motDePasse}
           onChangeText={setMotDePasse}
@@ -66,13 +69,13 @@ const Inscription = () => {
         {/* Bouton de Inscription */}
         <Button
             onPress={handleInscription}
-            title="S'inscrire"
+            title={t('inscription.inscription')}
             styleBtn="whiteBg"
         />
 
         {/* Bouton pour aller à la page d'inscription */}
         <ClickableText
-          text="Déjà inscrit ?"
+          text={t('inscription.deja_inscrit')}
           onPress={() => navigation.navigate('Connexion')}
         />
       </View>

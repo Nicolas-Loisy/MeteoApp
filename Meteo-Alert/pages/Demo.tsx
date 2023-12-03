@@ -10,8 +10,10 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Button from '../components/atoms/Button';
 import Criteria from '../components/atoms/Criteria';
 import Field from '../components/molecules/Field';
+import { useTranslation } from 'react-i18next';
 
 const Demo = () => {
+  const { t } = useTranslation();
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const [isVoletOpen, setIsVoletOpen] = useState(false);
@@ -26,6 +28,8 @@ const Demo = () => {
 
   return (
     <>
+    <Text>{t('demo.test')}</Text> 
+    <Text>{t('demo.testInjection', { number: '1234567890' })}</Text> 
     <MyStatusBar/>
     <LayoutTemplate>
       <View style={styles.container}>
