@@ -34,8 +34,11 @@ const App = () => {
 
 
   // NavigationBar.setBackgroundColorAsync("black");
-  NavigationBar.setBehaviorAsync('overlay-swipe');
-  NavigationBar.setVisibilityAsync('hidden');
+  if( /Android/i.test(navigator.userAgent) ) {
+    NavigationBar.setBehaviorAsync('overlay-swipe');
+    NavigationBar.setVisibilityAsync('hidden');
+  }
+  
 
   return (
     <UserProvider>
