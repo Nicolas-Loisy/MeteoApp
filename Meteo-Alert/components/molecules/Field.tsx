@@ -6,7 +6,7 @@ interface FieldProps {
   iconSource: any; // Source de l'image
   fieldName: string; // Nom du champ
   onChangeText: (text: string) => void; // Fonction de rappel pour gérer le texte saisi
-  defaultValue?: string; // Valeur du champ de saisie
+  value?: string; // Valeur du champ de saisie
   isPassword?: boolean; // Champ de mot de passe (par défaut, c'est un champ de texte normal)
   placeholder?: string; // Placeholder du champ de saisie
 }
@@ -15,11 +15,11 @@ const Field: React.FC<FieldProps> = ({
   iconSource,
   fieldName,
   onChangeText,
-  defaultValue = '',
+  value,
   isPassword,
   placeholder,
 }) => {
-  const [text, setText] = useState(defaultValue);
+  const [text, setText] = useState(value);
 
   const handleTextChange = (newText: string) => {
     setText(newText);

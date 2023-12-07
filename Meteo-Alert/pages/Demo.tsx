@@ -11,6 +11,8 @@ import Button from '../components/atoms/Button';
 import Criteria from '../components/atoms/Criteria';
 import Field from '../components/molecules/Field';
 import { useTranslation } from 'react-i18next';
+import Password from '../models/datatype/Password';
+import SummaryRules from '../components/atoms/SummaryRules';
 
 const Demo = () => {
   const { t } = useTranslation();
@@ -26,13 +28,32 @@ const Demo = () => {
     setIsVoletOpen(false);
   };
 
+  const [passwordValue, setPasswordValue] = useState<string>("");
+  const [password, setPassword] = useState<Password | null>(null);
+  const passwordRules = Password.checkRules(passwordValue);
+  const handlePasswordChange = (value: string) => {
+    setPasswordValue(value);
+  }
+
+  useEffect(() => {
+    const rules = Password.checkRules(passwordValue);
+    if (!Object.values(rules).includes(false)) {
+      setPassword(new Password(passwordValue));
+    }
+  }, [passwordValue]);
+
+  useEffect(() => {
+    console.log(password);
+  }, [password]);
+
+
   return (
     <>
-    <Text>{t('demo.test')}</Text> 
-    <Text>{t('demo.testInjection', { number: '1234567890' })}</Text> 
     <MyStatusBar/>
     <LayoutTemplate>
       <View style={styles.container}>
+        <Text>{t('demo.test')}</Text> 
+        <Text>{t('demo.testInjection', { number: '1234567890' })}</Text> 
         <ClickableText
             text="ClickableText"
             onPress={() => navigation.navigate('Connexion')}
@@ -49,7 +70,11 @@ const Demo = () => {
         <Criteria valid={false} text="Critère 2" />
 
         <Field onChangeText={() => null} iconSource={require('../assets/icons/at-solid.png')} fieldName="Adresse mail"/>
-        <Field onChangeText={() => null} iconSource={require('../assets/icons/key-solid.png')} fieldName="Mot de passe" isPassword/>
+        <Field onChangeText={handlePasswordChange} value={passwordValue} iconSource={require('../assets/icons/key-solid.png')} fieldName="Mot de passe" isPassword/>
+        <SummaryRules
+          rules={passwordRules}
+        />
+      
       </View>
     </LayoutTemplate>
     </>
