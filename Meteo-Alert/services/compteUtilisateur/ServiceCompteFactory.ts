@@ -1,5 +1,5 @@
 import ServiceCompteFirebase from "./ServiceCompteFirebase";
-import iServiceCompte from "./iServiceCompte";
+import iServiceCompte from "./IServiceCompte";
 
 export default class ServiceCompteFactory {
   private static instance = new ServiceCompteFirebase();

@@ -1,3 +1,3 @@
-export default interface iObserverConnexion {
+export default interface IObserverConnexion {
   update(statutConnecte: Boolean): void;
 }

@@ -1,5 +1,5 @@
-import iObserverConnexion from "./iObserverConnexion";
-import iServiceCompte from "./iServiceCompte";
+import iObserverConnexion from "./IObserverConnexion";
+import iServiceCompte from "./IServiceCompte";
 
 export default class ObserverConnexion implements iObserverConnexion {
   private setStatutConnecte : Function;

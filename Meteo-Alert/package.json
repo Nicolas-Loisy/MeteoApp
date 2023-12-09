@@ -31,6 +31,7 @@
     "react-native-appearance": "^0.3.4",
     "react-native-config": "^1.5.1",
     "react-native-linear-gradient": "^2.8.3",
+    "react-native-responsive-screen": "^1.4.2",
     "react-native-web": "~0.19.6",
     "typescript": "^5.1.3"
   },

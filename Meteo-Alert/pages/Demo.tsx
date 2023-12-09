@@ -28,8 +28,6 @@ const Demo = () => {
 
   return (
     <>
-    <Text>{t('demo.test')}</Text> 
-    <Text>{t('demo.testInjection', { number: '1234567890' })}</Text> 
     <MyStatusBar/>
     <LayoutTemplate>
       <View style={styles.container}>

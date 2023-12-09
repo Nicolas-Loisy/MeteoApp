@@ -34,6 +34,7 @@ const App = () => {
 
 
   // NavigationBar.setBackgroundColorAsync("black");
+  // On gère la navigation bar pour les appareils sous Android
   if( /Android/i.test(navigator.userAgent) ) {
     NavigationBar.setBehaviorAsync('overlay-swipe');
     NavigationBar.setVisibilityAsync('hidden');

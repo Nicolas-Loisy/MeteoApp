@@ -1,7 +1,7 @@
 import Utilisateur from "../../models/Utilisateur";
-import iObserverConnexion from "./iObserverConnexion";
+import iObserverConnexion from "./IObserverConnexion";
 
-export default interface iServiceCompte {
+export default interface IServiceCompte {
   inscription(email: string, motDePasse: string, userData:Object): Promise<Utilisateur | null>;
   connexion(email: string, motDePasse: string): Promise<Utilisateur | null>;
   deconnexion(): Promise<void>;

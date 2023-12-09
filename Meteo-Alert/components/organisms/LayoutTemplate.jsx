@@ -1,10 +1,9 @@
 import React from 'react';
-import {SafeAreaView, View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const LayoutTemplate = ({ children }) => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient
         colors={['#F8EBFF', '#AAD0EE', '#40A3DA']}
         style={styles.container}
@@ -23,16 +22,12 @@ const LayoutTemplate = ({ children }) => {
           {/* Contenu du pied de page */}
         </View>
       </LinearGradient>
-    </SafeAreaView>
   );
 };
-
-const screenHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: screenHeight, // La hauteur est définie sur la hauteur de l'écran
   },
   header: {
     // Styles de l'en-tête
