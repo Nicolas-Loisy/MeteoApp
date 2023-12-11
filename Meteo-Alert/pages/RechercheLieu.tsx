@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Field from '../components/molecules/Field';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import MyStatusBar from '../components/atoms/MyStatusBar';
-import Firefox from '../assets/firefox.svg';
+import Loupe from '../assets/icons/svg/magnifying-glass-solid.svg';
 
 
 const RechercheLieu = () => {
@@ -20,7 +20,7 @@ const RechercheLieu = () => {
         style={{ flex: 1 }}
       >
         <View style={styles.container}>
-          <Firefox />
+          <Loupe width={120} height={40} />
           <View style={styles.traitBlanc} />
           <Field onChangeText={() => null} iconSource={require('../assets/icons/magnifying-glass-solid.png')} fieldName={t('rechercheLieu.recherche')}/>
         </View>
