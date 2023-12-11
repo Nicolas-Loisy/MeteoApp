@@ -1,5 +1,5 @@
 enum UniteMesureTemp {
-    Celsius = "°C",
-    Fahrenheit = "°F",
-    Kelvin = "K"
+    Metrique = "°C",
+    Imperial = "°F",
+    Standard = "K"
 }
