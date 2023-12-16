@@ -1,28 +1,32 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
 import Field from '../components/molecules/Field';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import MyStatusBar from '../components/atoms/MyStatusBar';
+import Croix from '../assets/icons/svg/Vector.svg';
 
 const RechercheLieu = () => {
   const { t } = useTranslation();
 
+  const { width } = Dimensions.get('window');
+  const croixPosition = width * 0.10;
+
   return (
     <>
     <MyStatusBar/>
+    
     <LayoutTemplate>
+    <Croix style={[styles.croix, { left: croixPosition }]} />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{ flex: 1 }}
         >
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.container}>
-            
-              <View style={styles.traitBlanc} />
-              <Field onChangeText={() => null} iconSource={require('../assets/icons/magnifying-glass-solid.png')} fieldName={t('rechercheLieu.recherche')}/>
-            
+            <View style={styles.traitBlanc} />
+            <Field onChangeText={() => null} iconSource={require('../assets/icons/magnifying-glass-solid.png')} fieldName={t('rechercheLieu.recherche')}/>
           </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -43,6 +47,11 @@ const styles = StyleSheet.create({
     marginBottom: 25, // Marge inférieure pour séparer le trait du champ
     marginLeft: '2%',
     marginRight: '2%', 
+  },
+  croix: {
+    position: 'absolute',
+    top: 40, // Ajustez cette valeur selon votre préférence pour la position verticale
+    zIndex: 1,
   },
 });
 
