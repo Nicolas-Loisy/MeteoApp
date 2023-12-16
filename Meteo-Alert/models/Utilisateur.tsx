@@ -11,3 +11,6 @@ export default class Utilisateur {
     }
   }
 }
+
+
+// possede en attribut un builder builderLieuxFavori qui comporte une liste de lieuxfavoris

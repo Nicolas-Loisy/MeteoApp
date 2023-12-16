@@ -3,7 +3,7 @@ class UniteVentVitesse {
   private valeur: number;
 
   constructor(systemeMesure: SystemeMesure, valeur: number) {
-    this.unite = UniteMesureVitesse[systemeMesure];
+    this.unite = UniteMesureVitesse[systemeMesure as keyof typeof UniteMesureVitesse];
     this.valeur = valeur;
   }
 

@@ -1,4 +1,4 @@
-class ServiceGeographie extends aRestService {
+class ServiceGeographie extends aRestService implements iServiceGeographie {
     constructor(baseUrl: string) {
       super(baseUrl);
     }

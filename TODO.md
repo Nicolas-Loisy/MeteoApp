@@ -6,6 +6,7 @@ Project Description
 
 ### Todo
 
+- [ ] Repasser sur les Datatypes pour vérifier la cohérence des données  
 - [ ] Regler pb navBar  
 - [ ] Régler pb svg  
 - [ ] Restructuration des fichiers dans Service  

@@ -1,3 +1,3 @@
 interface iServiceGeographie {
-    rechercheLieux(nomLieu: string): JSON;
+    rechercheLieux(nomLieu: string): Promise<Response>;
 }

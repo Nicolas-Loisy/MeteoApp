@@ -1,3 +1,3 @@
 interface iServiceMeteo {
-    getMeteo(longitude: UniteCoordonnee, latitude: UniteCoordonnee): JSON;
+    getMeteo(longitude: UniteCoordonnee, latitude: UniteCoordonnee, units: SystemeMesure): Promise<Response>;
 }

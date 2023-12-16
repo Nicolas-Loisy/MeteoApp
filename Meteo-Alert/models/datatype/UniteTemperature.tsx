@@ -3,7 +3,7 @@ class UniteTemperature {
   private valeur: number;
 
   constructor(systemeMesure: SystemeMesure, valeur: number) {
-    this.unite = UniteMesureTemp[systemeMesure];
+    this.unite = UniteMesureTemp[systemeMesure as keyof typeof UniteMesureTemp];
     this.valeur = valeur;
   }
 

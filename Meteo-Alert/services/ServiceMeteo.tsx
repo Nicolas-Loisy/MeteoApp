@@ -1,11 +1,14 @@
-class ServiceMeteo extends aRestService {
+class ServiceMeteo extends aRestService implements iServiceMeteo {
     constructor(baseUrl: string) {
       super(baseUrl);
     }
   
-    public async getMeteo(longitude: UniteCoordonnee, latitude: UniteCoordonnee): Promise<Response> {
+    public async getMeteo(longitude: UniteCoordonnee, latitude: UniteCoordonnee, units: SystemeMesure): Promise<Response> {
       // Implemente la méthode a partir d'une API REST
-      const urlMeteo: string = `/weather?q=${longitude.getValeur()},${latitude.getValeur()}`;
+      const openWeatherApiKey = process.env.OPEN_WEATHER_API_KEY ?? "";
+
+      const urlMeteo: string = `/weather?lat=${longitude.getValeur()}&lon=${latitude.getValeur()}&appid=${openWeatherApiKey}&units=${units}`;
+      
       const meteo: Response = await this.get(urlMeteo);
       return meteo;
     }

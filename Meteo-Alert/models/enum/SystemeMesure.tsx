@@ -1,5 +1,5 @@
 enum SystemeMesure {
-    Metrique = "Metrique",
-    Imperial = "Imperial",
-    Standard = "Standard"
+    Metrique = "metric",
+    Imperial = "imperial",
+    Standard = "standard"
 }
