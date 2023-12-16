@@ -20,7 +20,6 @@ const RechercheLieu = () => {
         style={{ flex: 1 }}
       >
         <View style={styles.container}>
-          <Loupe width={120} height={40} />
           <View style={styles.traitBlanc} />
           <Field onChangeText={() => null} iconSource={require('../assets/icons/magnifying-glass-solid.png')} fieldName={t('rechercheLieu.recherche')}/>
         </View>
