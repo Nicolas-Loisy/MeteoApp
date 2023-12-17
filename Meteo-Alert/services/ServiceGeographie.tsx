@@ -5,7 +5,11 @@ class ServiceGeographie extends aRestService implements iServiceGeographie {
   
     public async rechercheLieux(nomLieu: string): Promise<Response> {
       // Implemente la méthode a partir d'une API REST
-      const urlLieux: string = `/search?q=${nomLieu}`;
+      const openWeatherApiKey = process.env.OPEN_WEATHER_API_KEY ?? "";
+      const limitApiResult = process.env.LIMIT_API_RESULT ?? 5;
+      
+      const urlLieux: string = `direct?q=${nomLieu}&limit=${limitApiResult}&appid=${openWeatherApiKey}`;
+      
       const lieux: Response = await this.get(urlLieux);
       return lieux;
     }

@@ -6,6 +6,8 @@ Project Description
 
 ### Todo
 
+- [ ] Voir comment sauvegarder les reglagesApp fav dans firebase  
+- [ ] Voir comment sauvegarder les lieux fav dans firebase  
 - [ ] Repasser sur les Datatypes pour vérifier la cohérence des données  
 - [ ] Regler pb navBar  
 - [ ] Régler pb svg  

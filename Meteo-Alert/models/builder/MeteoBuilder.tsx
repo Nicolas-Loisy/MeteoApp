@@ -14,7 +14,7 @@ class MeteoBuilder {
         return MeteoBuilder.instance;
     }
 
-    public async getMeteo(longitude: UniteCoordonnee, latitude: UniteCoordonnee, units: SystemeMesure): Promise<Meteo> {
+    public async getMeteo(longitude: UniteCoordonnee, latitude: UniteCoordonnee, units: SystemeMesure = SystemeMesure.Metrique): Promise<Meteo> {
         const meteoData = await this.serviceMeteo.getMeteo(longitude, latitude, units);
         const jsonMeteoData = await meteoData.json();
 
