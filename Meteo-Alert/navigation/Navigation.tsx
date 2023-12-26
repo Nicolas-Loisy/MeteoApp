@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="RechercheLieu" screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName="Demo" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Demo" component={Demo} options={{headerShown: false}}/>
         <Stack.Screen name="Connexion" component={Connexion} options={{ headerShown: false }} />
         <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />

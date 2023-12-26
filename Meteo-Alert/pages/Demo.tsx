@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import EngrenageParametre from '../components/atoms/EngrenageParametre';
 import VoletParametre from '../components/organisms/VoletParametre';
@@ -11,6 +11,7 @@ import Button from '../components/atoms/Button';
 import Criteria from '../components/atoms/Criteria';
 import Field from '../components/molecules/Field';
 import { useTranslation } from 'react-i18next';
+import Croix from '../assets/icons/svg/vector.svg';
 
 const Demo = () => {
   const { t } = useTranslation();
@@ -26,14 +27,18 @@ const Demo = () => {
     setIsVoletOpen(false);
   };
 
+  const { width } = Dimensions.get('window');
+  const croixPosition = width * 0.10;
+
   return (
     <>
     <MyStatusBar/>
     <LayoutTemplate>
       <View style={styles.container}>
+        <Croix onPress={() => navigation.goBack()} style={[styles.croix, { left: croixPosition }]} />
         <ClickableText
             text="ClickableText"
-            onPress={() => navigation.navigate('Connexion')}
+            onPress={() => navigation.navigate('RechercheLieu')}
         />
         <VoletParametre isOpen={isVoletOpen} onClose={handleCloseVolet} />
         <EngrenageParametre onOpenVolet={handleOpenVolet} />
@@ -66,6 +71,11 @@ const styles = StyleSheet.create({
     borderColor:'blue',
     padding: 10,
     borderRadius: 5,
+  },
+  croix: {
+    position: 'absolute',
+    top: 40, // Ajustez cette valeur selon votre préférence pour la position verticale
+    zIndex: 1,
   },
 });
 
