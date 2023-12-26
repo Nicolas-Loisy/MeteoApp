@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import ObserverConnexion from './ObserverConnexion';
 import ServiceCompteFactory from './ServiceCompteFactory';
-import iServiceCompte from './iServiceCompte';
+import iServiceCompte from './IServiceCompte';
 
 const UserContext = createContext({
   serviceCompte: {} as iServiceCompte,

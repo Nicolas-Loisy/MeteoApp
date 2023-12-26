@@ -1,15 +1,12 @@
 import React from 'react';
 import { StyleSheet, StatusBar } from 'react-native';
 
-interface StatusBarProps {
-}
-
-const MyStatusBar: React.FC<StatusBarProps> = ({ }) => {
+const MyStatusBar = ({ }) => {
   return (
     <StatusBar
         animated={true}
         backgroundColor="black"
-        barStyle={"light-content"}
+        barStyle={"dark-content"}
         showHideTransition={"fade"}
         hidden={false}
     />

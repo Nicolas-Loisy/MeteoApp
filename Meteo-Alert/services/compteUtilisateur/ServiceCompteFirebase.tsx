@@ -3,7 +3,7 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, Au
 import { ref, set, get, Database, getDatabase } from 'firebase/database';
 
 import Utilisateur from "../../models/Utilisateur";
-import iObserverConnexion from "./iObserverConnexion";
+import iObserverConnexion from "./IObserverConnexion";
 
 export default class ServiceCompteFirebase {
   private app: FirebaseApp;
