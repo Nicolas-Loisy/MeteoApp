@@ -43,6 +43,7 @@ const Demo = () => {
     }
   }, [passwordValue]);
 
+  // TODO a retirer
   useEffect(() => {
     console.log(password);
   }, [password]);

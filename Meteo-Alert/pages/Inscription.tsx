@@ -26,7 +26,7 @@ const Inscription = () => {
       // Connectez-vous avec serviceCompte
       serviceCompte.inscription(email, motDePasse, {"prenom": prenom})
         .then((utilisateur) => {
-          console.log(utilisateur);
+          console.log(utilisateur); // TODO a retirer
           navigation.navigate('Accueil');
         })
         .catch((error) => {

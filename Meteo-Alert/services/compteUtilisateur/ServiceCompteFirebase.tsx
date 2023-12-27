@@ -90,9 +90,10 @@ export default class ServiceCompteFirebase {
 
   public async connexion(mail: string, password: string): Promise<Utilisateur | any> {
     try {
-      console.log("utilisateur");
-      console.log(mail);
-      console.log(password);
+      // TODO a retirer
+      // console.log("utilisateur");
+      // console.log(mail);
+      // console.log(password);
 
       //Connexion
       const userCredential = await signInWithEmailAndPassword(this.auth, mail, password);
