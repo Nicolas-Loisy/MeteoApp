@@ -3,3 +3,5 @@ enum UniteMesureVitesse {
     imperial = "mph",
     standard = "ft/s"
 }
+
+export default UniteMesureVitesse;

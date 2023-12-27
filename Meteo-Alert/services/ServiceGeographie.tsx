@@ -1,4 +1,7 @@
-class ServiceGeographie extends aRestService implements iServiceGeographie {
+import aRestService from "../models/abstract/aRestService";
+import iServiceGeographie from "../models/interface/iServiceGeographie";
+
+export default class ServiceGeographie extends aRestService implements iServiceGeographie {
     constructor(baseUrl: string) {
       super(baseUrl);
     }

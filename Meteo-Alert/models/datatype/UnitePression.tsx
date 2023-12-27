@@ -22,3 +22,5 @@ class UnitePression {
       this.valeur = valeur;
     }
 }
+
+export default UnitePression;

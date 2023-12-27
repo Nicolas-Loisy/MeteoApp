@@ -1,3 +1,8 @@
+import ServiceMeteo from "../../services/ServiceMeteo";
+import UniteCoordonnee from "../datatype/UniteCoordonnee";
+import SystemeMesure from "../enum/SystemeMesure";
+import Meteo from "../valueObject/Meteo";
+
 class MeteoBuilder {
 
     private static instance: MeteoBuilder | null = null;
@@ -39,3 +44,5 @@ class MeteoBuilder {
         return meteo;
     }
 }
+
+export default MeteoBuilder;

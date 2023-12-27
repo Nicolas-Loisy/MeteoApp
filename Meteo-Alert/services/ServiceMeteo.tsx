@@ -1,4 +1,9 @@
-class ServiceMeteo extends aRestService implements iServiceMeteo {
+import aRestService from "../models/abstract/aRestService";
+import UniteCoordonnee from "../models/datatype/UniteCoordonnee";
+import SystemeMesure from "../models/enum/SystemeMesure";
+import iServiceMeteo from "../models/interface/iServiceMeteo";
+
+export default class ServiceMeteo extends aRestService implements iServiceMeteo {
     constructor(baseUrl: string) {
       super(baseUrl);
     }

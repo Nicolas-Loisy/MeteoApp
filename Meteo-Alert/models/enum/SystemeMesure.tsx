@@ -3,3 +3,5 @@ enum SystemeMesure {
     Imperial = "imperial",
     Standard = "standard"
 }
+
+export default SystemeMesure;

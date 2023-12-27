@@ -22,3 +22,5 @@ class UniteVentDirection {
       this.valeur = valeur;
     }
 }
+
+export default UniteVentDirection;

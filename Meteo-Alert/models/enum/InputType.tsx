@@ -1,4 +1,4 @@
-export enum InputType {
+enum InputType {
   Button = "button",
   Checkbox = "checkbox",
   Color = "color",
@@ -22,3 +22,5 @@ export enum InputType {
   Url = "url",
   Week = "week",
 }
+
+export default InputType;

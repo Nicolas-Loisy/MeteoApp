@@ -1,5 +1,9 @@
+import ServiceGeographie from "../../services/ServiceGeographie";
+import UniteCoordonnee from "../datatype/UniteCoordonnee";
+import Lieu from "../valueObject/Lieu";
+
 class LieuxFavorisBuilder {
-    private readonly lieuxFavoris: Lieu[];
+    private lieuxFavoris: Lieu[];
     private serviceGeo: ServiceGeographie;
 
     constructor(lieuxFavoris: Lieu[] = [] ) {
@@ -39,3 +43,5 @@ class LieuxFavorisBuilder {
         return this.lieuxFavoris;
     }
 }
+
+export default LieuxFavorisBuilder;

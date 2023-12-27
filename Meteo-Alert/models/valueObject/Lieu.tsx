@@ -1,3 +1,7 @@
+import MeteoBuilder from "../builder/MeteoBuilder";
+import UniteCoordonnee from "../datatype/UniteCoordonnee";
+import Meteo from "./Meteo";
+
 class Lieu {
     // private alertes: List<ReglageAlerte> = [];
     private readonly nom: string;
@@ -54,4 +58,5 @@ class Lieu {
         return this.meteo;
     }
 }
-  
+
+export default Lieu;

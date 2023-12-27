@@ -1,3 +1,6 @@
+import SystemeMesure from "../enum/SystemeMesure";
+import UniteMesureVitesse from "../enum/UniteMesureVitesse";
+
 class UniteVentVitesse {
   private unite: UniteMesureVitesse;
   private valeur: number;
@@ -23,3 +26,5 @@ class UniteVentVitesse {
     this.valeur = valeur;
   }
 }
+
+export default UniteVentVitesse;

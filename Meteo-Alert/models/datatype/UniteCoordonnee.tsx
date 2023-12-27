@@ -22,3 +22,5 @@ class UniteCoordonnee {
       this.valeur = valeur;
     }
 }
+
+export default UniteCoordonnee;

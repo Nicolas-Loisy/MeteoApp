@@ -1,4 +1,7 @@
-export default class Utilisateur {
+import LieuxFavorisBuilder from './builder/LieuxFavorisBuilder';
+import Lieu from './valueObject/Lieu';
+
+class Utilisateur {
   prenom: string | undefined;
   mail: string | undefined;
   lieuxFavoris: LieuxFavorisBuilder;
@@ -10,15 +13,15 @@ export default class Utilisateur {
     if ('mail' in userData) {
       this.mail = userData['mail'] as string;
     }
-
-    // if ('lieuxFavoris' in userData) {
-    //   this.lieuxFavoris = new LieuxFavorisBuilder(userData['lieuxFavoris'] as Lieu[]);
-    // } else {
-      this.lieuxFavoris = new LieuxFavorisBuilder();
-    // }
+    
+    this.lieuxFavoris = new LieuxFavorisBuilder(
+      ('lieuxFavoris' in userData ? userData['lieuxFavoris'] : []) as Lieu[]
+    );
 
   }
 }
+
+export default Utilisateur;
 
 
 // possede en attribut un builder builderLieuxFavori qui comporte une liste de lieuxfavoris

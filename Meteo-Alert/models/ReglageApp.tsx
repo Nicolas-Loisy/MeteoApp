@@ -1,3 +1,6 @@
+import Langue from "./enum/Langue";
+import SystemeMesure from "./enum/SystemeMesure";
+
 class ReglageApp {
     private static instance: ReglageApp | undefined;
   
@@ -37,3 +40,5 @@ class ReglageApp {
       this.langue = langue;
     }
 }
+
+export default ReglageApp;

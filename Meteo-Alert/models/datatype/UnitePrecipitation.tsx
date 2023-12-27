@@ -22,3 +22,5 @@ class UnitePrecipitation {
       this.valeur = valeur;
     }
 }
+
+export default UnitePrecipitation;

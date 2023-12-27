@@ -38,9 +38,11 @@ const Connexion = () => {
         <Text>{t('connexion.titre')}</Text>
 
         {/* Formulaire d'adresse e-mail */}
-        <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} defaultValue={email} fieldName={t('connexion.email')}/>
+        {/* <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} defaultValue={email} fieldName={t('connexion.email')}/> */}
+        <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')}/>
         {/* Formulaire de mot de passe */}
-        <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} defaultValue={motDePasse} fieldName={t('connexion.mdp')} isPassword/>
+        {/* <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} defaultValue={motDePasse} fieldName={t('connexion.mdp')} isPassword/> */}
+        <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} isPassword/>
 
 
         <ClickableText

@@ -22,3 +22,5 @@ class UniteNuage {
       this.valeur = valeur;
     }
 }
+
+export default UniteNuage;

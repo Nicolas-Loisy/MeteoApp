@@ -22,3 +22,5 @@ class UniteVisibilite {
       this.valeur = valeur;
     }
 }
+
+export default UniteVisibilite;

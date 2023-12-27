@@ -1,3 +1,6 @@
+import SystemeMesure from "../enum/SystemeMesure";
+import UniteMesureTemp from "../enum/UniteMesureTemp";
+
 class UniteTemperature {
   private unite: UniteMesureTemp;
   private valeur: number;
@@ -23,3 +26,5 @@ class UniteTemperature {
     this.valeur = valeur;
   }
 }
+
+export default UniteTemperature;

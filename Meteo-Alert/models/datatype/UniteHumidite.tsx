@@ -22,3 +22,5 @@ class UniteHumidite {
       this.valeur = valeur;
     }
 }
+
+export default UniteHumidite;

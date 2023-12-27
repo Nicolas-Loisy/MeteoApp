@@ -3,7 +3,7 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, Au
 import { ref, set, get, Database, getDatabase } from 'firebase/database';
 
 import Utilisateur from "../../models/Utilisateur";
-import iObserverConnexion from "./IObserverConnexion";
+import iObserverConnexion from "./iObserverConnexion";
 
 export default class ServiceCompteFirebase {
   private app: FirebaseApp;
@@ -90,6 +90,10 @@ export default class ServiceCompteFirebase {
 
   public async connexion(mail: string, password: string): Promise<Utilisateur | any> {
     try {
+      console.log("utilisateur");
+      console.log(mail);
+      console.log(password);
+
       //Connexion
       const userCredential = await signInWithEmailAndPassword(this.auth, mail, password);
       this.token = userCredential.user.getIdToken()
@@ -101,8 +105,10 @@ export default class ServiceCompteFirebase {
         ...userDataFB.val(),
         "mail": userCredential.user.email
       }
+      console.log(userData);
 
       let utilisateur = new Utilisateur(userData)
+      
 
       this.notify();
       return utilisateur;

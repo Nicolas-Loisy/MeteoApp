@@ -1,5 +1,5 @@
 import Utilisateur from "../../models/Utilisateur";
-import iObserverConnexion from "./IObserverConnexion";
+import iObserverConnexion from "./iObserverConnexion";
 
 export default interface IServiceCompte {
   inscription(email: string, motDePasse: string, userData:Object): Promise<Utilisateur | null>;

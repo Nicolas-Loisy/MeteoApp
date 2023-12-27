@@ -13,3 +13,5 @@ class aRestService {
     });
   }
 }
+
+export default aRestService;

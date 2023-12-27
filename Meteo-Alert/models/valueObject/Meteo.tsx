@@ -1,3 +1,13 @@
+import UniteHumidite from "../datatype/UniteHumidite";
+import UniteNuage from "../datatype/UniteNuage";
+import UnitePrecipitation from "../datatype/UnitePrecipitation";
+import UnitePression from "../datatype/UnitePression";
+import UniteTemperature from "../datatype/UniteTemperature";
+import UniteVentDirection from "../datatype/UniteVentDirection";
+import UniteVentVitesse from "../datatype/UniteVentVitesse";
+import UniteVisibilite from "../datatype/UniteVisibilite";
+import SystemeMesure from "../enum/SystemeMesure";
+
 class Meteo {
     private readonly heureActualisation: Date;
     private readonly neige: UnitePrecipitation;
@@ -116,3 +126,5 @@ class Meteo {
       return this.nuage.getValeur();
     }
 }
+
+export default Meteo;

@@ -6,3 +6,5 @@ enum Evenements {
     Tsunami = "Tsunami",
     Chaud = "Chaud"
 }
+
+export default Evenements;

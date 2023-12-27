@@ -3,3 +3,5 @@ enum UniteMesureTemp {
     imperial = "°F",
     standard = "K"
 }
+
+export default UniteMesureTemp;
