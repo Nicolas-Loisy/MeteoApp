@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useUserContext } from '../services/compteUtilisateur/UserContext';
+import { useAccountContext } from '../services/compteUtilisateur/AccountContext';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import Button from '../components/atoms/Button';
 import EngrenageParametre from '../components/atoms/EngrenageParametre';
@@ -14,7 +14,7 @@ const Accueil = () => {
   const { t } = useTranslation();
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const { statutConnecte, serviceCompte } = useUserContext();
+  const { statutConnecte, serviceCompte } = useAccountContext();
 
   useEffect(() => {
     if(!statutConnecte) {

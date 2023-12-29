@@ -3,12 +3,12 @@ import ObserverConnexion from './ObserverConnexion';
 import ServiceCompteFactory from './ServiceCompteFactory';
 import iServiceCompte from './iServiceCompte';
 
-const UserContext = createContext({
+const AccountContext = createContext({
   serviceCompte: {} as iServiceCompte,
   statutConnecte: false as boolean | undefined,
 });
 
-export const useUserContext = () => useContext(UserContext);
+export const useAccountContext = () => useContext(AccountContext);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const serviceCompte: iServiceCompte = ServiceCompteFactory.getServiceCompte();
@@ -24,8 +24,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ serviceCompte, statutConnecte }}>
+    <AccountContext.Provider value={{ serviceCompte, statutConnecte }}>
       {children}
-    </UserContext.Provider>
+    </AccountContext.Provider>
   );
 };

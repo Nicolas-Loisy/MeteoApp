@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from './navigation/Navigation';
-import { UserProvider } from './services/compteUtilisateur/UserContext';
+import { UserProvider } from './services/compteUtilisateur/AccountContext';
 import * as NavigationBar from 'expo-navigation-bar';
 import * as Font from 'expo-font';
 import {Text} from 'react-native';
