@@ -9,122 +9,195 @@ import UniteVisibilite from "../datatype/UniteVisibilite";
 import SystemeMesure from "../enum/SystemeMesure";
 
 class Meteo {
-    private readonly heureActualisation: Date;
-    private readonly neige: UnitePrecipitation;
-    private readonly pluie: UnitePrecipitation;
-    private readonly humidite: UniteHumidite;
-    private readonly visibilite: UniteVisibilite;
-    private readonly ressenti: UniteTemperature;
-    private readonly temperature: UniteTemperature;
-    private readonly tempMin: UniteTemperature;
-    private readonly tempMax: UniteTemperature;
-    private readonly ventRafale: UniteVentVitesse;
-    private readonly ventVitesse: UniteVentVitesse;
-    private readonly ventDirection: UniteVentDirection;
-    private readonly pression: UnitePression;
-    private readonly pressionTerre: UnitePression;
-    private readonly pressionMer: UnitePression;
-    private readonly nuage: UniteNuage;
+  private readonly heureActualisation: Date;
+  private readonly neige: UnitePrecipitation;
+  private readonly pluie: UnitePrecipitation;
+  private readonly humidite: UniteHumidite;
+  private readonly visibilite: UniteVisibilite;
+  private readonly ressenti: UniteTemperature;
+  private readonly temperature: UniteTemperature;
+  private readonly tempMin: UniteTemperature;
+  private readonly tempMax: UniteTemperature;
+  private readonly ventRafale: UniteVentVitesse;
+  private readonly ventVitesse: UniteVentVitesse;
+  private readonly ventDirection: UniteVentDirection;
+  private readonly pression: UnitePression;
+  private readonly pressionTerre: UnitePression;
+  private readonly pressionMer: UnitePression;
+  private readonly nuage: UniteNuage;
 
-    constructor(
-      units: SystemeMesure,
-      neige: number,
-      pluie: number,
-      humidite: number,
-      visibilite: number,
-      ressenti: number,
-      temperature: number,
-      tempMin: number,
-      tempMax: number,
-      ventRafale: number,
-      ventVitesse: number,
-      ventDirection: number,
-      pression: number,
-      pressionTerre: number,
-      pressionMer: number,
-      nuage: number
-    ) {
-      this.heureActualisation = new Date();
-      this.neige = new UnitePrecipitation(neige);
-      this.pluie = new UnitePrecipitation(pluie);
-      this.humidite = new UniteHumidite(humidite);
-      this.visibilite = new UniteVisibilite(visibilite);
-      this.ressenti = new UniteTemperature(units, ressenti);
-      this.temperature = new UniteTemperature(units, temperature);
-      this.tempMin = new UniteTemperature(units, tempMin);
-      this.tempMax = new UniteTemperature(units, tempMax);
-      this.ventRafale = new UniteVentVitesse(units, ventRafale);
-      this.ventVitesse = new UniteVentVitesse(units, ventVitesse);
-      this.ventDirection = new UniteVentDirection(ventDirection);
-      this.pression = new UnitePression(pression);
-      this.pressionTerre = new UnitePression(pressionTerre);
-      this.pressionMer = new UnitePression(pressionMer);
-      this.nuage = new UniteNuage(nuage);
-    }
-    
-    getHeureActualisation(): Date {
-      return this.heureActualisation;
-    }
-    
-    getNeige(): number {
-      return this.neige.getValeur();
-    }
-    
-    getPluie(): number {
-      return this.pluie.getValeur();
-    }
-    
-    getHumidite(): number {
-      return this.humidite.getValeur();
-    }
-    
-    getVisibilite(): number {
-      return this.visibilite.getValeur();
-    }
-    
-    getRessenti(): number {
-      return this.ressenti.getValeur();
-    }
-    
-    getTemperature(): number {
-      return this.temperature.getValeur();
-    }
-    
-    getTempMin(): number {
-      return this.tempMin.getValeur();
-    }
+  constructor(
+    units: SystemeMesure,
+    neige: number,
+    pluie: number,
+    humidite: number,
+    visibilite: number,
+    ressenti: number,
+    temperature: number,
+    tempMin: number,
+    tempMax: number,
+    ventRafale: number,
+    ventVitesse: number,
+    ventDirection: number,
+    pression: number,
+    pressionTerre: number,
+    pressionMer: number,
+    nuage: number
+  ) {
+    this.heureActualisation = new Date();
+    this.neige = new UnitePrecipitation(neige);
+    this.pluie = new UnitePrecipitation(pluie);
+    this.humidite = new UniteHumidite(humidite);
+    this.visibilite = new UniteVisibilite(visibilite);
+    this.ressenti = new UniteTemperature(units, ressenti);
+    this.temperature = new UniteTemperature(units, temperature);
+    this.tempMin = new UniteTemperature(units, tempMin);
+    this.tempMax = new UniteTemperature(units, tempMax);
+    this.ventRafale = new UniteVentVitesse(units, ventRafale);
+    this.ventVitesse = new UniteVentVitesse(units, ventVitesse);
+    this.ventDirection = new UniteVentDirection(ventDirection);
+    this.pression = new UnitePression(pression);
+    this.pressionTerre = new UnitePression(pressionTerre);
+    this.pressionMer = new UnitePression(pressionMer);
+    this.nuage = new UniteNuage(nuage);
+  }
 
-    getTempMax(): number {
-      return this.tempMax.getValeur();
-    }
+  getHeureActualisation(): Date {
+    return this.heureActualisation;
+  }
 
-    getVentRafale(): number {
-      return this.ventRafale.getValeur();
-    }
+  /**
+   * Getter des valeurs numérique
+   */
 
-    getVentVitesse(): number {
-      return this.ventVitesse.getValeur();
-    }
+  getNeige(): number {
+    return this.neige.getValeur();
+  }
 
-    getVentDirection(): number {
-      return this.ventDirection.getValeur();
-    }
+  getPluie(): number {
+    return this.pluie.getValeur();
+  }
 
-    getPression(): number {
-      return this.pression.getValeur();
-    }
+  getHumidite(): number {
+    return this.humidite.getValeur();
+  }
 
-    getPressionTerre(): number {
-      return this.pressionTerre.getValeur();
-    }
+  getVisibilite(): number {
+    return this.visibilite.getValeur();
+  }
 
-    getPressionMer(): number {
-      return this.pressionMer.getValeur();
-    }
+  getRessenti(): number {
+    return this.ressenti.getValeur();
+  }
 
-    getNuage(): number {
-      return this.nuage.getValeur();
-    }
+  getTemperature(): number {
+    return this.temperature.getValeur();
+  }
+
+  getTempMin(): number {
+    return this.tempMin.getValeur();
+  }
+
+  getTempMax(): number {
+    return this.tempMax.getValeur();
+  }
+
+  getVentRafale(): number {
+    return this.ventRafale.getValeur();
+  }
+
+  getVentVitesse(): number {
+    return this.ventVitesse.getValeur();
+  }
+
+  getVentDirection(): number {
+    return this.ventDirection.getValeur();
+  }
+
+  getPression(): number {
+    return this.pression.getValeur();
+  }
+
+  getPressionTerre(): number {
+    return this.pressionTerre.getValeur();
+  }
+
+  getPressionMer(): number {
+    return this.pressionMer.getValeur();
+  }
+
+  getNuage(): number {
+    return this.nuage.getValeur();
+  }
+
+  /**
+   * Getter des valeurs avec unité sous format String
+   */
+
+  getHeureActualisationStr(): String {
+    return this.heureActualisation.toString();
+  }
+
+  getNeigeStr(): String {
+    return this.neige.toString();
+  }
+
+  getPluieStr(): String {
+    return this.pluie.toString();
+  }
+
+  getHumiditeStr(): String {
+    return this.humidite.toString();
+  }
+
+  getVisibiliteStr(): String {
+    return this.visibilite.toString();
+  }
+
+  getRessentiStr(): String {
+    return this.ressenti.toString();
+  }
+
+  getTemperatureStr(): String {
+    return this.temperature.toString();
+  }
+
+  getTempMinStr(): String {
+    return this.tempMin.toString();
+  }
+
+  getTempMaxStr(): String {
+    return this.tempMax.toString();
+  }
+
+  getVentRafaleStr(): String {
+    return this.ventRafale.toString();
+  }
+
+  getVentVitesseStr(): String {
+    return this.ventVitesse.toString();
+  }
+
+  getVentDirectionStr(): String {
+    return this.ventDirection.toString();
+  }
+
+  getPressionStr(): String {
+    return this.pression.toString();
+  }
+
+  getPressionTerreStr(): String {
+    return this.pressionTerre.toString();
+  }
+
+  getPressionMerStr(): String {
+    return this.pressionMer.toString();
+  }
+
+  getNuageStr(): String {
+    return this.nuage.toString();
+  }
+
 }
 
 export default Meteo;

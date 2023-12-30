@@ -1,5 +1,7 @@
+import JSONObject from "./JSONObject";
+
 interface iServiceGeographie {
-    rechercheLieux(nomLieu: string): Promise<Response>;
+    rechercheLieux(nomLieu: string): Promise<JSONObject>;
 }
 
 export default iServiceGeographie;

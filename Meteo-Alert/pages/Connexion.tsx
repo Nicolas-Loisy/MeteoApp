@@ -8,9 +8,13 @@ import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import ClickableText from '../components/atoms/ClickableText';
 import Field from '../components/molecules/Field';
 import { useTranslation } from 'react-i18next';
+import { useUser } from '../services/context/UserContext';
 
 const Connexion = () => {
   const { t } = useTranslation();
+  
+  // Utilisez le hook useUser pour accéder au contexte d'utilisateur
+  const { setUtilisateur, utilisateur } = useUser();
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const serviceCompte = ServiceCompteFactory.getServiceCompte();
@@ -22,7 +26,8 @@ const Connexion = () => {
   const handleConnexion = () => {
     if (email && motDePasse) {
       serviceCompte.connexion(email, motDePasse)
-        .then((utilisateur) => {
+        .then((utilisateurConn) => {
+          setUtilisateur(utilisateurConn); // Utilisez la fonction du contexte pour mettre à jour l'utilisateur
           console.log(utilisateur);
           navigation.navigate('Accueil');
         })

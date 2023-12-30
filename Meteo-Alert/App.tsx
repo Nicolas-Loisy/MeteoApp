@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from './navigation/Navigation';
-import { UserProvider } from './services/compteUtilisateur/AccountContext';
+import { AccountProvider } from './services/compteUtilisateur/AccountContext';
 import * as NavigationBar from 'expo-navigation-bar';
 import * as Font from 'expo-font';
 import {Text} from 'react-native';
 import './i18n';
+import { UserProvider } from './services/context/UserContext';
 
 const App = () => {
   
@@ -43,7 +44,9 @@ const App = () => {
 
   return (
     <UserProvider>
-      <Navigation />
+      <AccountProvider>
+        <Navigation />
+      </AccountProvider>
     </UserProvider>
   );
 };

@@ -21,6 +21,10 @@ class UniteHumidite {
     public setValeur(valeur: number): void {
       this.valeur = valeur;
     }
+
+    public toString(): String {
+      return `${this.valeur} ${this.unite}`;
+    }
 }
 
 export default UniteHumidite;

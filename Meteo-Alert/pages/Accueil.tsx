@@ -9,6 +9,7 @@ import EngrenageParametre from '../components/atoms/EngrenageParametre';
 import VoletParametre from '../components/organisms/VoletParametre';
 import MyStatusBar from '../components/atoms/MyStatusBar';
 import { useTranslation } from 'react-i18next';
+import { useUser } from '../services/context/UserContext';
 
 const Accueil = () => {
   const { t } = useTranslation();
@@ -36,12 +37,38 @@ const Accueil = () => {
     setIsVoletOpen(false);
   };
 
+  const { utilisateur } = useUser();
+  
+  // TESTS DU MODEL DEBUT
+  // TESTS DU MODEL DEBUT
+  // TESTS DU MODEL DEBUT
+  let lieuxFavoris = utilisateur?.lieuxFavoris
+  
+  async function newLieu() {
+    let resultLieux = await lieuxFavoris?.rechercheLieux('Murat');
+    
+    if(resultLieux) {
+      lieuxFavoris?.ajouterLieu(resultLieux[0]);
+    }
+    
+    let test = utilisateur?.lieuxFavoris.getLieux()[0].getMeteo();
+    console.log("Temp : " + (await test)?.getTemperatureStr());
+  }
+  newLieu();
+  // TESTS DU MODEL FIN
+  // TESTS DU MODEL FIN
+  // TESTS DU MODEL FIN
+  
+
   return (
     <>
     <MyStatusBar/>
     <LayoutTemplate>
       <View style={styles.container}>
         <Text>{t('accueil.titre')}</Text>
+        <Text>{utilisateur?.prenom}</Text>
+        <Text>{utilisateur?.mail}</Text>
+        
         <VoletParametre isOpen={isVoletOpen} onClose={handleCloseVolet} />
         <EngrenageParametre onOpenVolet={handleOpenVolet} />
 

@@ -10,7 +10,7 @@ const AccountContext = createContext({
 
 export const useAccountContext = () => useContext(AccountContext);
 
-export const UserProvider = ({ children }: { children: ReactNode }) => {
+export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const serviceCompte: iServiceCompte = ServiceCompteFactory.getServiceCompte();
   const [statutConnecte, setStatutConnecte] = useState<boolean | undefined>(undefined);
 
