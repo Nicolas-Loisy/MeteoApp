@@ -7,6 +7,7 @@ import UniteVentDirection from "../datatype/UniteVentDirection";
 import UniteVentVitesse from "../datatype/UniteVentVitesse";
 import UniteVisibilite from "../datatype/UniteVisibilite";
 import SystemeMesure from "../enum/SystemeMesure";
+import meteoData from "../types/meteoData";
 
 class Meteo {
   private readonly heureActualisation: Date;
@@ -28,38 +29,24 @@ class Meteo {
 
   constructor(
     units: SystemeMesure,
-    neige: number,
-    pluie: number,
-    humidite: number,
-    visibilite: number,
-    ressenti: number,
-    temperature: number,
-    tempMin: number,
-    tempMax: number,
-    ventRafale: number,
-    ventVitesse: number,
-    ventDirection: number,
-    pression: number,
-    pressionTerre: number,
-    pressionMer: number,
-    nuage: number
+    data: meteoData
   ) {
     this.heureActualisation = new Date();
-    this.neige = new UnitePrecipitation(neige);
-    this.pluie = new UnitePrecipitation(pluie);
-    this.humidite = new UniteHumidite(humidite);
-    this.visibilite = new UniteVisibilite(visibilite);
-    this.ressenti = new UniteTemperature(units, ressenti);
-    this.temperature = new UniteTemperature(units, temperature);
-    this.tempMin = new UniteTemperature(units, tempMin);
-    this.tempMax = new UniteTemperature(units, tempMax);
-    this.ventRafale = new UniteVentVitesse(units, ventRafale);
-    this.ventVitesse = new UniteVentVitesse(units, ventVitesse);
-    this.ventDirection = new UniteVentDirection(ventDirection);
-    this.pression = new UnitePression(pression);
-    this.pressionTerre = new UnitePression(pressionTerre);
-    this.pressionMer = new UnitePression(pressionMer);
-    this.nuage = new UniteNuage(nuage);
+    this.neige = new UnitePrecipitation(data.neige);
+    this.pluie = new UnitePrecipitation(data.pluie);
+    this.humidite = new UniteHumidite(data.humidite);
+    this.visibilite = new UniteVisibilite(data.visibilite);
+    this.ressenti = new UniteTemperature(units, data.ressenti);
+    this.temperature = new UniteTemperature(units, data.temperature);
+    this.tempMin = new UniteTemperature(units, data.tempMin);
+    this.tempMax = new UniteTemperature(units, data.tempMax);
+    this.ventRafale = new UniteVentVitesse(units, data.ventRafale);
+    this.ventVitesse = new UniteVentVitesse(units, data.ventVitesse);
+    this.ventDirection = new UniteVentDirection(data.ventDirection);
+    this.pression = new UnitePression(data.pression);
+    this.pressionTerre = new UnitePression(data.pressionTerre);
+    this.pressionMer = new UnitePression(data.pressionMer);
+    this.nuage = new UniteNuage(data.nuage);
   }
 
   getHeureActualisation(): Date {

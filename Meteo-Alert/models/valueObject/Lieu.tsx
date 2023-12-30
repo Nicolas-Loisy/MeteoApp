@@ -1,5 +1,6 @@
 import MeteoBuilder from "../builder/MeteoBuilder";
 import UniteCoordonnee from "../datatype/UniteCoordonnee";
+import lieuData from "../types/lieuData";
 import Meteo from "./Meteo";
 
 class Lieu {
@@ -12,18 +13,15 @@ class Lieu {
   private meteo: Meteo | null;
 
   constructor(
-    nom: string,
-    pays: string,
-    region: string,
-    longitude: UniteCoordonnee,
-    latitude: UniteCoordonnee
+    data: lieuData
   ) {
-    this.nom = nom;
-    this.pays = pays;
-    this.region = region;
-    this.longitude = longitude;
-    this.latitude = latitude;
+    this.nom = data.name;
+    this.pays = data.country;
+    this.region = data.state;
+    this.longitude = new UniteCoordonnee(data.lon);
+    this.latitude = new UniteCoordonnee(data.lat);
     this.meteo = null;
+    this.updateMeteo()
   }
 
   // getAlertes(): List<ReglageAlerte> {

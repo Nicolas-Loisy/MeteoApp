@@ -1,6 +1,5 @@
-import ServiceGeographie from "../../services/ServiceGeographie";
-import UniteCoordonnee from "../datatype/UniteCoordonnee";
-import JSONObject from "../interface/JSONObject";
+import ServiceGeographie from "../../services/ServiceGeographieOW";
+import lieuData from "../types/lieuData";
 import Lieu from "../valueObject/Lieu";
 
 class LieuxFavorisBuilder {
@@ -13,22 +12,17 @@ class LieuxFavorisBuilder {
     }
 
     public async rechercheLieux(nomLieu: string): Promise<Lieu[]> {
-        const lieuxData: JSONObject = await this.serviceGeo.rechercheLieux(nomLieu);
+        const lieuxData: lieuData[] = await this.serviceGeo.rechercheLieux(nomLieu);
         
         const resultLieuxRecherche: Lieu[] = [];
         const lieuxMap = new Map<string, Lieu>(); // Utilisation d'une Map pour stocker les lieux uniques
         
-        Object.values(lieuxData).forEach(lieuData => {
+        lieuxData.forEach(lieuData => {
             if (lieuData) {
-                const formatJson: { lieuData: JSONObject } = {
-                    lieuData: lieuData as JSONObject,
-                };
-
-                const key = `${formatJson.lieuData['name']}-${formatJson.lieuData['country']}-${formatJson.lieuData['state'] || ''}`; // Utiliser une clé unique basée sur le nom, le pays et la région
+                const key = `${lieuData.name}-${lieuData.country}-${lieuData.state || ''}`; // Utiliser une clé unique basée sur le nom, le pays et la région
+                
                 if (!lieuxMap.has(key)) {
-                    const longitude = new UniteCoordonnee(parseFloat(String(formatJson.lieuData['lon'])));
-                    const latitude = new UniteCoordonnee(parseFloat(String(formatJson.lieuData['lat'])));
-                    const lieu = new Lieu(String(formatJson.lieuData['name']), String(formatJson.lieuData['country']), String(formatJson.lieuData['state']), longitude, latitude);
+                    const lieu = new Lieu(lieuData);
                     
                     resultLieuxRecherche.push(lieu);
                     lieuxMap.set(key, lieu); // Ajouter le lieu à la Map pour suivre les doublons
@@ -39,8 +33,16 @@ class LieuxFavorisBuilder {
         return resultLieuxRecherche;
     }
 
-    public ajouterLieuParDonnees(nom: string, pays: string, region: string, longitude: UniteCoordonnee, latitude: UniteCoordonnee): void {
-        const lieu = new Lieu(nom, pays, region, longitude, latitude);
+    public ajouterLieuParDonnees(nom: string, pays: string, region: string, longitude: number, latitude: number): void {
+        let lieuData: lieuData = {
+            name: nom,
+            lon: longitude,
+            lat: latitude,
+            country: pays,
+            state: region
+        }
+        
+        const lieu = new Lieu(lieuData);
         this.lieuxFavoris.push(lieu);
     }
 
