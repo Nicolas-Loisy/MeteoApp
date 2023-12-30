@@ -1,5 +1,5 @@
-class UniteNuage {
-    private unite: string = "%";
+class UniteCoordonnee {
+    private unite: string = "°";
     private valeur: number;
   
     constructor(valeur: number) {
@@ -21,6 +21,10 @@ class UniteNuage {
     public setValeur(valeur: number): void {
       this.valeur = valeur;
     }
+  
+    public toString(): String {
+      return `${this.valeur} ${this.unite}`;
+    }
 }
 
-export default UniteNuage;
+export default UniteCoordonnee;

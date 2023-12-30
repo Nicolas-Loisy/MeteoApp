@@ -1,5 +1,5 @@
-class UnitePression {
-    private unite: string = "hPa";
+class UniteNuage {
+    private unite: string = "%";
     private valeur: number;
   
     constructor(valeur: number) {
@@ -21,6 +21,10 @@ class UnitePression {
     public setValeur(valeur: number): void {
       this.valeur = valeur;
     }
+    
+    public toString(): String {
+      return `${this.valeur} ${this.unite}`;
+    }
 }
 
-export default UnitePression;
+export default UniteNuage;

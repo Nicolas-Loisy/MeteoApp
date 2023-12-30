@@ -1,5 +1,5 @@
-class UniteCoordonnee {
-    private unite: string = "°";
+class UnitePrecipitation {
+    private unite: string = "mm";
     private valeur: number;
   
     constructor(valeur: number) {
@@ -21,6 +21,10 @@ class UniteCoordonnee {
     public setValeur(valeur: number): void {
       this.valeur = valeur;
     }
+    
+    public toString(): String {
+      return `${this.valeur} ${this.unite}`;
+    }
 }
 
-export default UniteCoordonnee;
+export default UnitePrecipitation;

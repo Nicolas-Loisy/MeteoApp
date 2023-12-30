@@ -1,5 +1,5 @@
-class UniteVisibilite {
-    private unite: string = "m";
+class UniteHumidite {
+    private unite: string = "%";
     private valeur: number;
   
     constructor(valeur: number) {
@@ -21,6 +21,10 @@ class UniteVisibilite {
     public setValeur(valeur: number): void {
       this.valeur = valeur;
     }
+
+    public toString(): String {
+      return `${this.valeur} ${this.unite}`;
+    }
 }
 
-export default UniteVisibilite;
+export default UniteHumidite;
