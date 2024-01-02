@@ -5,7 +5,7 @@
             "deconnexion" : "Déconnexion"
         },
         "connexion" : {
-            "titre" : "Connexion",
+            "titre" : "Méteo Alertes",
             "email" : "E-mail",
             "mdp" : "Mot de passe",
             "forget_mdp" : "Mot de passe oublié ?",

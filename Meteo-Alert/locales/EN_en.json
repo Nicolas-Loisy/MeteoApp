@@ -5,7 +5,7 @@
             "deconnexion": "Logout"
         },
         "connexion": {
-            "titre": "Login",
+            "titre": "Weather Alerts",
             "email": "Email",
             "mdp": "Password",
             "forget_mdp": "Forgot Password?",

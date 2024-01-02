@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: '7%',
+    // marginLeft: '7%',
     width: '87%',
     height: 53,
     flexShrink: 0,
