@@ -1,0 +1,33 @@
+{
+    "react-native" : {
+        "accueil" : {
+            "titre" : "Accueil",
+            "deconnexion" : "Déconnexion"
+        },
+        "connexion" : {
+            "titre" : "Connexion",
+            "email" : "E-mail",
+            "mdp" : "Mot de passe",
+            "forget_mdp" : "Mot de passe oublié ?",
+            "connexion" : "Connexion",
+            "redirect_inscription" : "Pas encore de compte ?"
+        },
+        "demo" : {
+            "test": "Le test",
+            "testInjection": "Le test avec le numero : {{number}} !!!"
+        },
+        "detailLieu" : {
+        },
+        "inscription" : {
+            "prenom" : "Prénom",
+            "email" : "E-mail",
+            "mdp" : "Mot de passe",
+            "inscription" : "S'inscrire",
+            "deja_inscrit" : "Déjà inscrit ?"
+        },
+        "rechercheLieu" : {
+            "recherche" : "Recherche..."
+        }
+    }
+}
+  

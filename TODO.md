@@ -6,14 +6,23 @@ Project Description
 
 ### Todo
 
-- [ ] Pattern Builder pour données Méteo  
-- [ ] Rédaction ReadMe  
-- [ ] Init projet  
+- [ ] Voir comment sauvegarder les reglagesApp fav dans firebase  
+- [ ] Voir comment sauvegarder les lieux fav dans firebase  
+- [ ] Repasser sur les Datatypes pour vérifier la cohérence des données  
+- [ ] Regler pb navBar  
+- [ ] Régler pb svg  
+- [ ] Restructuration des fichiers dans Service  
 - [ ] Mettre en place un Observer observable (Détection d'évenements) => Behavioral Patterns  
 
 ### In Progress
 
+- [ ] Dev les interfaces  
+- [ ] Dev les Datatypes  
+- [ ] Dev les enums  
+- [ ] Pattern Builder pour données Méteo  
 
 ### Done ✓
 
+- [x] Init projet  
+- [x] Rédaction ReadMe  
 

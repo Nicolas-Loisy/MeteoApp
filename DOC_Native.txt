@@ -1,0 +1,2 @@
+onPress={() => navigation.navigate('Profile')}  => navigate stack/empile un new ecran par dessus l'actuel, si on fait retour alors on revient sur l'ecran en dessous
+onPress={() => navigation.replace('Profile')}  => replace remplace completement l'ecran actuel
