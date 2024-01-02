@@ -7,4 +7,5 @@ export default interface iServiceCompte {
   deconnexion(): Promise<void>;
   addObserver(observer: iObserverConnexion): void;
   remObserver(observer: iObserverConnexion): void;
+  updateFavoris(lieuxFavoris: string, uid: string): void;
 }

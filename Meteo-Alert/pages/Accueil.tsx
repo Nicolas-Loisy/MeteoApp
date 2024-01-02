@@ -10,6 +10,7 @@ import VoletParametre from '../components/organisms/VoletParametre';
 import MyStatusBar from '../components/atoms/MyStatusBar';
 import { useTranslation } from 'react-i18next';
 import { useUser } from '../services/context/UserContext';
+import Lieu from '../models/valueObject/Lieu';
 
 const Accueil = () => {
   const { t } = useTranslation();
@@ -45,16 +46,31 @@ const Accueil = () => {
   let lieuxFavoris = utilisateur?.lieuxFavoris
   
   async function newLieu() {
-    let resultLieux = await lieuxFavoris?.rechercheLieux('Murat');
+    let resultLieux = await lieuxFavoris?.rechercheLieux('Loches');
     
-    if(resultLieux) {
-      lieuxFavoris?.ajouterLieu(resultLieux[0]);
+    if (resultLieux && resultLieux.length > 0) {
+        lieuxFavoris?.ajouterLieu(resultLieux[0], utilisateur?.uid!);
+
+        let premierLieu = utilisateur?.lieuxFavoris.getLieux()[0];
+
+        if (premierLieu && premierLieu.getMeteo) {
+            let test = await premierLieu.getMeteo();
+            console.log("Temp : " + test?.getTemperatureStr());
+        }
     }
-    
-    let test = utilisateur?.lieuxFavoris.getLieux()[0].getMeteo();
-    console.log("Temp : " + (await test)?.getTemperatureStr());
   }
+
+  async function affMeteo() {
+    let premierLieu = utilisateur?.lieuxFavoris.getLieux()[0];
+    if (premierLieu) {
+        let test = await (premierLieu as Lieu).getMeteo();
+        console.log("METEO Temp : " + test?.getTemperatureStr());
+    }
+  }
+
+
   newLieu();
+  affMeteo();
   // TESTS DU MODEL FIN
   // TESTS DU MODEL FIN
   // TESTS DU MODEL FIN

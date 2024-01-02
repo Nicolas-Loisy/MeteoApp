@@ -21,18 +21,15 @@ const Inscription = () => {
 
   const handleInscription = () => {
 
-    // Exemple fictif de Inscription
     if (email && motDePasse && prenom) {
-      // Connectez-vous avec serviceCompte
-      serviceCompte.inscription(email, motDePasse, {"prenom": prenom})
-        .then((utilisateur) => {
-          console.log(utilisateur); // TODO a retirer
+      serviceCompte.inscription(email, motDePasse, {"prenom": prenom, "lieuxFavoris": []})
+        .then(() => {
           navigation.navigate('Accueil');
         })
         .catch((error) => {
-          // Gérez les erreurs de Inscription ici
           console.error('Erreur de Inscription :', error);
-        });
+        })
+      ;
     }
   };
 

@@ -1,11 +1,12 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth } from "firebase/auth";
-import { ref, set, get, Database, getDatabase } from 'firebase/database';
+import { ref, set, get, Database, getDatabase, update } from 'firebase/database';
 
 import Utilisateur from "../../models/Utilisateur";
 import iObserverConnexion from "./iObserverConnexion";
+import iServiceCompte from "./iServiceCompte";
 
-export default class ServiceCompteFirebase {
+export default class ServiceCompteFirebase implements iServiceCompte{
   private app: FirebaseApp;
   private auth: Auth;
   private database: Database;
@@ -75,7 +76,8 @@ export default class ServiceCompteFirebase {
 
       userData = {
         ...userData,
-        "mail": mail
+        "mail": mail,
+        "uid": user.uid
       }
 
       let utilisateur = new Utilisateur(userData)
@@ -90,11 +92,6 @@ export default class ServiceCompteFirebase {
 
   public async connexion(mail: string, password: string): Promise<Utilisateur | any> {
     try {
-      // TODO a retirer
-      // console.log("utilisateur");
-      // console.log(mail);
-      // console.log(password);
-
       //Connexion
       const userCredential = await signInWithEmailAndPassword(this.auth, mail, password);
       this.token = userCredential.user.getIdToken()
@@ -103,10 +100,10 @@ export default class ServiceCompteFirebase {
       const userDataFB = await get(userRef);
 
       let userData = {
-        ...userDataFB.val(),
-        "mail": userCredential.user.email
+        ...userDataFB.val(), // prenom et lieuxFavoris
+        "mail": userCredential.user.email,
+        "uid": userCredential.user.uid,
       }
-      console.log(userData);
 
       let utilisateur = new Utilisateur(userData)
       
@@ -123,5 +120,20 @@ export default class ServiceCompteFirebase {
     await this.auth.signOut();
     this.token = null;
     this.notify();
+  }
+
+  public async updateFavoris(lieuxFavoris: string, uid: string): Promise<void> {
+    if (uid) {
+      const userRef = ref(this.database, `utilisateurs/${uid}`);
+  
+      // Obtenir l'objet utilisateur actuel
+      const snapshot = await get(userRef);
+      const userData = snapshot.val();
+  
+      // Mettre à jour la propriété lieuxFavoris
+      userData.lieuxFavoris = lieuxFavoris;
+      // Mettre à jour l'objet utilisateur dans la base de données
+      await set(userRef, userData);
+    }
   }
 }

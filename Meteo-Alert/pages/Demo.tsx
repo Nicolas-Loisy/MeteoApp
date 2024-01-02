@@ -45,7 +45,7 @@ const Demo = () => {
 
   // TODO a retirer
   useEffect(() => {
-    console.log(password);
+    console.log("Password : ", password);
   }, [password]);
 
   const { width } = Dimensions.get('window');
