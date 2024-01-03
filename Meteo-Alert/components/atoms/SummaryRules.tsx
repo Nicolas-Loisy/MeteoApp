@@ -1,5 +1,7 @@
+import { t } from 'i18next';
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import Logo from './Logo';
 
 type Props = {
   rules: Record<string, boolean>;
@@ -8,11 +10,16 @@ type Props = {
 const SummaryRules: React.FC<Props> = ({ rules }) => {
   return (
     <View>
-      <Text style={styles.title}>Summary Rules:</Text>
+      {/* <Text style={styles.title}>Summary Rules:</Text> */}
       <View style={styles.listContainer}>
         {Object.entries(rules).map(([key, value]) => (
           <View key={key} style={styles.listItem}>
-            <Text>{key}: {value ? 'OK' : 'NOOK'}</Text>
+            <Logo 
+              imageSource={value ? require('../../assets/icons/circle-check-regular.png') : require('../../assets/icons/circle-xmark-regular.png')} 
+              size={18} 
+              color= {value ? '#1E375A' : '#C83434'}
+            />
+            <Text>{t("summaryRules." + key) }</Text>
           </View>
         ))}
       </View>
@@ -27,10 +34,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   listContainer: {
-    marginLeft: 20,
+    marginLeft: -80,
+    marginBottom: 20
   },
   listItem: {
     marginBottom: 5,
+    flexDirection: 'row',
+    paddingVertical: 1,
   },
 });
 
