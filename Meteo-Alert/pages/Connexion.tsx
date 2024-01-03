@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, StyleSheet, Text, Image, Alert } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
@@ -10,6 +10,7 @@ import Field from '../components/molecules/Field';
 import { useTranslation } from 'react-i18next';
 import { useUser } from '../services/context/UserContext';
 import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 
 const Connexion = () => {
   const { t } = useTranslation();
@@ -33,8 +34,14 @@ const Connexion = () => {
           navigation.navigate('Accueil');
         })
         .catch((error) => {
-          console.error('Erreur de connexion :', error);
-        });
+          Dialog.show({
+            type: ALERT_TYPE.DANGER,
+            title: t("connexion.popup.title"),
+            textBody: t("connexion.popup.body"),
+            button: t("connexion.popup.btn"),
+          });
+        })
+      ;
     }
   };
 

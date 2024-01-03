@@ -10,7 +10,12 @@
             "mdp": "Password",
             "forget_mdp": "Forgot Password?",
             "connexion": "Login",
-            "redirect_inscription": "Don't have an account yet?"
+            "redirect_inscription": "Don't have an account yet?",
+            "popup": {
+                "title": "Connection error",
+                "body": "Please check your login details and try again.",
+                "btn": "Close"
+            }
         },
         "demo": {
             "test": "The test",
@@ -24,7 +29,12 @@
             "email": "Email",
             "mdp": "Password",
             "inscription": "Sign Up",
-            "deja_inscrit": "Already registered?"
+            "deja_inscrit": "Already registered?",
+            "popup": {
+                "title": "Erreur de connexion",
+                "body": "The account associated with this e-mail address already exists. Please check your login details.",
+                "btn": "Fermer"
+            }
         },
         "rechercheLieu": {
             "recherche" : "Search..."

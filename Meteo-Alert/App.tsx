@@ -6,6 +6,7 @@ import * as Font from 'expo-font';
 import {Text} from 'react-native';
 import './i18n';
 import { UserProvider } from './services/context/UserContext';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 const App = () => {
   
@@ -46,7 +47,9 @@ const App = () => {
   return (
     <UserProvider>
       <AccountProvider>
-        <Navigation />
+        <AlertNotificationRoot>
+          <Navigation />
+        </AlertNotificationRoot>
       </AccountProvider>
     </UserProvider>
   );

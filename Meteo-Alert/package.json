@@ -27,6 +27,7 @@
     "react-dom": "18.2.0",
     "react-i18next": "^13.5.0",
     "react-native": "0.72.6",
+    "react-native-alert-notification": "^0.4.0",
     "react-native-animatable": "^1.4.0",
     "react-native-appearance": "^0.3.4",
     "react-native-config": "^1.5.1",

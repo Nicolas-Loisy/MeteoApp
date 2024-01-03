@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, Pressable, TextInput } from 'react-native';
+import { View, StyleSheet, Text, Pressable, TextInput, Alert } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
@@ -11,6 +11,7 @@ import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
 import Field from '../components/molecules/Field';
 import SummaryRules from '../components/atoms/SummaryRules';
 import Password from '../models/datatype/Password';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 
 
 const Inscription = () => {
@@ -42,7 +43,13 @@ const Inscription = () => {
           navigation.navigate('Accueil');
         })
         .catch((error) => {
-          console.error('Erreur de Inscription :', error);
+          Dialog.show({
+            type: ALERT_TYPE.DANGER,
+            title: t("inscription.popup.title"),
+            textBody: t("inscription.popup.body"),
+            button: t("inscription.popup.btn"),
+          });
+          // console.error('Erreur de Inscription :', error);
         })
       ;
     }
