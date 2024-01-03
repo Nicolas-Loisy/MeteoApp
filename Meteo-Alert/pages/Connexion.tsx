@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Image, Alert } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
@@ -9,11 +9,13 @@ import ClickableText from '../components/atoms/ClickableText';
 import Field from '../components/molecules/Field';
 import { useTranslation } from 'react-i18next';
 import { useUser } from '../services/context/UserContext';
+import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 
 const Connexion = () => {
   const { t } = useTranslation();
   
-  // Utilisez le hook useUser pour accéder au contexte d'utilisateur
+  // hook useUser pour accéder au contexte d'utilisateur
   const { setUtilisateur, utilisateur } = useUser();
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -27,33 +29,39 @@ const Connexion = () => {
     if (email && motDePasse) {
       serviceCompte.connexion(email, motDePasse)
         .then((utilisateurConn) => {
-          setUtilisateur(utilisateurConn); // Utilisez la fonction du contexte pour mettre à jour l'utilisateur
+          setUtilisateur(utilisateurConn); // fonction du contexte pour mettre à jour l'utilisateur
           console.log("Utilisateur : ", [utilisateur]);
           navigation.navigate('Accueil');
         })
         .catch((error) => {
-          console.error('Erreur de connexion :', error);
-        });
+          Dialog.show({
+            type: ALERT_TYPE.DANGER,
+            title: t("connexion.popup.title"),
+            textBody: t("connexion.popup.body"),
+            button: t("connexion.popup.btn"),
+          });
+        })
+      ;
     }
   };
 
   return (
     <LayoutTemplate>
       <View style={styles.container}>
-        <Text>{t('connexion.titre')}</Text>
+        <LogoMeteo {...styles.logoMeteo}/>
+        <Text style={styles.text}>{t('connexion.titre')}</Text>
 
         {/* Formulaire d'adresse e-mail */}
-        {/* <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} defaultValue={email} fieldName={t('connexion.email')}/> */}
         <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')}/>
         {/* Formulaire de mot de passe */}
-        {/* <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} defaultValue={motDePasse} fieldName={t('connexion.mdp')} isPassword/> */}
         <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} isPassword/>
 
-
-        <ClickableText
+        <View style={styles.viewForgetMdp}>
+          <ClickableText
             text={t('connexion.forget_mdp')}
             onPress={() => null}
-        />
+          />
+        </View>
 
         {/* Bouton de connexion */}
         <Button
@@ -92,6 +100,20 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
+  text: {
+    color: 'white',
+    fontSize: 80,
+    fontFamily: 'Jomhuria-Regular',
+  },
+  logoMeteo: {
+    width: 200,
+    height: 200,
+  },
+  viewForgetMdp: {
+    width: '85%', 
+    alignItems:"flex-end", 
+    marginBottom: 30
+  }
 });
 
 export default Connexion;

@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   croix: {
     position: 'absolute',
-    top: 40, // Ajustez cette valeur selon votre préférence pour la position verticale
+    top: 40,
     zIndex: 1,
   },
 });

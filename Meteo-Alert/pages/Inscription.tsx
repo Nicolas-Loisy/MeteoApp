@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, Pressable, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, Pressable, TextInput, Alert } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
@@ -7,6 +7,12 @@ import Button from '../components/atoms/Button';
 import ClickableText from '../components/atoms/ClickableText';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
+import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
+import Field from '../components/molecules/Field';
+import SummaryRules from '../components/atoms/SummaryRules';
+import Password from '../models/datatype/Password';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+
 
 const Inscription = () => {
   const { t } = useTranslation();
@@ -16,8 +22,18 @@ const Inscription = () => {
 
   // États pour stocker les valeurs du formulaire
   const [email, setEmail] = useState('');
-  const [motDePasse, setMotDePasse] = useState('');
   const [prenom, setPrenom] = useState('');
+  
+  const [motDePasse, setMotDePasse] = useState<string>('');
+  const [password, setPassword] = useState<Password | null>(null);
+  const passwordRules = Password.checkRules(motDePasse);
+
+  useEffect(() => {
+    const rules = Password.checkRules(motDePasse);
+    if (!Object.values(rules).includes(false)) {
+      setPassword(new Password(motDePasse));
+    }
+  }, [motDePasse]);
 
   const handleInscription = () => {
 
@@ -27,7 +43,13 @@ const Inscription = () => {
           navigation.navigate('Accueil');
         })
         .catch((error) => {
-          console.error('Erreur de Inscription :', error);
+          Dialog.show({
+            type: ALERT_TYPE.DANGER,
+            title: t("inscription.popup.title"),
+            textBody: t("inscription.popup.body"),
+            button: t("inscription.popup.btn"),
+          });
+          // console.error('Erreur de Inscription :', error);
         })
       ;
     }
@@ -35,39 +57,30 @@ const Inscription = () => {
 
   return (
     <LayoutTemplate>
-      <View style={styles.container}>
-        <Text>Inscription</Text>
+      <View style={styles.containerHeader}>
+        <LogoMeteo {...styles.logoMeteo}/>
+        <Text style={styles.text}>{t('inscription.titre')}</Text>
+      </View>
 
-        {/* Formulaire de prénom */}
-        <TextInput
-          style={styles.input}
-          placeholder= {t('inscription.prenom')}
-          value={prenom}
-          onChangeText={setPrenom}
-        />
+      <View style={styles.container}>
+
+        {/* Formulaire prénom */}
+        <Field onChangeText={setPrenom} iconSource={require('../assets/icons/logo-utilisateur.png')} fieldName={t('inscription.prenom')} displayValidation/>
         
-        {/* Formulaire d'adresse e-mail */}
-        <TextInput
-          style={styles.input}
-          placeholder= {t('inscription.email')}
-          value={email}
-          onChangeText={setEmail}
-        />
+        {/* Formulaire adresse e-mail */}
+        <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' displayValidation/>
 
         {/* Formulaire de mot de passe */}
-        <TextInput
-          style={styles.input}
-          placeholder={t('inscription.mdp')}
-          secureTextEntry={true} // Masque le mot de passe
-          value={motDePasse}
-          onChangeText={setMotDePasse}
+        <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword/>
+        <SummaryRules
+          rules={passwordRules}
         />
 
-        {/* Bouton de Inscription */}
+        {/* Bouton Inscription */}
         <Button
-            onPress={handleInscription}
-            title={t('inscription.inscription')}
-            styleBtn="whiteBg"
+          onPress={handleInscription}
+          title={t('inscription.inscription')}
+          styleBtn="whiteBg"
         />
 
         {/* Bouton pour aller à la page d'inscription */}
@@ -81,9 +94,15 @@ const Inscription = () => {
 };
 
 const styles = StyleSheet.create({
+  containerHeader: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginBottom: 30
+  },
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    verticalAlign: 'bottom',
+    display: 'flex',
+    height: 'auto',
     alignItems: 'center',
   },
   input: {
@@ -98,6 +117,15 @@ const styles = StyleSheet.create({
     borderColor:'blue',
     padding: 10,
     borderRadius: 5,
+  },
+  logoMeteo: {
+    width: 100,
+    height: 100,
+  },
+  text: {
+    color: 'white',
+    fontSize: 50,
+    fontFamily: 'Jomhuria-Regular',
   },
 });
 

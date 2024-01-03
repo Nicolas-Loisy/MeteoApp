@@ -5,12 +5,17 @@
             "deconnexion": "Logout"
         },
         "connexion": {
-            "titre": "Login",
+            "titre": "Weather Alerts",
             "email": "Email",
             "mdp": "Password",
             "forget_mdp": "Forgot Password?",
             "connexion": "Login",
-            "redirect_inscription": "Don't have an account yet?"
+            "redirect_inscription": "Don't have an account yet?",
+            "popup": {
+                "title": "Connection error",
+                "body": "Please check your login details and try again.",
+                "btn": "Close"
+            }
         },
         "demo": {
             "test": "The test",
@@ -19,13 +24,27 @@
         "detailLieu": {
         },
         "inscription": {
+            "titre": "Weather Alerts",
             "prenom": "First Name",
             "email": "Email",
             "mdp": "Password",
             "inscription": "Sign Up",
-            "deja_inscrit": "Already registered?"
+            "deja_inscrit": "Already registered?",
+            "popup": {
+                "title": "Erreur de connexion",
+                "body": "The account associated with this e-mail address already exists. Please check your login details.",
+                "btn": "Fermer"
+            }
         },
         "rechercheLieu": {
+            "recherche" : "Search..."
+        },
+        "summaryRules": {
+            "size": "14 characters", 
+            "upper": "1 uppercase character",
+            "lower": "1 lowercase character",
+            "number": "1 numeric character",
+            "special": "1 special character"
         }
     }
 }

@@ -1,32 +1,50 @@
 {
-    "react-native" : {
-        "accueil" : {
-            "titre" : "Accueil",
-            "deconnexion" : "Déconnexion"
+    "react-native": {
+        "accueil": {
+            "titre": "Accueil",
+            "deconnexion": "Déconnexion"
         },
-        "connexion" : {
-            "titre" : "Connexion",
-            "email" : "E-mail",
-            "mdp" : "Mot de passe",
-            "forget_mdp" : "Mot de passe oublié ?",
-            "connexion" : "Connexion",
-            "redirect_inscription" : "Pas encore de compte ?"
+        "connexion": {
+            "titre": "Méteo Alertes",
+            "email": "E-mail",
+            "mdp": "Mot de passe",
+            "forget_mdp": "Mot de passe oublié ?",
+            "connexion": "Connexion",
+            "redirect_inscription": "Pas encore de compte ?",
+            "popup": {
+                "title": "Erreur de connexion",
+                "body": "Veuillez vérifier vos informations de connexion et réessayer.",
+                "btn": "Fermer"
+            }
         },
-        "demo" : {
+        "demo": {
             "test": "Le test",
             "testInjection": "Le test avec le numero : {{number}} !!!"
         },
-        "detailLieu" : {
+        "detailLieu": {
         },
-        "inscription" : {
-            "prenom" : "Prénom",
-            "email" : "E-mail",
-            "mdp" : "Mot de passe",
-            "inscription" : "S'inscrire",
-            "deja_inscrit" : "Déjà inscrit ?"
+        "inscription": {
+            "titre": "Méteo Alertes",
+            "prenom": "Prénom",
+            "email": "E-mail",
+            "mdp": "Mot de passe",
+            "inscription": "S'inscrire",
+            "deja_inscrit": "Déjà inscrit ?",
+            "popup": {
+                "title": "Erreur de connexion",
+                "body": "Le compte associé à cette adresse e-mail existe déjà. Veuillez vérifier vos informations de connexion.",
+                "btn": "Fermer"
+            }
         },
-        "rechercheLieu" : {
-            "recherche" : "Recherche..."
+        "rechercheLieu": {
+            "recherche": "Recherche..."
+        },
+        "summaryRules": {
+            "size": "14 caractères", 
+            "upper": "1 caractère majuscule",
+            "lower": "1 caractère minuscule",
+            "number": "1 caractère numérique",
+            "special": "1 caractère spécial"
         }
     }
 }

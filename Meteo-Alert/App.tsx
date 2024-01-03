@@ -6,6 +6,7 @@ import * as Font from 'expo-font';
 import {Text} from 'react-native';
 import './i18n';
 import { UserProvider } from './services/context/UserContext';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 const App = () => {
   
@@ -22,6 +23,7 @@ const App = () => {
         'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
         'Inter-SemiBold': require('./assets/fonts/Inter-SemiBold.ttf'),
         'Inter-Thin': require('./assets/fonts/Inter-Thin.ttf'),
+        'Jomhuria-Regular': require('./assets/fonts/Jomhuria-Regular.ttf'),
       });
       setFontLoaded(true);
     }
@@ -45,7 +47,9 @@ const App = () => {
   return (
     <UserProvider>
       <AccountProvider>
-        <Navigation />
+        <AlertNotificationRoot>
+          <Navigation />
+        </AlertNotificationRoot>
       </AccountProvider>
     </UserProvider>
   );

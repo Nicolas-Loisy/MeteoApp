@@ -9,6 +9,8 @@ interface FieldProps {
   value?: string; // Valeur du champ de saisie
   isPassword?: boolean; // Champ de mot de passe (par défaut, c'est un champ de texte normal)
   placeholder?: string; // Placeholder du champ de saisie
+  validationType?: 'mail' | 'mdp' | 'default';
+  displayValidation?: boolean;
 }
 
 const Field: React.FC<FieldProps> = ({
@@ -18,11 +20,28 @@ const Field: React.FC<FieldProps> = ({
   value,
   isPassword,
   placeholder,
+  validationType = 'default', // defaut, mail, mdp
+  displayValidation,
 }) => {
   const [text, setText] = useState(value);
+  const [isValid, setIsValid] = useState(false);
 
   const handleTextChange = (newText: string) => {
     setText(newText);
+
+    // Vérifier le texte en fonction du type de validation
+    if (validationType === 'mail') {
+      // Validation de l'adresse e-mail (exemple simple)
+      const isValidMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newText);
+      setIsValid(isValidMail);
+    } else if (validationType === 'mdp') {
+
+    } else {
+      // Validation par défaut : le champ n'est pas vide
+      const isValidDefault = newText.trim() !== '';
+      setIsValid(isValidDefault);
+    }
+
     onChangeText(newText); // Appeler la fonction de rappel avec le nouveau texte
   };
 
@@ -36,6 +55,13 @@ const Field: React.FC<FieldProps> = ({
         value={text}
         secureTextEntry={isPassword}
       />
+      {displayValidation && (
+        isValid ? (
+          <Logo imageSource={require('../../assets/icons/check-solid.png')} size={25} color='#1E375A'/>
+        ) : (
+          <Logo imageSource={require('../../assets/icons/icon-refus.png')} size={25} color='#C83434'/>
+        )
+      )}
     </View>
   );
 };
@@ -44,7 +70,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: '7%',
+    // marginLeft: '7%',
     width: '87%',
     height: 53,
     flexShrink: 0,
