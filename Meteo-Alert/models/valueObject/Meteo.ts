@@ -10,22 +10,22 @@ import SystemeMesure from "../enum/SystemeMesure";
 import meteoData from "../types/meteoData";
 
 class Meteo {
-  private readonly heureActualisation: Date;
-  private readonly neige: UnitePrecipitation;
-  private readonly pluie: UnitePrecipitation;
-  private readonly humidite: UniteHumidite;
-  private readonly visibilite: UniteVisibilite;
-  private readonly ressenti: UniteTemperature;
-  private readonly temperature: UniteTemperature;
-  private readonly tempMin: UniteTemperature;
-  private readonly tempMax: UniteTemperature;
-  private readonly ventRafale: UniteVentVitesse;
-  private readonly ventVitesse: UniteVentVitesse;
-  private readonly ventDirection: UniteVentDirection;
-  private readonly pression: UnitePression;
-  private readonly pressionTerre: UnitePression;
-  private readonly pressionMer: UnitePression;
-  private readonly nuage: UniteNuage;
+  public readonly heureActualisation: Date;
+  public readonly neige: UnitePrecipitation;
+  public readonly pluie: UnitePrecipitation;
+  public readonly humidite: UniteHumidite;
+  public readonly visibilite: UniteVisibilite;
+  public readonly ressenti: UniteTemperature;
+  public readonly temperature: UniteTemperature;
+  public readonly tempMin: UniteTemperature;
+  public readonly tempMax: UniteTemperature;
+  public readonly ventRafale: UniteVentVitesse;
+  public readonly ventVitesse: UniteVentVitesse;
+  public readonly ventDirection: UniteVentDirection;
+  public readonly pression: UnitePression;
+  public readonly pressionTerre: UnitePression;
+  public readonly pressionMer: UnitePression;
+  public readonly nuage: UniteNuage;
 
   constructor(
     units: SystemeMesure,
@@ -36,12 +36,12 @@ class Meteo {
     this.pluie = new UnitePrecipitation(data.pluie);
     this.humidite = new UniteHumidite(data.humidite);
     this.visibilite = new UniteVisibilite(data.visibilite);
-    this.ressenti = new UniteTemperature(units, data.ressenti);
-    this.temperature = new UniteTemperature(units, data.temperature);
-    this.tempMin = new UniteTemperature(units, data.tempMin);
-    this.tempMax = new UniteTemperature(units, data.tempMax);
-    this.ventRafale = new UniteVentVitesse(units, data.ventRafale);
-    this.ventVitesse = new UniteVentVitesse(units, data.ventVitesse);
+    this.ressenti = new UniteTemperature(data.ressenti, units);
+    this.temperature = new UniteTemperature(data.temperature, units);
+    this.tempMin = new UniteTemperature(data.tempMin, units);
+    this.tempMax = new UniteTemperature(data.tempMax, units);
+    this.ventRafale = new UniteVentVitesse(data.ventRafale, units);
+    this.ventVitesse = new UniteVentVitesse(data.ventVitesse, units);
     this.ventDirection = new UniteVentDirection(data.ventDirection);
     this.pression = new UnitePression(data.pression);
     this.pressionTerre = new UnitePression(data.pressionTerre);
@@ -118,70 +118,70 @@ class Meteo {
   }
 
   /**
-   * Getter des valeurs avec unité sous format String
+   * Getter des valeurs avec unité sous format string
    */
 
-  getHeureActualisationStr(): String {
+  getHeureActualisationStr(): string {
     return this.heureActualisation.toString();
   }
 
-  getNeigeStr(): String {
+  getNeigeStr(): string {
     return this.neige.toString();
   }
 
-  getPluieStr(): String {
+  getPluieStr(): string {
     return this.pluie.toString();
   }
 
-  getHumiditeStr(): String {
+  getHumiditeStr(): string {
     return this.humidite.toString();
   }
 
-  getVisibiliteStr(): String {
+  getVisibiliteStr(): string {
     return this.visibilite.toString();
   }
 
-  getRessentiStr(): String {
+  getRessentiStr(): string {
     return this.ressenti.toString();
   }
 
-  getTemperatureStr(): String {
+  getTemperatureStr(): string {
     return this.temperature.toString();
   }
 
-  getTempMinStr(): String {
+  getTempMinStr(): string {
     return this.tempMin.toString();
   }
 
-  getTempMaxStr(): String {
+  getTempMaxStr(): string {
     return this.tempMax.toString();
   }
 
-  getVentRafaleStr(): String {
+  getVentRafaleStr(): string {
     return this.ventRafale.toString();
   }
 
-  getVentVitesseStr(): String {
+  getVentVitesseStr(): string {
     return this.ventVitesse.toString();
   }
 
-  getVentDirectionStr(): String {
+  getVentDirectionStr(): string {
     return this.ventDirection.toString();
   }
 
-  getPressionStr(): String {
+  getPressionStr(): string {
     return this.pression.toString();
   }
 
-  getPressionTerreStr(): String {
+  getPressionTerreStr(): string {
     return this.pressionTerre.toString();
   }
 
-  getPressionMerStr(): String {
+  getPressionMerStr(): string {
     return this.pressionMer.toString();
   }
 
-  getNuageStr(): String {
+  getNuageStr(): string {
     return this.nuage.toString();
   }
 

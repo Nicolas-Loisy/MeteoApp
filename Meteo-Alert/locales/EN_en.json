@@ -2,7 +2,7 @@
     "react-native": {
         "accueil": {
             "titre": "Home",
-            "deconnexion": "Logout"
+            "rechercheLieu": "Add a location"
         },
         "connexion": {
             "titre": "Weather Alerts",
@@ -22,6 +22,24 @@
             "testInjection": "The test with the number: {{number}} !!!"
         },
         "detailLieu": {
+            "label": {
+                "heureActualisation": "Last Update Time: ",
+                "neige": "Snow: ",
+                "pluie": "Rain: ",
+                "humidite": "Humidity: ",
+                "visibilite": "Visibility: ",
+                "ressenti": "Feels Like: ",
+                "temperature": "Temperature: ",
+                "tempMin": "Min Temperature: ",
+                "tempMax": "Max Temperature: ",
+                "ventRafale": "Wind Gusts: ",
+                "ventVitesse": "Wind Speed: ",
+                "ventDirection": "Wind Direction: ",
+                "pression": "Pressure: ",
+                "pressionTerre": "Pressure (Land): ",
+                "pressionMer": "Pressure (Sea): ",
+                "nuage": "Clouds: "
+            }
         },
         "inscription": {
             "titre": "Weather Alerts",
@@ -45,6 +63,12 @@
             "lower": "1 lowercase character",
             "number": "1 numeric character",
             "special": "1 special character"
+        },
+        "voletParametre": {
+            "deconnexion": "Logout"
+        },
+        "aUnite": {
+            "mesure-undefined": "The measurement has not been taken." 
         }
     }
 }

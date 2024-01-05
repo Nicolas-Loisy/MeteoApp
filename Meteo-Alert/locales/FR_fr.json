@@ -2,7 +2,7 @@
     "react-native": {
         "accueil": {
             "titre": "Accueil",
-            "deconnexion": "Déconnexion"
+            "rechercheLieu": "Ajouter un lieu"
         },
         "connexion": {
             "titre": "Méteo Alertes",
@@ -22,6 +22,24 @@
             "testInjection": "Le test avec le numero : {{number}} !!!"
         },
         "detailLieu": {
+            "label": {
+                "heureActualisation": "Dernière mise à jour : ",
+                "neige": "Neige : ",
+                "pluie": "Pluie : ",
+                "humidite": "Humidité : ",
+                "visibilite": "Visibilité : ",
+                "ressenti": "Ressenti : ",
+                "temperature": "Température : ",
+                "tempMin": "Température Min : ",
+                "tempMax": "Température Max : ",
+                "ventRafale": "Rafales : ",
+                "ventVitesse": "Vitesse du vent : ",
+                "ventDirection": "Direction du vent : ",
+                "pression": "Pression : ",
+                "pressionTerre": "Pression (Terre) : ",
+                "pressionMer": "Pression (Mer) : ",
+                "nuage": "Nuages : "
+            }
         },
         "inscription": {
             "titre": "Méteo Alertes",
@@ -45,6 +63,12 @@
             "lower": "1 caractère minuscule",
             "number": "1 caractère numérique",
             "special": "1 caractère spécial"
+        },
+        "voletParametre": {
+            "deconnexion": "Déconnexion"
+        },
+        "aUnite": {
+            "mesure-undefined": "La mesure n'a pas été effectuée." 
         }
     }
 }

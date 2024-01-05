@@ -1,29 +1,11 @@
-class UniteVisibilite {
-  private unite: string = "m";
-  private valeur: number;
+import SystemeMesure from "../enum/SystemeMesure";
+import UniteMesureDistance from "../enum/UniteMesureDistance";
+import aUnite from "./aUnite";
 
-  constructor(valeur: number) {
+class UniteVisibilite extends aUnite {
+  constructor(valeur: number, systemeMesure?: SystemeMesure) {
+    super(valeur, "m" as UniteMesureDistance);
     this.valeur = valeur;
-  }
-
-  public getUnite(): string {
-    return this.unite;
-  }
-
-  public setUnite(unite: string): void {
-    this.unite = unite;
-  }
-
-  public getValeur(): number {
-    return this.valeur;
-  }
-
-  public setValeur(valeur: number): void {
-    this.valeur = valeur;
-  }
-
-  public toString(): String {
-    return `${this.valeur} ${this.unite}`;
   }
 }
 
