@@ -103,13 +103,17 @@ class LieuxFavorisBuilder {
         return this.lieuxFavoris;
     }
 
-    public getFirstLieux(): string {
-        return this.lieuxFavoris.length > 0 ? this.lieuxFavoris[0].getNom() : "undefined";
-    }      
-
     public getNbLieux(): Number {
         return this.lieuxFavoris.length;
     }
+
+    public trouverLieu(nom: string, region?: string, pays?: string): Lieu | undefined {
+        return this.lieuxFavoris.find(lieu =>
+            lieu.getNom() === nom &&
+            (!region || lieu.getRegion() === region) &&
+            (!pays || lieu.getPays() === pays)
+        );
+    }    
 }
 
 export default LieuxFavorisBuilder;

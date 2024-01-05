@@ -5,14 +5,14 @@ import iServiceCompte from './iServiceCompte';
 
 const AccountContext = createContext({
   serviceCompte: {} as iServiceCompte,
-  statutConnecte: false as boolean | undefined,
+  statutConnecte: false as boolean | null,
 });
 
 export const useAccountContext = () => useContext(AccountContext);
 
 export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const serviceCompte: iServiceCompte = ServiceCompteFactory.getServiceCompte();
-  const [statutConnecte, setStatutConnecte] = useState<boolean | undefined>(undefined);
+  const [statutConnecte, setStatutConnecte] = useState<boolean | null>(null);
 
   useEffect(() => {
     const observer = new ObserverConnexion(setStatutConnecte);

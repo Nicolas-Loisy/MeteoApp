@@ -1,5 +1,5 @@
 enum UniteMesureVitesse {
-    metrique = "m/s",
+    metric = "m/s",
     imperial = "mph",
     standard = "ft/s"
 }

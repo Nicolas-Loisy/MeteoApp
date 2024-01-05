@@ -11,6 +11,7 @@ import MyStatusBar from '../components/atoms/MyStatusBar';
 import { useTranslation } from 'react-i18next';
 import { useUser } from '../services/context/UserContext';
 import Lieu from '../models/valueObject/Lieu';
+import LieuxSection from '../components/organisms/LieuxSection';
 
 const Accueil = () => {
   const { t } = useTranslation();
@@ -45,8 +46,8 @@ const Accueil = () => {
   // TESTS DU MODEL DEBUT
   let lieuxFavoris = utilisateur?.lieuxFavoris
   
-  async function newLieu() {
-    let resultLieux = await lieuxFavoris?.rechercheLieux('Loches');
+  async function newLieu(lieu: string) {
+    let resultLieux = await lieuxFavoris?.rechercheLieux(lieu);
     
     if (resultLieux && resultLieux.length > 0) {
         lieuxFavoris?.ajouterLieu(resultLieux[0], utilisateur?.uid!);
@@ -69,7 +70,14 @@ const Accueil = () => {
   }
 
 
-  newLieu();
+  newLieu('Loches');
+  newLieu('Murat');
+  newLieu('Paris');
+  newLieu('Reignac');
+  newLieu('Ezanville');
+  newLieu('Lyon');
+  newLieu('Tour');
+  newLieu('Coltine');
   affMeteo();
   // TESTS DU MODEL FIN
   // TESTS DU MODEL FIN
@@ -80,18 +88,20 @@ const Accueil = () => {
     <>
     <MyStatusBar/>
     <LayoutTemplate>
-      <View style={styles.container}>
-        <Text>{t('accueil.titre')}</Text>
-        <Text>{utilisateur?.prenom}</Text>
-        <Text>{utilisateur?.mail}</Text>
-        
+      <View style={styles.containerHeader}>
         <VoletParametre isOpen={isVoletOpen} onClose={handleCloseVolet} />
         <EngrenageParametre onOpenVolet={handleOpenVolet} />
+      </View>
 
-        {/* Bouton de connexion */}
+      <View style={styles.container}>
+        {/* <Text>{t('accueil.titre')}</Text> */}
+
+        <LieuxSection lieux={utilisateur?.lieuxFavoris.getLieux() || []} />
+        {/* Liste scrollable avec des cartes contenants les lieux avec le nom et la temperature */}
+
         <Button
-          onPress={handleDeconnexion}
-          title={t('accueil.deconnexion')}
+          onPress={() => navigation.navigate('RechercheLieu')}
+          title={t('accueil.rechercheLieu')}
           styleBtn="whiteBg"
         />
       </View>
@@ -101,16 +111,23 @@ const Accueil = () => {
 };
 
 const styles = StyleSheet.create({
+  containerHeader: {
+    alignSelf: "flex-end",
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'blue', 
+    // backgroundColor: 'blue',
+    width: "100%", 
+    paddingBottom: 40,
+    marginTop: 20,
   },
   button: {
     borderWidth: 1,
     borderColor:'blue',
     padding: 10,
+    marginBottom: 40,
     borderRadius: 5,
   },
 });

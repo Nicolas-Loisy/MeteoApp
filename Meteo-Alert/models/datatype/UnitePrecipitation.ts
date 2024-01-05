@@ -1,30 +1,12 @@
-class UnitePrecipitation {
-    private unite: string = "mm";
-    private valeur: number;
-  
-    constructor(valeur: number) {
-      this.valeur = valeur;
-    }
-  
-    public getUnite(): string {
-      return this.unite;
-    }
-  
-    public setUnite(unite: string): void {
-      this.unite = unite;
-    }
-  
-    public getValeur(): number {
-      return this.valeur;
-    }
-  
-    public setValeur(valeur: number): void {
-      this.valeur = valeur;
-    }
-    
-    public toString(): String {
-      return `${this.valeur} ${this.unite}`;
-    }
+import SystemeMesure from "../enum/SystemeMesure";
+import UniteMesureTaille from "../enum/UniteMesureTaille";
+import aUnite from "./aUnite";
+
+class UnitePrecipitation extends aUnite {
+  constructor(valeur: number, systemeMesure?: SystemeMesure) {
+    super(valeur, "mm/h" as UniteMesureTaille);
+    this.valeur = valeur;
+  }
 }
 
 export default UnitePrecipitation;

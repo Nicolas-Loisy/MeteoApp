@@ -1,30 +1,12 @@
-class UnitePression {
-    private unite: string = "hPa";
-    private valeur: number;
-  
-    constructor(valeur: number) {
-      this.valeur = valeur;
-    }
-  
-    public getUnite(): string {
-      return this.unite;
-    }
-  
-    public setUnite(unite: string): void {
-      this.unite = unite;
-    }
-  
-    public getValeur(): number {
-      return this.valeur;
-    }
-  
-    public setValeur(valeur: number): void {
-      this.valeur = valeur;
-    }
+import SystemeMesure from "../enum/SystemeMesure";
+import UniteMesurePression from "../enum/UniteMesurePression";
+import aUnite from "./aUnite";
 
-    public toString(): String {
-      return `${this.valeur} ${this.unite}`;
-    }
+class UnitePression extends aUnite {
+  constructor(valeur: number, systemeMesure?: SystemeMesure) {
+    super(valeur, "hPa" as UniteMesurePression);
+    this.valeur = valeur;
+  }
 }
 
 export default UnitePression;

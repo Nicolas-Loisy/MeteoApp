@@ -53,8 +53,8 @@ class Lieu {
     this.meteo = await meteoBuilder.getMeteo(this.longitude, this.latitude);
   }
 
-  async getMeteo(): Promise<Meteo> {
-    await this.updateMeteo();
+  async getMeteo(actualiser: boolean = true): Promise<Meteo> {
+    if (actualiser) await this.updateMeteo();
     if (!this.meteo) {
       throw new Error("Meteo data is not available yet");
     }

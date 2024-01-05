@@ -2,9 +2,9 @@ import Langue from "./enum/Langue";
 import SystemeMesure from "./enum/SystemeMesure";
 
 class ReglageApp {
-    private static instance: ReglageApp | undefined;
+    private static instance: ReglageApp | null;
   
-    private systemeMesure: SystemeMesure = SystemeMesure.Metrique;
+    private systemeMesure: SystemeMesure = SystemeMesure.METRIQUE;
     private langue: Langue = Langue.Francais;
   
     private constructor() {}
@@ -15,14 +15,6 @@ class ReglageApp {
       }
       return ReglageApp.instance;
     }
-
-    // public static getInstance(langue?: Langue, systemeMesure?: SystemeMesure): ReglageApp {
-    //   if (!ReglageApp.instance) {
-    //     ReglageApp.instance = new ReglageApp();
-    //   }
-    //   ReglageApp.instance.systemeMesure = SystemeMesure.Metrique;
-    //   return ReglageApp.instance;
-    // }
   
     public getSystemeMesure(): SystemeMesure {
       return this.systemeMesure;
