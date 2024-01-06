@@ -78,6 +78,10 @@ const Accueil = () => {
   newLieu('Lyon');
   newLieu('Tour');
   newLieu('Coltine');
+  newLieu('Montreal');
+  newLieu('Ax-les-Thermes');
+  newLieu('Albiez Montrond');
+  
   affMeteo();
   // TESTS DU MODEL FIN
   // TESTS DU MODEL FIN
