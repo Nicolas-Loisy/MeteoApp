@@ -53,6 +53,11 @@ class Meteo {
     return this.heureActualisation;
   }
 
+  public isDaytime(): boolean {
+    const hours = this.heureActualisation.getHours();
+    return hours >= 6 && hours < 18;
+  }
+
   /**
    * Getter des valeurs numérique
    */
