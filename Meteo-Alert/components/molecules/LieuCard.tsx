@@ -63,8 +63,8 @@ const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
   const PICTO_TYPES = [
     { condition: () => meteo && meteo.getNeige() !== undefined && meteo.getNeige() > 0, component: SnowSvg },
     { condition: () => meteo && meteo.getPluie() !== undefined && meteo.getPluie() > 0, component: RainSvg },
-    { condition: () => meteo && meteo.getNuage() !== undefined && meteo.getNuage() >= 0 && meteo.getNuage() < 25, component: meteo!.isDaytime() ? SunSvg : MoonSvg },
-    { condition: () => meteo && meteo.getNuage() !== undefined && meteo.getNuage() >= 25 && meteo.getNuage() < 50, component: meteo!.isDaytime() ? CloudSunSvg : CloudMoonSvg },
+    { condition: () => meteo && meteo.getNuage() !== undefined && meteo.getNuage() >= 0 && meteo.getNuage() < 25, component: meteo?.isDaytime() ? SunSvg : MoonSvg },
+    { condition: () => meteo && meteo.getNuage() !== undefined && meteo.getNuage() >= 25 && meteo.getNuage() < 50, component: meteo?.isDaytime() ? CloudSunSvg : CloudMoonSvg },
     { condition: () => meteo && meteo.getNuage() !== undefined && meteo.getNuage() >= 50 && meteo.getNuage() < 75, component: CloudSvg },
     { condition: () => meteo && meteo.getNuage() !== undefined && meteo.getNuage() >= 75 && meteo.getNuage() <= 100, component: CloudsSvg },
   ];
