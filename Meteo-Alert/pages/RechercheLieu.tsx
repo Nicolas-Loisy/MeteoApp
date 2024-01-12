@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Dimensions, FlatList } from 'react-native';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
 import Field from '../components/molecules/Field';
@@ -8,13 +8,17 @@ import MyStatusBar from '../components/atoms/MyStatusBar';
 import Croix from '../assets/icons/svg/vector.svg';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
+import Lieu from '../models/valueObject/Lieu';
+import LieuSearchCard from '../components/molecules/LieuSearchCard';
 
 const RechercheLieu = () => {
   const { t } = useTranslation();
-
   const { width } = Dimensions.get('window');
   const croixPosition = width * 0.10;
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState<Lieu[]>([]); 
 
   return (
     <>
@@ -32,6 +36,9 @@ const RechercheLieu = () => {
             <View style={styles.traitBlanc} />
             <Field onChangeText={() => null} iconSource={require('../assets/icons/magnifying-glass-solid.png')} fieldName={t('rechercheLieu.recherche')}/>
           </View>
+
+          <FlatList data={searchResults} keyExtractor={(item, index) => index.toString()} renderItem={({ item }) => <LieuSearchCard lieu={item} />} />
+          
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </LayoutTemplate>
