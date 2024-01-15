@@ -79,7 +79,8 @@ class LieuxFavorisBuilder {
         }
     }
 
-    private isLieuAlreadyExist(lieu: Lieu): boolean {
+    /*avant en private mais je met en public la méthode juste pour faire des tests*/
+    public isLieuAlreadyExist(lieu: Lieu): boolean {
         return this.lieuxFavoris.some(l => 
             l && l.getNom() && l.getNom() === lieu.getNom() 
             && l.getPays() === lieu.getPays() 

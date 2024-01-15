@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Dimensions, FlatList } from 'react-native';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import Croix from '../assets/icons/svg/vector.svg';
 import LieuSearchCard from '../components/molecules/LieuSearchCard';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
+import LieuxFavorisBuilder from '../models/builder/LieuxFavorisBuilder';
 
 const RechercheLieu = () => {
   const { t } = useTranslation();
@@ -18,6 +19,12 @@ const RechercheLieu = () => {
 
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [lieuxFavorisBuilder, setLieuxFavorisBuilder] = useState<LieuxFavorisBuilder | null>(null);
+
+  useEffect(() => {
+    const builder = new LieuxFavorisBuilder();
+    setLieuxFavorisBuilder(builder);
+  }, []);
 
   return (
     <>
@@ -36,11 +43,13 @@ const RechercheLieu = () => {
             <View style={styles.traitBlanc} />
             <Field onChangeText={() => null} iconSource={require('../assets/icons/magnifying-glass-solid.png')} fieldName={t('rechercheLieu.recherche')}/>
 
-              */<FlatList
+              <FlatList
                 data={searchResults}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => <LieuSearchCard lieu={item} />}
-              />*/
+                renderItem={({ item }) => (
+                  <LieuSearchCard lieu={item} lieuxFavorisBuilder={lieuxFavorisBuilder} utilisateurUid={'uid'} />
+                )}
+              />
 
           </View>
         </TouchableWithoutFeedback>
