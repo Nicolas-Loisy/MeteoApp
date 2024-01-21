@@ -2,8 +2,8 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 // Importez les fichiers de traduction
-import fr from './locales/FR_fr.json';
-import en from './locales/EN_en.json';
+import fr from '../locales/FR_fr.json';
+import en from '../locales/EN_en.json';
 
 // Définissez les ressources avec les traductions
 const resources = { fr, en };

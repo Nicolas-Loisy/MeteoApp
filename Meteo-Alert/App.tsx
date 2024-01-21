@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Navigation from './navigation/Navigation';
-import { AccountProvider } from './services/compteUtilisateur/AccountContext';
+import Navigation from './src/navigation/Navigation';
+import { AccountProvider } from './src/services/compteUtilisateur/AccountContext';
 import * as NavigationBar from 'expo-navigation-bar';
 import * as Font from 'expo-font';
 import {Text} from 'react-native';
-import './i18n';
-import { UserProvider } from './services/context/UserContext';
+import './src/services/i18n';
+import { UserProvider } from './src/services/context/UserContext';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 const App = () => {
