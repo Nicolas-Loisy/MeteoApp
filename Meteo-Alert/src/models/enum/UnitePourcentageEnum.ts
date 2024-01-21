@@ -1,3 +1,3 @@
-type UniteMesurePourcentage = "%"
+type UnitePourcentageEnum = "%"
 
-export default UniteMesurePourcentage;
+export default UnitePourcentageEnum;

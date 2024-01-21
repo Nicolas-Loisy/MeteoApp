@@ -1,3 +1,3 @@
-type UniteMesureDirection = "°"
+type UniteDirectionEnum = "°"
 
-export default UniteMesureDirection;
+export default UniteDirectionEnum;

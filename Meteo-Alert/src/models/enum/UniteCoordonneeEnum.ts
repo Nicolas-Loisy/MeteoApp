@@ -1,3 +1,3 @@
-type UniteMesureCoordonnee = "°"
+type UniteCoordonneeEnum = "°"
 
-export default UniteMesureCoordonnee;
+export default UniteCoordonneeEnum;

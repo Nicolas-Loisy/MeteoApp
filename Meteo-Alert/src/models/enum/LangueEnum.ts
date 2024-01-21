@@ -1,6 +1,6 @@
-enum Langue {
+enum LangueEnum {
     Francais = 'fr',
     Anglais = 'en',
 }
 
-export default Langue;
+export default LangueEnum;

@@ -1,4 +1,4 @@
-enum InputType {
+enum InputTypeEnum {
   Button = "button",
   Checkbox = "checkbox",
   Color = "color",
@@ -23,4 +23,4 @@ enum InputType {
   Week = "week",
 }
 
-export default InputType;
+export default InputTypeEnum;

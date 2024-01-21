@@ -1,3 +1,3 @@
-type UniteMesureDistance = "m"
+type UniteDistanceEnum = "m"
 
-export default UniteMesureDistance;
+export default UniteDistanceEnum;

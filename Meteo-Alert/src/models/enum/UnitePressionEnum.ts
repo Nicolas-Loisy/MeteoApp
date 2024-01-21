@@ -1,3 +1,3 @@
-type UniteMesurePression = "hPa"
+type UnitePressionEnum = "hPa"
 
-export default UniteMesurePression;
+export default UnitePressionEnum;

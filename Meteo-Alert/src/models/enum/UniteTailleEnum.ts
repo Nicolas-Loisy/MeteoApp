@@ -1,3 +1,3 @@
-type UniteMesureTaille = "mm/h"
+type UniteTailleEnum = "mm/h"
 
-export default UniteMesureTaille;
+export default UniteTailleEnum;

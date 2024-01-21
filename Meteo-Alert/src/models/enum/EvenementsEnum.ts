@@ -1,4 +1,4 @@
-enum Evenements {
+enum EvenementsEnum {
     Tempete = "Tempête",
     Froid = "Froid",
     Precipitation = "Précipitation",
@@ -7,4 +7,4 @@ enum Evenements {
     Chaud = "Chaud"
 }
 
-export default Evenements;
+export default EvenementsEnum;
