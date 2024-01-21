@@ -1,6 +1,6 @@
 import ServiceMeteo from "../../services/ServiceMeteoOW";
 import UniteCoordonnee from "../datatype/dtUniteCoordonnee";
-import SystemeMesure from "../enum/SystemeMesure";
+import SystemeMesureEnum from "../enum/SystemeMesureEnum";
 import meteoData from "../types/meteoData";
 import Meteo from "../valueObject/Meteo";  
 
@@ -20,7 +20,7 @@ class MeteoBuilder {
         return MeteoBuilder.instance;
     }
 
-    public async getMeteo(longitude: UniteCoordonnee, latitude: UniteCoordonnee, units: SystemeMesure = SystemeMesure.METRIQUE): Promise<Meteo> {
+    public async getMeteo(longitude: UniteCoordonnee, latitude: UniteCoordonnee, units: SystemeMesureEnum = SystemeMesureEnum.METRIQUE): Promise<Meteo> {
         const jsonMeteoData: meteoData = await this.serviceMeteo.getMeteo(longitude, latitude, units);
 
         const meteo: Meteo = new Meteo(

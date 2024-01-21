@@ -1,10 +1,10 @@
-import SystemeMesure from "../enum/SystemeMesureEnum";
-import UniteMesureTaille from "../enum/UniteTailleEnum";
+import SystemeMesureEnum from "../enum/SystemeMesureEnum";
+import UniteTailleEnum from "../enum/UniteTailleEnum";
 import aUnite from "../abstract/aUnite";
 
 class dtUnitePrecipitation extends aUnite {
-  constructor(valeur: number, systemeMesure?: SystemeMesure) {
-    super(valeur, "mm/h" as UniteMesureTaille);
+  constructor(valeur: number, systemeMesure?: SystemeMesureEnum) {
+    super(valeur, "mm/h" as UniteTailleEnum);
     this.valeur = valeur;
   }
 }

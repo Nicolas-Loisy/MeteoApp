@@ -6,7 +6,7 @@ import UniteTemperature from "../datatype/dtUniteTemperature";
 import UniteVentDirection from "../datatype/dtUniteVentDirection";
 import UniteVentVitesse from "../datatype/dtUniteVentVitesse";
 import UniteVisibilite from "../datatype/dtUniteVisibilite";
-import SystemeMesure from "../enum/SystemeMesureEnum";
+import SystemeMesureEnum from "../enum/SystemeMesureEnum";
 import meteoData from "../types/meteoData";
 
 class Meteo {
@@ -28,7 +28,7 @@ class Meteo {
   public readonly nuage: UniteNuage;
 
   constructor(
-    units: SystemeMesure,
+    units: SystemeMesureEnum,
     data: meteoData
   ) {
     this.heureActualisation = new Date();

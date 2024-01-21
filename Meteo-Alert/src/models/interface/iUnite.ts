@@ -1,22 +1,22 @@
-import UniteMesureCoordonnee from "../enum/UniteMesureCoordonnee";
-import UniteMesureDirection from "../enum/UniteMesureDirection";
-import UniteMesureDistance from "../enum/UniteMesureDistance";
-import UniteMesurePourcentage from "../enum/UniteMesurePourcentage";
-import UniteMesurePression from "../enum/UniteMesurePression";
-import UniteMesureTaille from "../enum/UniteMesureTaille";
-import UniteMesureTemp from "../enum/UniteMesureTemp";
-import UniteMesureVitesse from "../enum/UniteMesureVitesse";
+import UniteCoordonneeEnum from "../enum/UniteCoordonneeEnum";
+import UniteDirectionEnum from "../enum/UniteDirectionEnum";
+import UniteDistanceEnum from "../enum/UniteDistanceEnum";
+import UnitePourcentageEnum from "../enum/UnitePourcentageEnum";
+import UnitePressionEnum from "../enum/UnitePressionEnum";
+import UniteTailleEnum from "../enum/UniteTailleEnum";
+import UniteTempEnum from "../enum/UniteTempEnum";
+import UniteVitesseEnum from "../enum/UniteVitesseEnum";
 
 interface iUnite {
     unite: 
-        UniteMesureTemp | 
-        UniteMesureVitesse | 
-        UniteMesureCoordonnee | 
-        UniteMesurePourcentage | 
-        UniteMesureTaille | 
-        UniteMesurePression | 
-        UniteMesureDirection | 
-        UniteMesureDistance
+        UniteTempEnum | 
+        UniteVitesseEnum | 
+        UniteCoordonneeEnum | 
+        UnitePourcentageEnum | 
+        UniteTailleEnum | 
+        UnitePressionEnum | 
+        UniteDirectionEnum | 
+        UniteDistanceEnum
     ;
     
     getValeur(): number;

@@ -1,37 +1,37 @@
 import { t } from "i18next";
-import UniteMesureCoordonnee from "../enum/UniteCoordonneeEnum";
-import UniteMesureDirection from "../enum/UniteDirectionEnum";
-import UniteMesureDistance from "../enum/UniteDistanceEnum";
-import UniteMesurePourcentage from "../enum/UnitePourcentageEnum";
-import UniteMesurePression from "../enum/UnitePressionEnum";
-import UniteMesureTaille from "../enum/UniteTailleEnum";
-import UniteMesureTemp from "../enum/UniteTempEnum";
-import UniteMesureVitesse from "../enum/UniteVitesseEnum";
+import UniteCoordonneeEnum from "../enum/UniteCoordonneeEnum";
+import UniteDirectionEnum from "../enum/UniteDirectionEnum";
+import UniteDistanceEnum from "../enum/UniteDistanceEnum";
+import UnitePourcentageEnum from "../enum/UnitePourcentageEnum";
+import UnitePressionEnum from "../enum/UnitePressionEnum";
+import UniteTailleEnum from "../enum/UniteTailleEnum";
+import UniteTempEnum from "../enum/UniteTempEnum";
+import UniteVitesseEnum from "../enum/UniteVitesseEnum";
 import iUnite from "../interface/iUnite";
 
 abstract class aUnite implements iUnite{
     valeur: number;
     unite: 
-        UniteMesureTemp | 
-        UniteMesureVitesse | 
-        UniteMesureCoordonnee | 
-        UniteMesurePourcentage | 
-        UniteMesureTaille | 
-        UniteMesurePression | 
-        UniteMesureDirection | 
-        UniteMesureDistance
+        UniteCoordonneeEnum | 
+        UniteDirectionEnum | 
+        UniteDistanceEnum | 
+        UnitePourcentageEnum | 
+        UnitePressionEnum | 
+        UniteTailleEnum | 
+        UniteTempEnum | 
+        UniteVitesseEnum
     ;
     constructor(
         valeur: number, 
         unite: 
-            UniteMesureTemp | 
-            UniteMesureVitesse | 
-            UniteMesureCoordonnee | 
-            UniteMesurePourcentage | 
-            UniteMesureTaille | 
-            UniteMesurePression | 
-            UniteMesureDirection | 
-            UniteMesureDistance
+            UniteCoordonneeEnum | 
+            UniteDirectionEnum | 
+            UniteDistanceEnum | 
+            UnitePourcentageEnum | 
+            UnitePressionEnum | 
+            UniteTailleEnum | 
+            UniteTempEnum | 
+            UniteVitesseEnum
     ) {
         this.valeur = valeur;
         this.unite = unite;
