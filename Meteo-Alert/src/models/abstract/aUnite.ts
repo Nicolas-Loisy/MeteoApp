@@ -7,7 +7,7 @@ import UniteMesurePression from "../enum/UniteMesurePression";
 import UniteMesureTaille from "../enum/UniteMesureTaille";
 import UniteMesureTemp from "../enum/UniteMesureTemp";
 import UniteMesureVitesse from "../enum/UniteMesureVitesse";
-import iUnite from "./iUnite";
+import iUnite from "../interface/iUnite";
 
 abstract class aUnite implements iUnite{
     valeur: number;

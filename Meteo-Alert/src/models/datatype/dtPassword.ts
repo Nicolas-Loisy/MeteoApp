@@ -1,8 +1,8 @@
-class Password {
+class dtPassword {
   value: string;
 
   constructor(value: string) {
-    const rules = Password.checkRules(value);
+    const rules = dtPassword.checkRules(value);
 
     if (Object.values(rules).includes(false)) {
       throw new Error('Invalid password');
@@ -24,4 +24,4 @@ class Password {
   }
 }
 
-export default Password;
+export default dtPassword;

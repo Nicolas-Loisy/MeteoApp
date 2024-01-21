@@ -1,12 +1,12 @@
 import SystemeMesure from "../enum/SystemeMesure";
 import UniteMesureDirection from "../enum/UniteMesureDirection";
-import aUnite from "./aUnite";
+import aUnite from "../abstract/aUnite";
 
-class UniteVentDirection extends aUnite {
+class dtUniteVentDirection extends aUnite {
   constructor(valeur: number, systemeMesure?: SystemeMesure) {
     super(valeur, "°" as UniteMesureDirection);
     this.valeur = valeur;
   }
 }
 
-export default UniteVentDirection;
+export default dtUniteVentDirection;

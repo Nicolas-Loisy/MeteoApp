@@ -1,5 +1,5 @@
 import aRestService from "../models/abstract/aRestService";
-import UniteCoordonnee from "../models/datatype/UniteCoordonnee";
+import UniteCoordonnee from "../models/datatype/dtUniteCoordonnee";
 import SystemeMesure from "../models/enum/SystemeMesure";
 import iServiceMeteo from "../models/interface/iServiceMeteo";
 import meteoData from "../models/types/meteoData";

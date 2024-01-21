@@ -1,4 +1,4 @@
-import UniteCoordonnee from "../datatype/UniteCoordonnee";
+import UniteCoordonnee from "../datatype/dtUniteCoordonnee";
 import SystemeMesure from "../enum/SystemeMesure";
 import meteoData from "../types/meteoData";
 

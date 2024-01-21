@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
 import Field from '../components/molecules/Field';
 import SummaryRules from '../components/atoms/SummaryRules';
-import Password from '../models/datatype/Password';
+import Password from '../models/datatype/dtPassword';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 
 

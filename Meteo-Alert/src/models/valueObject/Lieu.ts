@@ -1,5 +1,5 @@
 import MeteoBuilder from "../builder/MeteoBuilder";
-import UniteCoordonnee from "../datatype/UniteCoordonnee";
+import UniteCoordonnee from "../datatype/dtUniteCoordonnee";
 import lieuData from "../types/lieuData";
 import Meteo from "./Meteo";
 

@@ -11,7 +11,7 @@ import Button from '../components/atoms/Button';
 import Criteria from '../components/atoms/Criteria';
 import Field from '../components/molecules/Field';
 import { useTranslation } from 'react-i18next';
-import Password from '../models/datatype/Password';
+import Password from '../models/datatype/dtPassword';
 import SummaryRules from '../components/atoms/SummaryRules';
 import Croix from '../assets/icons/svg/vector.svg';
 
