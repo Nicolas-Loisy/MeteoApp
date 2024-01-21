@@ -1,5 +1,5 @@
-import SystemeMesure from "../enum/SystemeMesure";
-import UniteMesurePression from "../enum/UniteMesurePression";
+import SystemeMesure from "../enum/SystemeMesureEnum";
+import UniteMesurePression from "../enum/UnitePressionEnum";
 import aUnite from "../abstract/aUnite";
 
 class dtUnitePression extends aUnite {

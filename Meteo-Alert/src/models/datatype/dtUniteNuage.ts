@@ -1,5 +1,5 @@
-import SystemeMesure from "../enum/SystemeMesure";
-import UniteMesurePourcentage from "../enum/UniteMesurePourcentage";
+import SystemeMesure from "../enum/SystemeMesureEnum";
+import UniteMesurePourcentage from "../enum/UnitePourcentageEnum";
 import aUnite from "../abstract/aUnite";
 
 class dtUniteNuage extends aUnite {

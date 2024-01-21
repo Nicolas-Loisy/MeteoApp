@@ -6,7 +6,7 @@ import UniteTemperature from "../datatype/dtUniteTemperature";
 import UniteVentDirection from "../datatype/dtUniteVentDirection";
 import UniteVentVitesse from "../datatype/dtUniteVentVitesse";
 import UniteVisibilite from "../datatype/dtUniteVisibilite";
-import SystemeMesure from "../enum/SystemeMesure";
+import SystemeMesure from "../enum/SystemeMesureEnum";
 import meteoData from "../types/meteoData";
 
 class Meteo {

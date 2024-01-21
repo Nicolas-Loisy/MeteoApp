@@ -1,5 +1,5 @@
-import SystemeMesure from "../enum/SystemeMesure";
-import UniteMesureTaille from "../enum/UniteMesureTaille";
+import SystemeMesure from "../enum/SystemeMesureEnum";
+import UniteMesureTaille from "../enum/UniteTailleEnum";
 import aUnite from "../abstract/aUnite";
 
 class dtUnitePrecipitation extends aUnite {

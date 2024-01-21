@@ -1,5 +1,5 @@
-import SystemeMesure from "../enum/SystemeMesure";
-import UniteMesureTemp from "../enum/UniteMesureTemp";
+import SystemeMesure from "../enum/SystemeMesureEnum";
+import UniteMesureTemp from "../enum/UniteTempEnum";
 import aUnite from "../abstract/aUnite";
 
 class dtUniteTemperature extends aUnite {

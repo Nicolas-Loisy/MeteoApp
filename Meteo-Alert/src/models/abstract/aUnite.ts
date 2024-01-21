@@ -1,12 +1,12 @@
 import { t } from "i18next";
-import UniteMesureCoordonnee from "../enum/UniteMesureCoordonnee";
-import UniteMesureDirection from "../enum/UniteMesureDirection";
-import UniteMesureDistance from "../enum/UniteMesureDistance";
-import UniteMesurePourcentage from "../enum/UniteMesurePourcentage";
-import UniteMesurePression from "../enum/UniteMesurePression";
-import UniteMesureTaille from "../enum/UniteMesureTaille";
-import UniteMesureTemp from "../enum/UniteMesureTemp";
-import UniteMesureVitesse from "../enum/UniteMesureVitesse";
+import UniteMesureCoordonnee from "../enum/UniteCoordonneeEnum";
+import UniteMesureDirection from "../enum/UniteDirectionEnum";
+import UniteMesureDistance from "../enum/UniteDistanceEnum";
+import UniteMesurePourcentage from "../enum/UnitePourcentageEnum";
+import UniteMesurePression from "../enum/UnitePressionEnum";
+import UniteMesureTaille from "../enum/UniteTailleEnum";
+import UniteMesureTemp from "../enum/UniteTempEnum";
+import UniteMesureVitesse from "../enum/UniteVitesseEnum";
 import iUnite from "../interface/iUnite";
 
 abstract class aUnite implements iUnite{

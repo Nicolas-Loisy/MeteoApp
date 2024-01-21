@@ -1,5 +1,5 @@
-import SystemeMesure from "../enum/SystemeMesure";
-import UniteMesureVitesse from "../enum/UniteMesureVitesse";
+import SystemeMesure from "../enum/SystemeMesureEnum";
+import UniteMesureVitesse from "../enum/UniteVitesseEnum";
 import aUnite from "../abstract/aUnite";
 
 class dtUniteVentVitesse extends aUnite {
