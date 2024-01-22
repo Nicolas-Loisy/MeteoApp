@@ -1,4 +1,4 @@
-type meteoData = {
+type meteoType = {
     neige: number;
     pluie: number;
     humidite: number;
@@ -16,4 +16,4 @@ type meteoData = {
     nuage: number
 }
 
-export default meteoData;
+export default meteoType;

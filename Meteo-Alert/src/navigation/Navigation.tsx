@@ -2,13 +2,13 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Demo from "../pages/Demo";
+import Demo from "../screens/Demo";
 
-import Connexion from "../pages/Connexion";
-import Inscription from "../pages/Inscription";
-import Accueil from "../pages/Accueil";
-import DetailLieu from "../pages/DetailLieu";
-import RechercheLieu from "../pages/RechercheLieu";
+import Connexion from "../screens/Connexion";
+import Inscription from "../screens/Inscription";
+import Accueil from "../screens/Accueil";
+import DetailLieu from "../screens/DetailLieu";
+import RechercheLieu from "../screens/RechercheLieu";
 
 const Stack = createStackNavigator();
 

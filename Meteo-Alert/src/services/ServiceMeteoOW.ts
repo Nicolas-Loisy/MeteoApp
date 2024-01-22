@@ -1,8 +1,8 @@
 import aRestService from "../models/abstract/aRestService";
-import UniteCoordonnee from "../models/datatype/dtUniteCoordonnee";
-import SystemeMesure from "../models/enum/SystemeMesure";
+import dtUniteCoordonnee from "../models/datatype/dtUniteCoordonnee";
+import SystemeMesureEnum from "../models/enum/SystemeMesureEnum";
 import iServiceMeteo from "../models/interface/iServiceMeteo";
-import meteoData from "../models/types/meteoData";
+import meteoType from "../models/types/meteoType";
 
 type JSON_OW = {
   coord: {
@@ -62,13 +62,13 @@ export default class ServiceMeteoOW extends aRestService implements iServiceMete
       super(baseUrl);
     }
   
-    public async getMeteo(longitude: UniteCoordonnee, latitude: UniteCoordonnee, units: SystemeMesure): Promise<meteoData> {
+    public async getMeteo(longitude: dtUniteCoordonnee, latitude: dtUniteCoordonnee, units: SystemeMesureEnum): Promise<meteoType> {
       // Implemente la méthode a partir d'une API REST
       const openWeatherApiKey = process.env.OPEN_WEATHER_API_KEY ?? "";
       const urlMeteo: string = `/weather?lat=${latitude.getValeur()}&lon=${longitude.getValeur()}&appid=${openWeatherApiKey}&units=${units}`;
       const JSONdata = await this.get(urlMeteo) as unknown as JSON_OW;
 
-      const meteo: meteoData = {
+      const meteo: meteoType = {
         neige: JSONdata.snow && JSONdata.snow["1h"] ? JSONdata.snow["1h"] : 0,
         pluie: JSONdata.rain && JSONdata.rain["1h"] ? JSONdata.rain["1h"] : 0,
         humidite: JSONdata.main.humidity,

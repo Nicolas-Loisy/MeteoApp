@@ -1,9 +1,9 @@
-import SystemeMesure from "../enum/SystemeMesureEnum";
+import SystemeMesureEnum from "../enum/SystemeMesureEnum";
 import UniteVitesseEnum from "../enum/UniteVitesseEnum";
 import aUnite from "../abstract/aUnite";
 
 class dtUniteVentVitesse extends aUnite {
-  constructor(valeur: number, systemeMesure: SystemeMesure) {
+  constructor(valeur: number, systemeMesure: SystemeMesureEnum) {
     super(valeur, UniteVitesseEnum[systemeMesure as keyof typeof UniteVitesseEnum]);
     this.valeur = valeur;
   }

@@ -1,6 +1,6 @@
 import aRestService from "../models/abstract/aRestService";
 import iServiceGeographie from "../models/interface/iServiceGeographie";
-import lieuData from "../models/types/lieuData";
+import lieuType from "../models/types/lieuType";
 
 type lieu_OW = {
   name: string;
@@ -21,7 +21,7 @@ export default class ServiceGeographieOW extends aRestService implements iServic
       super(baseUrl);
     }
   
-    public async rechercheLieux(nomLieu: string): Promise<lieuData[]> {
+    public async rechercheLieux(nomLieu: string): Promise<lieuType[]> {
       // Implemente la méthode a partir d'une API REST
       const openWeatherApiKey = process.env.OPEN_WEATHER_API_KEY ?? "";
       const limitApiResult = process.env.LIMIT_API_RESULT ?? 5;
@@ -29,7 +29,7 @@ export default class ServiceGeographieOW extends aRestService implements iServic
       const urlLieux: string = `direct?q=${nomLieu}&limit=${limitApiResult}&appid=${openWeatherApiKey}`;
       const JSONdata = await this.get(urlLieux) as unknown as JSON_OW;
 
-      let lieux: lieuData[] = [];
+      let lieux: lieuType[] = [];
       
       JSONdata.forEach(lieu => {
         lieux.push({
@@ -38,7 +38,7 @@ export default class ServiceGeographieOW extends aRestService implements iServic
           lon: lieu.lon,
           country: lieu.country,
           state: lieu.state
-        } as lieuData)
+        } as lieuType)
       });
 
       return lieux;

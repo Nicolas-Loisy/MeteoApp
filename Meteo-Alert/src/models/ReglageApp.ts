@@ -1,11 +1,11 @@
-import Langue from "./enum/Langue";
-import SystemeMesure from "./enum/SystemeMesure";
+import LangueEnum from "./enum/LangueEnum";
+import SystemeMesureEnum from "./enum/SystemeMesureEnum";
 
 class ReglageApp {
     private static instance: ReglageApp | null;
   
-    private systemeMesure: SystemeMesure = SystemeMesure.METRIQUE;
-    private langue: Langue = Langue.Francais;
+    private systemeMesure: SystemeMesureEnum = SystemeMesureEnum.METRIQUE;
+    private langue: LangueEnum = LangueEnum.Francais;
   
     private constructor() {}
   
@@ -16,19 +16,19 @@ class ReglageApp {
       return ReglageApp.instance;
     }
   
-    public getSystemeMesure(): SystemeMesure {
+    public getSystemeMesure(): SystemeMesureEnum {
       return this.systemeMesure;
     }
   
-    public setSystemeMesure(systemeMesure: SystemeMesure): void {
+    public setSystemeMesure(systemeMesure: SystemeMesureEnum): void {
       this.systemeMesure = systemeMesure;
     }
   
-    public getLangue(): Langue {
+    public getLangue(): LangueEnum {
       return this.langue;
     }
   
-    public setLangue(langue: Langue): void {
+    public setLangue(langue: LangueEnum): void {
       this.langue = langue;
     }
 }

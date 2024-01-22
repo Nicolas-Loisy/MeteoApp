@@ -1,6 +1,6 @@
 import MeteoBuilder from "../builder/MeteoBuilder";
-import UniteCoordonnee from "../datatype/dtUniteCoordonnee";
-import lieuData from "../types/lieuData";
+import dtUniteCoordonnee from "../datatype/dtUniteCoordonnee";
+import lieuType from "../types/lieuType";
 import Meteo from "./Meteo";
 
 class Lieu {
@@ -8,18 +8,18 @@ class Lieu {
   private readonly nom: string;
   private readonly pays: string;
   private readonly region: string;
-  private readonly longitude: UniteCoordonnee;
-  private readonly latitude: UniteCoordonnee;
+  private readonly longitude: dtUniteCoordonnee;
+  private readonly latitude: dtUniteCoordonnee;
   private meteo: Meteo | null;
 
   constructor(
-    data: lieuData
+    data: lieuType
   ) {
     this.nom = data.name;
     this.pays = data.country;
     this.region = data.state;
-    this.longitude = new UniteCoordonnee(data.lon);
-    this.latitude = new UniteCoordonnee(data.lat);
+    this.longitude = new dtUniteCoordonnee(data.lon);
+    this.latitude = new dtUniteCoordonnee(data.lat);
     this.meteo = null;
     this.updateMeteo()
   }
@@ -40,11 +40,11 @@ class Lieu {
     return this.region;
   }
 
-  getLongitude(): UniteCoordonnee {
+  getLongitude(): dtUniteCoordonnee {
     return this.longitude;
   }
 
-  getLatitude(): UniteCoordonnee {
+  getLatitude(): dtUniteCoordonnee {
     return this.latitude;
   }
 

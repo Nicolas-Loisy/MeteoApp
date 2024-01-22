@@ -1,7 +1,7 @@
-import lieuData from "../types/lieuData";
+import lieuType from "../types/lieuType";
 
 interface iServiceGeographie {
-    rechercheLieux(nomLieu: string): Promise<lieuData[]>;
+    rechercheLieux(nomLieu: string): Promise<lieuType[]>;
 }
 
 export default iServiceGeographie;

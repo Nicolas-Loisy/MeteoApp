@@ -1,4 +1,4 @@
-type lieuData = {
+type lieuType = {
     name: string,
     lon: number,
     lat: number,
@@ -6,4 +6,4 @@ type lieuData = {
     state: string
 }
 
-export default lieuData;
+export default lieuType;

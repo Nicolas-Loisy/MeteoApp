@@ -1,6 +1,6 @@
 import ServiceGeographie from "../../services/ServiceGeographieOW";
 import ServiceCompteFactory from "../../services/compteUtilisateur/ServiceCompteFactory";
-import lieuData from "../types/lieuData";
+import lieuType from "../types/lieuType";
 import Lieu from "../valueObject/Lieu";
 
 class LieuxFavorisBuilder {
@@ -29,7 +29,7 @@ class LieuxFavorisBuilder {
     }
 
     public async rechercheLieux(nomLieu: string): Promise<Lieu[]> {
-        const lieuxData: lieuData[] = await this.serviceGeo.rechercheLieux(nomLieu);
+        const lieuxData: lieuType[] = await this.serviceGeo.rechercheLieux(nomLieu);
         
         const resultLieuxRecherche: Lieu[] = [];
         const lieuxMap = new Map<string, Lieu>(); // Utilisation d'une Map pour stocker les lieux uniques
@@ -53,7 +53,7 @@ class LieuxFavorisBuilder {
     public ajouterLieuParDonnees(nom: string, pays: string, region: string, longitude: number, latitude: number, uid: string): void {
         const serviceCompte = ServiceCompteFactory.getServiceCompte();
         
-        let lieuData: lieuData = {
+        let lieuData: lieuType = {
             name: nom,
             lon: longitude,
             lat: latitude,

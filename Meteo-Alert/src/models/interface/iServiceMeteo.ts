@@ -1,9 +1,9 @@
-import UniteCoordonnee from "../datatype/dtUniteCoordonnee";
+import dtUniteCoordonnee from "../datatype/dtUniteCoordonnee";
 import SystemeMesureEnum from "../enum/SystemeMesureEnum";
-import meteoData from "../types/meteoData";
+import meteoType from "../types/meteoType";
 
 interface iServiceMeteo {
-    getMeteo(longitude: UniteCoordonnee, latitude: UniteCoordonnee, units: SystemeMesureEnum): Promise<meteoData>;
+    getMeteo(longitude: dtUniteCoordonnee, latitude: dtUniteCoordonnee, units: SystemeMesureEnum): Promise<meteoType>;
 }
 
 export default iServiceMeteo;

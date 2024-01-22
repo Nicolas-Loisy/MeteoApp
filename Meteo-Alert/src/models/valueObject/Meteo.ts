@@ -1,52 +1,52 @@
-import UniteHumidite from "../datatype/dtUniteHumidite";
-import UniteNuage from "../datatype/dtUniteNuage";
-import UnitePrecipitation from "../datatype/dtUnitePrecipitation";
-import UnitePression from "../datatype/dtUnitePression";
-import UniteTemperature from "../datatype/dtUniteTemperature";
-import UniteVentDirection from "../datatype/dtUniteVentDirection";
-import UniteVentVitesse from "../datatype/dtUniteVentVitesse";
-import UniteVisibilite from "../datatype/dtUniteVisibilite";
+import dtUniteHumidite from "../datatype/dtUniteHumidite";
+import dtUniteNuage from "../datatype/dtUniteNuage";
+import dtUnitePrecipitation from "../datatype/dtUnitePrecipitation";
+import dtUnitePression from "../datatype/dtUnitePression";
+import dtUniteTemperature from "../datatype/dtUniteTemperature";
+import dtUniteVentDirection from "../datatype/dtUniteVentDirection";
+import dtUniteVentVitesse from "../datatype/dtUniteVentVitesse";
+import dtUniteVisibilite from "../datatype/dtUniteVisibilite";
 import SystemeMesureEnum from "../enum/SystemeMesureEnum";
-import meteoData from "../types/meteoData";
+import meteoType from "../types/meteoType";
 
 class Meteo {
   public readonly heureActualisation: Date;
-  public readonly neige: UnitePrecipitation;
-  public readonly pluie: UnitePrecipitation;
-  public readonly humidite: UniteHumidite;
-  public readonly visibilite: UniteVisibilite;
-  public readonly ressenti: UniteTemperature;
-  public readonly temperature: UniteTemperature;
-  public readonly tempMin: UniteTemperature;
-  public readonly tempMax: UniteTemperature;
-  public readonly ventRafale: UniteVentVitesse;
-  public readonly ventVitesse: UniteVentVitesse;
-  public readonly ventDirection: UniteVentDirection;
-  public readonly pression: UnitePression;
-  public readonly pressionTerre: UnitePression;
-  public readonly pressionMer: UnitePression;
-  public readonly nuage: UniteNuage;
+  public readonly neige: dtUnitePrecipitation;
+  public readonly pluie: dtUnitePrecipitation;
+  public readonly humidite: dtUniteHumidite;
+  public readonly visibilite: dtUniteVisibilite;
+  public readonly ressenti: dtUniteTemperature;
+  public readonly temperature: dtUniteTemperature;
+  public readonly tempMin: dtUniteTemperature;
+  public readonly tempMax: dtUniteTemperature;
+  public readonly ventRafale: dtUniteVentVitesse;
+  public readonly ventVitesse: dtUniteVentVitesse;
+  public readonly ventDirection: dtUniteVentDirection;
+  public readonly pression: dtUnitePression;
+  public readonly pressionTerre: dtUnitePression;
+  public readonly pressionMer: dtUnitePression;
+  public readonly nuage: dtUniteNuage;
 
   constructor(
     units: SystemeMesureEnum,
-    data: meteoData
+    data: meteoType
   ) {
     this.heureActualisation = new Date();
-    this.neige = new UnitePrecipitation(data.neige);
-    this.pluie = new UnitePrecipitation(data.pluie);
-    this.humidite = new UniteHumidite(data.humidite);
-    this.visibilite = new UniteVisibilite(data.visibilite);
-    this.ressenti = new UniteTemperature(data.ressenti, units);
-    this.temperature = new UniteTemperature(data.temperature, units);
-    this.tempMin = new UniteTemperature(data.tempMin, units);
-    this.tempMax = new UniteTemperature(data.tempMax, units);
-    this.ventRafale = new UniteVentVitesse(data.ventRafale, units);
-    this.ventVitesse = new UniteVentVitesse(data.ventVitesse, units);
-    this.ventDirection = new UniteVentDirection(data.ventDirection);
-    this.pression = new UnitePression(data.pression);
-    this.pressionTerre = new UnitePression(data.pressionTerre);
-    this.pressionMer = new UnitePression(data.pressionMer);
-    this.nuage = new UniteNuage(data.nuage);
+    this.neige = new dtUnitePrecipitation(data.neige);
+    this.pluie = new dtUnitePrecipitation(data.pluie);
+    this.humidite = new dtUniteHumidite(data.humidite);
+    this.visibilite = new dtUniteVisibilite(data.visibilite);
+    this.ressenti = new dtUniteTemperature(data.ressenti, units);
+    this.temperature = new dtUniteTemperature(data.temperature, units);
+    this.tempMin = new dtUniteTemperature(data.tempMin, units);
+    this.tempMax = new dtUniteTemperature(data.tempMax, units);
+    this.ventRafale = new dtUniteVentVitesse(data.ventRafale, units);
+    this.ventVitesse = new dtUniteVentVitesse(data.ventVitesse, units);
+    this.ventDirection = new dtUniteVentDirection(data.ventDirection);
+    this.pression = new dtUnitePression(data.pression);
+    this.pressionTerre = new dtUnitePression(data.pressionTerre);
+    this.pressionMer = new dtUnitePression(data.pressionMer);
+    this.nuage = new dtUniteNuage(data.nuage);
   }
 
   getHeureActualisation(): Date {
