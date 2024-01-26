@@ -1,3 +1,5 @@
-type UnitePourcentageEnum = "%"
+enum UnitePourcentageEnum {
+  "%"
+}
 
 export default UnitePourcentageEnum;

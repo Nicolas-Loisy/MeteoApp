@@ -1,3 +1,5 @@
-type UniteDistanceEnum = "m"
+enum UniteDistanceEnum {
+  "m"
+}
 
 export default UniteDistanceEnum;

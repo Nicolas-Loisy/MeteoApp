@@ -1,5 +1,5 @@
 import { ref, set, get } from 'firebase/database';
-import FirebaseConfig from '../FirebaseConfig';
+import FirebaseConfig from '../../config/FirebaseConfig';
 
 class ServicePersistenceFirebase implements iServicePersistence{
 

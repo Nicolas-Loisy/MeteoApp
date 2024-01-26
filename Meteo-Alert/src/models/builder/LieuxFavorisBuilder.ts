@@ -1,4 +1,4 @@
-import ServiceGeographie from "../../services/ServiceGeographieOW";
+import ServiceGeographie from "../../services/geographieAPI/ServiceGeographieOW";
 import ServicePersistenceFactory from "../../services/persistence/ServicePersistenceFactory";
 import lieuType from "../types/lieuType";
 import Lieu from "../valueObject/Lieu";
@@ -16,7 +16,7 @@ class LieuxFavorisBuilder {
         const ensembleUnique = new Set<string>();
         
         return lieuxFavoris.filter(lieu => {
-          const clef = `${lieu.getNom()}-${lieu.getPays()}-${lieu.getRegion()}`;
+          const clef = `${lieu.nom}-${lieu.pays}-${lieu.region}`;
 
           // Ajouter la clé au set si elle n'est pas déjà présente (si c'est un doublon)
           if (ensembleUnique.has(clef)) {
@@ -81,17 +81,17 @@ class LieuxFavorisBuilder {
 
     private isLieuAlreadyExist(lieu: Lieu): boolean {
         return this.lieuxFavoris.some(l => 
-            l && l.getNom() && l.getNom() === lieu.getNom() 
-            && l.getPays() === lieu.getPays() 
-            && l.getRegion() === lieu.getRegion()
+            l && l.nom && l.nom === lieu.nom 
+            && l.pays === lieu.pays 
+            && l.region === lieu.region
         );
     }
 
     public supprimerLieu(nom: string, region?: string, pays?: string): void {
         const index = this.lieuxFavoris.findIndex((lieu) =>
-            lieu.getNom() === nom &&
-            (!region || lieu.getRegion() === region) &&
-            (!pays || lieu.getPays() === pays)
+            lieu.nom === nom &&
+            (!region || lieu.region === region) &&
+            (!pays || lieu.pays === pays)
         );
     
         if (index !== -1) {
@@ -109,9 +109,9 @@ class LieuxFavorisBuilder {
 
     public trouverLieu(nom: string, region?: string, pays?: string): Lieu | undefined {
         return this.lieuxFavoris.find(lieu =>
-            lieu.getNom() === nom &&
-            (!region || lieu.getRegion() === region) &&
-            (!pays || lieu.getPays() === pays)
+            lieu.nom === nom &&
+            (!region || lieu.region === region) &&
+            (!pays || lieu.pays === pays)
         );
     }    
 }

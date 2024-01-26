@@ -1,13 +1,13 @@
 import { t } from "i18next";
-import UniteCoordonneeEnum from "../enum/UniteCoordonneeEnum";
-import UniteDirectionEnum from "../enum/UniteDirectionEnum";
-import UniteDistanceEnum from "../enum/UniteDistanceEnum";
-import UnitePourcentageEnum from "../enum/UnitePourcentageEnum";
-import UnitePressionEnum from "../enum/UnitePressionEnum";
-import UniteTailleEnum from "../enum/UniteTailleEnum";
-import UniteTempEnum from "../enum/UniteTempEnum";
-import UniteVitesseEnum from "../enum/UniteVitesseEnum";
-import iUnite from "../interface/iUnite";
+import UniteCoordonneeEnum from "../../enum/unite/UniteCoordonneeEnum";
+import UniteDirectionEnum from "../../enum/unite/UniteDirectionEnum";
+import UniteDistanceEnum from "../../enum/unite/UniteDistanceEnum";
+import UnitePourcentageEnum from "../../enum/unite/UnitePourcentageEnum";
+import UnitePressionEnum from "../../enum/unite/UnitePressionEnum";
+import UniteTailleEnum from "../../enum/unite/UniteTailleEnum";
+import UniteTempEnum from "../../enum/unite/UniteTempEnum";
+import UniteVitesseEnum from "../../enum/unite/UniteVitesseEnum";
+import iUnite from "./iUnite";
 
 abstract class aUnite implements iUnite{
     valeur: number;

@@ -1,4 +1,4 @@
-import Utilisateur from "../../models/Utilisateur";
+import Utilisateur from "../../models/entities/Utilisateur";
 import iObserverConnexion from "./iObserverConnexion";
 
 export default interface iServiceCompte {

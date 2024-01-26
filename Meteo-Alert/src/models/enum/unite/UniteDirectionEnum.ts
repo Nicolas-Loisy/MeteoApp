@@ -1,3 +1,5 @@
-type UniteDirectionEnum = "°"
+enum UniteDirectionEnum {
+  "°"
+}
 
 export default UniteDirectionEnum;

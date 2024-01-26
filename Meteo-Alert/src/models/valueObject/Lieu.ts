@@ -1,15 +1,15 @@
 import MeteoBuilder from "../builder/MeteoBuilder";
-import dtUniteCoordonnee from "../datatype/dtUniteCoordonnee";
+import dtUniteCoordonnee from "../datatype/unite/dtUniteCoordonnee";
 import lieuType from "../types/lieuType";
 import Meteo from "./Meteo";
 
 class Lieu {
   // private alertes: List<ReglageAlerte> = [];
-  private readonly nom: string;
-  private readonly pays: string;
-  private readonly region: string;
-  private readonly longitude: dtUniteCoordonnee;
-  private readonly latitude: dtUniteCoordonnee;
+  public readonly nom: string;
+  public readonly pays: string;
+  public readonly region: string;
+  public readonly longitude: dtUniteCoordonnee;
+  public readonly latitude: dtUniteCoordonnee;
   private meteo: Meteo | null;
 
   constructor(
@@ -27,26 +27,6 @@ class Lieu {
   // getAlertes(): List<ReglageAlerte> {
   //   return this.alertes;
   // }
-
-  getNom(): string {
-    return this.nom;
-  }
-
-  getPays(): string {
-    return this.pays;
-  }
-
-  getRegion(): string {
-    return this.region;
-  }
-
-  getLongitude(): dtUniteCoordonnee {
-    return this.longitude;
-  }
-
-  getLatitude(): dtUniteCoordonnee {
-    return this.latitude;
-  }
 
   async updateMeteo() {
     const meteoBuilder = MeteoBuilder.getInstance();

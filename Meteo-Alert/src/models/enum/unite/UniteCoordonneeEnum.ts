@@ -1,3 +1,5 @@
-type UniteCoordonneeEnum = "°"
+enum UniteCoordonneeEnum {
+  "°"
+}
 
 export default UniteCoordonneeEnum;

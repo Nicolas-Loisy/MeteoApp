@@ -1,5 +1,5 @@
-import LieuxFavorisBuilder from './builder/LieuxFavorisBuilder';
-import Lieu from './valueObject/Lieu';
+import LieuxFavorisBuilder from '../builder/LieuxFavorisBuilder';
+import Lieu from '../valueObject/Lieu';
 
 class Utilisateur {
   prenom: string | undefined;

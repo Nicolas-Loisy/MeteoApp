@@ -37,8 +37,7 @@ const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
     const fetchTemperature = async () => {
       try {
         const meteo = await lieu.getMeteo();
-        const temperatureStr = meteo?.getTemperatureStr();
-        setTemperature(temperatureStr || 'N/A');
+        setTemperature(meteo?.temperature.toString() || 'N/A');
         setMeteo(meteo);
       } catch (error) {
         console.error('Error fetching temperature:', error);
@@ -53,20 +52,20 @@ const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
     // Naviguer vers la page DetailLieu avec les données du lieu
     navigation.navigate('DetailLieu', {
       lieuData: {
-        nom: lieu.getNom(),
-        region: lieu.getRegion(),
-        pays: lieu.getPays(),
+        nom: lieu.nom,
+        region: lieu.region,
+        pays: lieu.pays,
       },
     });
   };
 
   const PICTO_TYPES = [
-    { condition: () => meteo && meteo.getNeige() !== undefined && meteo.getNeige() > 0, component: SnowSvg },
-    { condition: () => meteo && meteo.getPluie() !== undefined && meteo.getPluie() > 0, component: RainSvg },
-    { condition: () => meteo && meteo.getNuage() !== undefined && meteo.getNuage() >= 0 && meteo.getNuage() < 25, component: meteo?.isDaytime() ? SunSvg : MoonSvg },
-    { condition: () => meteo && meteo.getNuage() !== undefined && meteo.getNuage() >= 25 && meteo.getNuage() < 50, component: meteo?.isDaytime() ? CloudSunSvg : CloudMoonSvg },
-    { condition: () => meteo && meteo.getNuage() !== undefined && meteo.getNuage() >= 50 && meteo.getNuage() < 75, component: CloudSvg },
-    { condition: () => meteo && meteo.getNuage() !== undefined && meteo.getNuage() >= 75 && meteo.getNuage() <= 100, component: CloudsSvg },
+    { condition: () => meteo && meteo.neige !== undefined && meteo.neige.getValeur() > 0, component: SnowSvg },
+    { condition: () => meteo && meteo.pluie !== undefined && meteo.pluie.getValeur() > 0, component: RainSvg },
+    { condition: () => meteo && meteo.nuage !== undefined && meteo.nuage.getValeur() >= 0 && meteo.nuage.getValeur() < 25, component: meteo?.isDaytime() ? SunSvg : MoonSvg },
+    { condition: () => meteo && meteo.nuage !== undefined && meteo.nuage.getValeur() >= 25 && meteo.nuage.getValeur() < 50, component: meteo?.isDaytime() ? CloudSunSvg : CloudMoonSvg },
+    { condition: () => meteo && meteo.nuage !== undefined && meteo.nuage.getValeur() >= 50 && meteo.nuage.getValeur() < 75, component: CloudSvg },
+    { condition: () => meteo && meteo.nuage !== undefined && meteo.nuage.getValeur() >= 75 && meteo.nuage.getValeur() <= 100, component: CloudsSvg },
   ];
 
   const generatePictoComponents = () => {
@@ -90,7 +89,7 @@ const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
       
       <View style={styles.cardContent}>
         <View style={styles.cardCity}>
-          <Text style={styles.cityName}>{lieu.getNom()}</Text>
+          <Text style={styles.cityName}>{lieu.nom}</Text>
         </View>
 
         <View style={styles.cardTemp}>

@@ -1,6 +1,6 @@
-import aRestService from "../models/abstract/aRestService";
-import iServiceGeographie from "../models/interface/iServiceGeographie";
-import lieuType from "../models/types/lieuType";
+import aRestService from "../aRestService";
+import iServiceGeographie from "./iServiceGeographie";
+import lieuType from "../../models/types/lieuType";
 
 type lieu_OW = {
   name: string;

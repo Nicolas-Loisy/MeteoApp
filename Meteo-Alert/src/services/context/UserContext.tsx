@@ -1,5 +1,5 @@
 import React, { ReactNode, createContext, useContext, useState } from 'react';
-import Utilisateur from '../../models/Utilisateur';
+import Utilisateur from '../../models/entities/Utilisateur';
 
 type UserContextType = {
   utilisateur: Utilisateur | null;

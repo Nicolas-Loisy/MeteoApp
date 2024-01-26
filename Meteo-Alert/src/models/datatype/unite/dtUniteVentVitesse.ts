@@ -1,6 +1,6 @@
-import SystemeMesureEnum from "../enum/SystemeMesureEnum";
-import UniteVitesseEnum from "../enum/UniteVitesseEnum";
-import aUnite from "../abstract/aUnite";
+import SystemeMesureEnum from "../../enum/SystemeMesureEnum";
+import UniteVitesseEnum from "../../enum/unite/UniteVitesseEnum";
+import aUnite from "./aUnite";
 
 class dtUniteVentVitesse extends aUnite {
   constructor(valeur: number, systemeMesure: SystemeMesureEnum) {

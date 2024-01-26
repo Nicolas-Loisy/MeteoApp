@@ -2,10 +2,10 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth, setPe
 
 import { ref, set, get } from 'firebase/database';
 
-import Utilisateur from "../../models/Utilisateur";
+import Utilisateur from "../../models/entities/Utilisateur";
 import iObserverConnexion from "./iObserverConnexion";
 import iServiceCompte from "./iServiceCompte";
-import FirebaseConfig from "../FirebaseConfig";
+import FirebaseConfig from "../../config/FirebaseConfig";
 
 export default class ServiceCompteFirebase implements iServiceCompte {
   private observers: iObserverConnexion[];

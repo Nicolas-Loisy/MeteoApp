@@ -4,7 +4,7 @@ import { AccountProvider } from './src/services/compteUtilisateur/AccountContext
 import * as NavigationBar from 'expo-navigation-bar';
 import * as Font from 'expo-font';
 import {Text} from 'react-native';
-import './src/services/i18n';
+import './src/services/i18n/i18n';
 import { UserProvider } from './src/services/context/UserContext';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 
