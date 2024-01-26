@@ -36,7 +36,7 @@ class Utilisateur {
   }
 
   public ajouterLieuFavori(lieu: Lieu) {
-    const isNouveauLieu = this.lieuxFavoris.some( lieuFav => {
+    const isLieuExistant = this.lieuxFavoris.some(lieuFav => {
       return (
         lieuFav.nom === lieu.nom &&
         lieuFav.pays === lieu.pays &&
@@ -44,7 +44,7 @@ class Utilisateur {
       );
     });
 
-    if (isNouveauLieu){
+    if (!isLieuExistant){
       this.lieuxFavoris.push(lieu);
     }
 
