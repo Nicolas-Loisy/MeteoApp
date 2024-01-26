@@ -66,7 +66,6 @@ const Accueil = () => {
     }
   }
 
-
   newLieu('Loches');
   newLieu('Murat');
   newLieu('Paris');

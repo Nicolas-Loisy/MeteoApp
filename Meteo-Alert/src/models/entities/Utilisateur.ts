@@ -36,7 +36,9 @@ class Utilisateur {
   }
 
   public ajouterLieuFavori(lieu: Lieu) {
-    this.lieuxFavoris.push(lieu);
+    if (!this.lieuxFavoris.includes(lieu)){
+      this.lieuxFavoris.push(lieu);
+    }
     LieuxFavorisBuilder.enregistrerLieuxFavoris(this.lieuxFavoris, this.uid);
   }
   
