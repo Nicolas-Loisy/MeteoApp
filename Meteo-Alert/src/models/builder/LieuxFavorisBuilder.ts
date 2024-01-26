@@ -1,5 +1,5 @@
 import ServiceGeographie from "../../services/ServiceGeographieOW";
-import ServiceCompteFactory from "../../services/compteUtilisateur/ServiceCompteFactory";
+import ServicePersistenceFactory from "../../services/persistence/ServicePersistenceFactory";
 import lieuType from "../types/lieuType";
 import Lieu from "../valueObject/Lieu";
 
@@ -50,24 +50,24 @@ class LieuxFavorisBuilder {
         return resultLieuxRecherche;
     }
 
-    public ajouterLieuParDonnees(nom: string, pays: string, region: string, longitude: number, latitude: number, uid: string): void {
-        const serviceCompte = ServiceCompteFactory.getServiceCompte();
+    // public ajouterLieuParDonnees(nom: string, pays: string, region: string, longitude: number, latitude: number, uid: string): void {
+    //     // const serviceCompte = ServiceCompteFactory.getServiceCompte();
         
-        let lieuData: lieuType = {
-            name: nom,
-            lon: longitude,
-            lat: latitude,
-            country: pays,
-            state: region
-        }
+    //     let lieuData: lieuType = {
+    //         name: nom,
+    //         lon: longitude,
+    //         lat: latitude,
+    //         country: pays,
+    //         state: region
+    //     }
         
-        const lieu = new Lieu(lieuData);
-        this.lieuxFavoris.push(lieu);
-        serviceCompte.updateFavoris(JSON.stringify(this.lieuxFavoris), uid);
-    }
+    //     const lieu = new Lieu(lieuData);
+    //     this.lieuxFavoris.push(lieu);
+    //     // serviceCompte.updateFavoris(JSON.stringify(this.lieuxFavoris), uid);
+    // }
 
     public ajouterLieu(lieu: Lieu, uid: string): void {
-        const serviceCompte = ServiceCompteFactory.getServiceCompte();
+        const servicePersistence = ServicePersistenceFactory.getServicePersistence();
         
         if (this.isLieuAlreadyExist(lieu)) {
             // throw new Error("Le lieu est déjà dans la liste des favoris.");
@@ -75,7 +75,7 @@ class LieuxFavorisBuilder {
         } else {
             console.log("Ajout nouveau lieu dans la liste des favoris.");
             this.lieuxFavoris.push(lieu);
-            serviceCompte.updateFavoris(JSON.stringify(this.lieuxFavoris), uid);
+            servicePersistence.updateLieuxFavoris(JSON.stringify(this.lieuxFavoris), uid);
         }
     }
 

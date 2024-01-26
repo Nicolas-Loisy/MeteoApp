@@ -1,5 +1,6 @@
 {
   "extends": "expo/tsconfig.base",
+  "moduleResolution":"node",
   "compilerOptions": {
     "strict": true,
     "target": "ES6",
@@ -7,6 +8,9 @@
     "jsx": "react",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  },
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]
+    }
+  }
 }

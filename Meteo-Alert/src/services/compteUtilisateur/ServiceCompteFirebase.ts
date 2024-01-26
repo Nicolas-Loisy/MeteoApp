@@ -1,34 +1,19 @@
-import { FirebaseApp, initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth } from "firebase/auth";
-import { ref, set, get, Database, getDatabase, update } from 'firebase/database';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth, setPersistence, getReactNativePersistence } from "firebase/auth";
+
+import { ref, set, get } from 'firebase/database';
 
 import Utilisateur from "../../models/Utilisateur";
 import iObserverConnexion from "./iObserverConnexion";
 import iServiceCompte from "./iServiceCompte";
+import FirebaseConfig from "../FirebaseConfig";
 
-export default class ServiceCompteFirebase implements iServiceCompte{
-  private app: FirebaseApp;
-  private auth: Auth;
-  private database: Database;
-  private token: string | any;
+export default class ServiceCompteFirebase implements iServiceCompte {
   private observers: iObserverConnexion[];
+  private token: string | null;
 
   constructor() {
-    const firebaseConfig = {
-      apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-      authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-      databaseURL: process.env.REACT_APP_FIREBASE_REALTIME_DATABASE_URL,
-      projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-      storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-      appId: process.env.REACT_APP_FIREBASE_APP_ID
-    };
-
-    this.app = initializeApp(firebaseConfig);
-    this.auth = getAuth(this.app);
-    this.database = getDatabase(this.app);
-    this.token = null;
     this.observers = [];
+    this.token = null;
   }
 
   /*----------------------- OBSERVER --------------------*/
@@ -63,14 +48,17 @@ export default class ServiceCompteFirebase implements iServiceCompte{
   public async inscription(mail: string, password: string, userData: Object): Promise<Utilisateur | any> {
     try {
       //Inscription
-      const userCredential = await createUserWithEmailAndPassword(this.auth, mail, password);
+      const auth = FirebaseConfig.getInstance().auth;
+      const userCredential = await createUserWithEmailAndPassword(auth, mail, password);
 
       //Ajout des données de l'utilisateur
       const user = userCredential.user;
-      this.token = user.getIdToken();
+      const database = FirebaseConfig.getInstance().database;
+
+      this.token = await user.getIdToken();
 
       if (userData) {
-        const userRef = ref(this.database, `utilisateurs/${user.uid}`);
+        const userRef = ref(database, `utilisateurs/${user.uid}`);
         await set(userRef, userData);
       }
 
@@ -93,10 +81,14 @@ export default class ServiceCompteFirebase implements iServiceCompte{
   public async connexion(mail: string, password: string): Promise<Utilisateur | any> {
     try {
       //Connexion
-      const userCredential = await signInWithEmailAndPassword(this.auth, mail, password);
-      this.token = userCredential.user.getIdToken()
+      const auth = FirebaseConfig.getInstance().auth;
+      const database = FirebaseConfig.getInstance().database;
+
+      const userCredential = await signInWithEmailAndPassword(auth, mail, password);
+      this.token = await userCredential.user.getIdToken();
+
       //Récupération des informations de compte
-      const userRef = ref(this.database, `utilisateurs/${userCredential.user.uid}`);
+      const userRef = ref(database, `utilisateurs/${userCredential.user.uid}`);
       const userDataFB = await get(userRef);
 
       let userData = {
@@ -106,7 +98,7 @@ export default class ServiceCompteFirebase implements iServiceCompte{
       }
 
       let utilisateur = new Utilisateur(userData)
-      
+
 
       this.notify();
       return utilisateur;
@@ -116,24 +108,12 @@ export default class ServiceCompteFirebase implements iServiceCompte{
     }
   }
 
-  public async deconnexion() : Promise<any> {
-    await this.auth.signOut();
-    this.token = null;
-    this.notify();
-  }
+  public async deconnexion(): Promise<any> {
+    const auth = FirebaseConfig.getInstance().auth;
 
-  public async updateFavoris(lieuxFavoris: string, uid: string): Promise<void> {
-    if (uid) {
-      const userRef = ref(this.database, `utilisateurs/${uid}`);
-  
-      // Obtenir l'objet utilisateur actuel
-      const snapshot = await get(userRef);
-      const userData = snapshot.val();
-  
-      // Mettre à jour la propriété lieuxFavoris
-      userData.lieuxFavoris = lieuxFavoris;
-      // Mettre à jour l'objet utilisateur dans la base de données
-      await set(userRef, userData);
-    }
+    await auth.signOut();
+    this.token = null;
+
+    this.notify();
   }
 }

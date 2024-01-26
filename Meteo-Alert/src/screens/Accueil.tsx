@@ -42,8 +42,6 @@ const Accueil = () => {
   const { utilisateur } = useUser();
   
   // TESTS DU MODEL DEBUT
-  // TESTS DU MODEL DEBUT
-  // TESTS DU MODEL DEBUT
   let lieuxFavoris = utilisateur?.lieuxFavoris
   
   async function newLieu(lieu: string) {
