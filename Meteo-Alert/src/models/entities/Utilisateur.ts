@@ -36,9 +36,18 @@ class Utilisateur {
   }
 
   public ajouterLieuFavori(lieu: Lieu) {
-    if (!this.lieuxFavoris.includes(lieu)){
+    const isNouveauLieu = this.lieuxFavoris.some( lieuFav => {
+      return (
+        lieuFav.nom === lieu.nom &&
+        lieuFav.pays === lieu.pays &&
+        lieuFav.region === lieu.region
+      );
+    });
+
+    if (isNouveauLieu){
       this.lieuxFavoris.push(lieu);
     }
+
     LieuxFavorisBuilder.enregistrerLieuxFavoris(this.lieuxFavoris, this.uid);
   }
   

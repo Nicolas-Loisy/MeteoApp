@@ -67,16 +67,18 @@ const Accueil = () => {
   }
 
   newLieu('Loches');
-  newLieu('Murat');
-  newLieu('Paris');
-  newLieu('Reignac');
-  newLieu('Ezanville');
-  newLieu('Lyon');
-  newLieu('Tour');
-  newLieu('Coltine');
-  newLieu('Montreal');
-  newLieu('Ax-les-Thermes');
-  newLieu('Albiez Montrond');
+  newLieu('Loches');
+
+  // newLieu('Murat');
+  // newLieu('Paris');
+  // newLieu('Reignac');
+  // newLieu('Ezanville');
+  // newLieu('Lyon');
+  // newLieu('Tour');
+  // newLieu('Coltine');
+  // newLieu('Montreal');
+  // newLieu('Ax-les-Thermes');
+  // newLieu('Albiez Montrond');
   
   affMeteo();
   // TESTS DU MODEL FIN  
