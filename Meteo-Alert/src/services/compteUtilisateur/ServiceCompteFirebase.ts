@@ -6,6 +6,7 @@ import Utilisateur from "../../models/entities/Utilisateur";
 import iObserverConnexion from "./iObserverConnexion";
 import iServiceCompte from "./iServiceCompte";
 import FirebaseConfig from "../../config/FirebaseConfig";
+import utilisateurType from "../../models/types/utilisateurType";
 
 export default class ServiceCompteFirebase implements iServiceCompte {
   private observers: iObserverConnexion[];
@@ -45,7 +46,7 @@ export default class ServiceCompteFirebase implements iServiceCompte {
   }
 
   /*------------ FONCTION DE COMPTE FIREBASE ------------*/
-  public async inscription(mail: string, password: string, userData: Object): Promise<Utilisateur | any> {
+  public async inscription(mail: string, password: string, userData: utilisateurType): Promise<Utilisateur | any> {
     try {
       //Inscription
       const auth = FirebaseConfig.getInstance().auth;
@@ -91,14 +92,13 @@ export default class ServiceCompteFirebase implements iServiceCompte {
       const userRef = ref(database, `utilisateurs/${userCredential.user.uid}`);
       const userDataFB = await get(userRef);
 
-      let userData = {
+      let userData: utilisateurType = {
         ...userDataFB.val(), // prenom et lieuxFavoris
         "mail": userCredential.user.email,
         "uid": userCredential.user.uid,
       }
 
       let utilisateur = new Utilisateur(userData)
-
 
       this.notify();
       return utilisateur;

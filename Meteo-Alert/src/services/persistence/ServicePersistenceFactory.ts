@@ -1,4 +1,5 @@
 import ServicePersistenceFirebase from "./ServicePersistenceFirebase";
+import iServicePersistence from "./iServicePersistence";
 
 class ServicePersistenceFactory {
   private static instance = new ServicePersistenceFirebase();

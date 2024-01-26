@@ -4,7 +4,7 @@ import LieuList from '../molecules/LieuList';
 import Lieu from '../../models/valueObject/Lieu';
 
 interface LieuxSectionProps {
-  lieux: Lieu[];
+  lieux: ReadonlyArray<Lieu>;
 }
 
 const LieuxSection: React.FC<LieuxSectionProps> = ({ lieux }) => {

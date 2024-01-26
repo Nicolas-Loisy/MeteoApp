@@ -46,8 +46,8 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
         
         {/* Contenu du volet */}
         <View style={styles.voletContent} >
-          <Text style={styles.text}>{utilisateur?.prenom}</Text>
-          <Text style={styles.text}>{utilisateur?.mail}</Text>
+          <Text style={styles.text}>{utilisateur?.getPrenom()}</Text>
+          <Text style={styles.text}>{utilisateur?.getMail()}</Text>
 
           {/* Bouton de connexion */}
           <Button

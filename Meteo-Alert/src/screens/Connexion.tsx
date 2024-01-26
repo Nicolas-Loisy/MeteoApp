@@ -30,7 +30,7 @@ const Connexion = () => {
       serviceCompte.connexion(email, motDePasse)
         .then((utilisateurConn) => {
           setUtilisateur(utilisateurConn); // fonction du contexte pour mettre à jour l'utilisateur
-          console.log("Utilisateur : ", [utilisateur]);
+
           navigation.navigate('Accueil');
         })
         .catch((error) => {

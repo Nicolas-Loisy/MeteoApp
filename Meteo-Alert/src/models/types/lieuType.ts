@@ -1,9 +1,9 @@
 type lieuType = {
-    name: string,
-    lon: number,
+    nom: string,
     lat: number,
-    country: string,
-    state: string
+    lon: number,
+    pays: string,
+    region: string
 }
 
 export default lieuType;

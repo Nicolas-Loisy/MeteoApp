@@ -1,59 +1,45 @@
 import LieuxFavorisBuilder from '../builder/LieuxFavorisBuilder';
+import utilisateurType from '../types/utilisateurType';
 import Lieu from '../valueObject/Lieu';
 
 class Utilisateur {
-  prenom: string | undefined;
-  mail: string | undefined;
-  uid: string | undefined;
-  lieuxFavoris!: LieuxFavorisBuilder;
+  public readonly uid: string;
 
-  constructor(userData: Object) {
-    if ('prenom' in userData) {
-      this.prenom = userData['prenom'] as string;
-    }
-    if ('mail' in userData) {
-      this.mail = userData['mail'] as string;
-    }
-    if ('uid' in userData) {
-      this.uid = userData['uid'] as string;
-    }
-    
-    this.initializeLieuxFavoris(userData);
+  private prenom: string;
+  private mail: string;
+  private lieuxFavoris: Lieu[];
+
+  constructor(dataUtilisateur: utilisateurType) {
+    this.prenom = dataUtilisateur.prenom;
+    this.mail = dataUtilisateur.mail;
+    this.uid = dataUtilisateur.uid;
+
+    this.lieuxFavoris = [];
+    this.initializeLieuxFavoris();
   }
 
-  private initializeLieuxFavoris(userData: Object): void {
-    // Initialisation vide
-    this.lieuxFavoris = new LieuxFavorisBuilder([] as Lieu[]);
-    
-    try {
-      if ('lieuxFavoris' in userData && typeof userData['lieuxFavoris'] === 'string') {
-        const lieuDataArray = JSON.parse(userData['lieuxFavoris']);
-        const lieuxFavorisArray = this.convertLieuDataArrayToLieuxArray(lieuDataArray);
-
-        if (Array.isArray(lieuxFavorisArray)) {
-          this.lieuxFavoris = new LieuxFavorisBuilder(lieuxFavorisArray as Lieu[]);
-        } else {
-          console.error('userData[\'lieuxFavoris\'] n\'est pas un tableau JSON valide.');
-        }
-      } else {
-        console.error('userData[\'lieuxFavoris\'] n\'est pas un tableau JSON valide.');
-      }
-    } catch (error) {
-      console.error('Erreur lors de l\'analyse de userData[\'lieuxFavoris\'] :', error);
-    }
+  private async initializeLieuxFavoris(): Promise<void> {
+    const lieuxFavorisPersistence = await LieuxFavorisBuilder.getLieuxFavoris(this.uid);
+    this.lieuxFavoris.push(...lieuxFavorisPersistence);
   }
 
-  private convertLieuDataArrayToLieuxArray(lieuDataArray: any[]): Lieu[] {
-    return lieuDataArray.map((data: { nom: string; pays: string; region: string; longitude: { valeur: number; }; latitude: { valeur: number; }; }) => {
-      return new Lieu({
-        name: data.nom,
-        country: data.pays,
-        state: data.region,
-        lon: data.longitude.valeur,
-        lat: data.latitude.valeur,
-      });
-    });
+  public getLieuxFavoris(): ReadonlyArray<Lieu> {
+    return this.lieuxFavoris;
   }
+
+  public getPrenom() {
+    return this.prenom;
+  }
+
+  public getMail() {
+    return this.mail;
+  }
+
+  public ajouterLieuFavori(lieu: Lieu) {
+    this.lieuxFavoris.push(lieu);
+    LieuxFavorisBuilder.enregistrerLieuxFavoris(this.lieuxFavoris, this.uid);
+  }
+  
 }
 
 export default Utilisateur;

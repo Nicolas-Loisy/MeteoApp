@@ -3,13 +3,14 @@ import Navigation from './src/navigation/Navigation';
 import { AccountProvider } from './src/services/compteUtilisateur/AccountContext';
 import * as NavigationBar from 'expo-navigation-bar';
 import * as Font from 'expo-font';
-import {Text} from 'react-native';
+import { Text } from 'react-native';
 import './src/services/i18n/i18n';
 import { UserProvider } from './src/services/context/UserContext';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
+import { LieuProvider } from './src/services/context/LieuContext';
 
 const App = () => {
-  
+
   const [fontLoaded, setFontLoaded] = useState(false);
   useEffect(() => {
     async function loadFont() {
@@ -39,18 +40,22 @@ const App = () => {
 
   // NavigationBar.setBackgroundColorAsync("black");
   // On gère la navigation bar pour les appareils sous Android
-  if( /Android/i.test(navigator.userAgent) ) {
+  if (/Android/i.test(navigator.userAgent)) {
     NavigationBar.setBehaviorAsync('overlay-swipe');
     NavigationBar.setVisibilityAsync('hidden');
   }
-  
+
 
   return (
     <UserProvider>
       <AccountProvider>
-        <AlertNotificationRoot>
-          <Navigation />
-        </AlertNotificationRoot>
+      <LieuProvider>
+
+          <AlertNotificationRoot>
+            <Navigation />
+          </AlertNotificationRoot>
+
+      </LieuProvider>
       </AccountProvider>
     </UserProvider>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAccountContext } from '../services/compteUtilisateur/AccountContext';
@@ -12,9 +12,11 @@ import { useTranslation } from 'react-i18next';
 import { useUser } from '../services/context/UserContext';
 import Lieu from '../models/valueObject/Lieu';
 import LieuxSection from '../components/organisms/LieuxSection';
+import LieuxFavorisBuilder from '../models/builder/LieuxFavorisBuilder';
 
 const Accueil = () => {
   const { t } = useTranslation();
+  const { utilisateur } = useUser();
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { statutConnecte, serviceCompte } = useAccountContext();
@@ -39,31 +41,28 @@ const Accueil = () => {
     setIsVoletOpen(false);
   };
 
-  const { utilisateur } = useUser();
   
-  // TESTS DU MODEL DEBUT
-  let lieuxFavoris = utilisateur?.lieuxFavoris
-  
+  // TESTS DU MODEL DEBUT  
   async function newLieu(lieu: string) {
-    let resultLieux = await lieuxFavoris?.rechercheLieux(lieu);
+    let resultLieux = await LieuxFavorisBuilder.rechercheLieux(lieu);
     
     if (resultLieux && resultLieux.length > 0) {
-        lieuxFavoris?.ajouterLieu(resultLieux[0], utilisateur?.uid!);
+        utilisateur?.ajouterLieuFavori(resultLieux[0]);
 
-        let premierLieu = utilisateur?.lieuxFavoris.getLieux()[0];
+        let premierLieu = utilisateur?.getLieuxFavoris()[0];
 
         if (premierLieu && premierLieu.getMeteo) {
             let test = await premierLieu.getMeteo();
-            console.log("Temp : " + test?.getTemperatureStr());
+            console.log("Temp : " + test.temperature.toString());
         }
     }
   }
 
   async function affMeteo() {
-    let premierLieu = utilisateur?.lieuxFavoris.getLieux()[0];
+    let premierLieu = utilisateur?.getLieuxFavoris()[0];
     if (premierLieu) {
         let test = await (premierLieu as Lieu).getMeteo();
-        console.log("METEO Temp : " + test?.getTemperatureStr());
+        console.log("METEO Temp : " + test.temperature.toString());
     }
   }
 
@@ -81,10 +80,7 @@ const Accueil = () => {
   newLieu('Albiez Montrond');
   
   affMeteo();
-  // TESTS DU MODEL FIN
-  // TESTS DU MODEL FIN
-  // TESTS DU MODEL FIN
-  
+  // TESTS DU MODEL FIN  
 
   return (
     <>
@@ -98,7 +94,7 @@ const Accueil = () => {
       <View style={styles.container}>
         {/* <Text>{t('accueil.titre')}</Text> */}
 
-        <LieuxSection lieux={utilisateur?.lieuxFavoris.getLieux() || []} />
+        <LieuxSection lieux={utilisateur?.getLieuxFavoris() || []} />
         {/* Liste scrollable avec des cartes contenants les lieux avec le nom et la temperature */}
 
         <Button

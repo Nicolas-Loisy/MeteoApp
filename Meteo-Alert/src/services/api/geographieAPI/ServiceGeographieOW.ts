@@ -1,6 +1,6 @@
+import lieuType from "../../../models/types/lieuType";
 import aRestService from "../aRestService";
 import iServiceGeographie from "./iServiceGeographie";
-import lieuType from "../../models/types/lieuType";
 
 type lieu_OW = {
   name: string;
@@ -33,11 +33,11 @@ export default class ServiceGeographieOW extends aRestService implements iServic
       
       JSONdata.forEach(lieu => {
         lieux.push({
-          name: lieu.name,
+          nom: lieu.name,
           lat: lieu.lat,
           lon: lieu.lon,
-          country: lieu.country,
-          state: lieu.state
+          region: lieu.country,
+          pays: lieu.state
         } as lieuType)
       });
 

@@ -4,7 +4,7 @@ import Lieu from '../../models/valueObject/Lieu';
 import LieuCard from './LieuCard';
 
 interface LieuListProps {
-  lieux: Lieu[];
+  lieux: ReadonlyArray<Lieu>;
 }
 
 const LieuList: React.FC<LieuListProps> = ({ lieux }) => {
@@ -14,9 +14,9 @@ const LieuList: React.FC<LieuListProps> = ({ lieux }) => {
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false} // Ne pas afficher la barre de défilement
       keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item }) => <LieuCard lieu={item} />}
+      renderItem={({ item, index }) => <LieuCard lieu={item} />}
     />
-  );
+  );  
 };
 
 export default LieuList;

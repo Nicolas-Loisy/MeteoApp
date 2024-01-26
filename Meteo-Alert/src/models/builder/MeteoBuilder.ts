@@ -1,4 +1,4 @@
-import ServiceMeteo from "../../services/meteoAPI/ServiceMeteoOW";
+import ServiceMeteo from "../../services/api/meteoAPI/ServiceMeteoOW";
 import dtUniteCoordonnee from "../datatype/unite/dtUniteCoordonnee";
 import SystemeMesureEnum from "../enum/SystemeMesureEnum";
 import meteoType from "../types/meteoType";

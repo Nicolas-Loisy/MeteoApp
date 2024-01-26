@@ -13,6 +13,7 @@ import CloudsSvg from '../../assets/icons/svg/clouds.svg';
 import CloudSvg from '../../assets/icons/svg/cloudy.svg';
 import CloudMoonSvg from '../../assets/icons/svg/cloud-moon.svg';
 import MoonSvg from '../../assets/icons/svg/moon.svg';
+import { useLieu } from '../../services/context/LieuContext';
 
 interface LieuCardProps {
   lieu: Lieu;
@@ -31,6 +32,7 @@ export type RootStackParamList = {
 const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
   const [temperature, setTemperature] = useState<string | null>(null);
   const [meteo, setMeteo] = useState<Meteo | null>(null);
+  const { setLieu } = useLieu();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
@@ -50,6 +52,8 @@ const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
 
   const handleCardPress = () => {
     // Naviguer vers la page DetailLieu avec les données du lieu
+    setLieu(lieu);
+
     navigation.navigate('DetailLieu', {
       lieuData: {
         nom: lieu.nom,

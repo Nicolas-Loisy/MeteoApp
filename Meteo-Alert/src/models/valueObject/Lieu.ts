@@ -15,9 +15,9 @@ class Lieu {
   constructor(
     data: lieuType
   ) {
-    this.nom = data.name;
-    this.pays = data.country;
-    this.region = data.state;
+    this.nom = data.nom;
+    this.pays = data.pays;
+    this.region = data.region;
     this.longitude = new dtUniteCoordonnee(data.lon);
     this.latitude = new dtUniteCoordonnee(data.lat);
     this.meteo = null;
