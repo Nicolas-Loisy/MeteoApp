@@ -32,11 +32,11 @@ class Lieu {
     this.reglageAlerte = AlerteFactory.initAlertes();
   }
 
-  async updateMeteo() {
+  public async updateMeteo() {
     this.meteo = await MeteoBuilder.getMeteo(this.longitude, this.latitude);
   }
 
-  async getMeteo(actualiser: boolean = true): Promise<Meteo> {
+  public async getMeteo(actualiser: boolean = true): Promise<Meteo> {
     if (actualiser) await this.updateMeteo();
     if (!this.meteo) {
       throw new Error("Meteo data is not available yet");
