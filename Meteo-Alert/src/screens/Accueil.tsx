@@ -34,22 +34,22 @@ const Accueil = () => {
     setIsVoletOpen(!isVoletOpen);
   }
 
-  // async function newLieu(lieu: string) {
-  //   let resultLieux = await LieuxFavorisBuilder.rechercheLieux(lieu);
+  async function newLieu(lieu: string) {
+    let resultLieux = await LieuxFavorisBuilder.rechercheLieux(lieu);
     
-  //   if (resultLieux && resultLieux.length > 0) {
-  //       utilisateur?.ajouterLieuFavori(resultLieux[0]);
+    if (resultLieux && resultLieux.length > 0) {
+        utilisateur?.ajouterLieuFavori(resultLieux[0]);
 
-  //       let premierLieu = utilisateur?.getLieuxFavoris()[0];
+        let premierLieu = utilisateur?.getLieuxFavoris()[0];
 
-  //       if (premierLieu && premierLieu.getMeteo) {
-  //         let test = await premierLieu.getMeteo();
-  //       }
-  //   }
-  // }
+        if (premierLieu && premierLieu.getMeteo) {
+          let test = await premierLieu.getMeteo();
+        }
+    }
+  }
 
-  // newLieu('Loches');
-  // newLieu('Murat');
+  newLieu('Loches');
+  newLieu('Murat');
 
   return (
     <>

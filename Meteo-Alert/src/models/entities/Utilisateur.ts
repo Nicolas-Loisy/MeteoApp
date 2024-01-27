@@ -36,13 +36,7 @@ class Utilisateur {
   }
 
   public ajouterLieuFavori(lieu: Lieu) {
-    const isLieuExistant = this.lieuxFavoris.some(lieuFav => {
-      return (
-        lieuFav.nom === lieu.nom &&
-        lieuFav.pays === lieu.pays &&
-        lieuFav.region === lieu.region
-      );
-    });
+    const isLieuExistant = this.lieuxFavoris.some(lieuFav => lieu.key === lieuFav.key);
 
     if (!isLieuExistant){
       LieuxFavorisBuilder.ajouterLieuFavori(lieu, this.uid);

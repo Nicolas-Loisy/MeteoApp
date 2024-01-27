@@ -1,36 +1,22 @@
 import ServiceGeographie from "../../services/api/geographieAPI/ServiceGeographieOW";
 import ServicePersistenceFactory from "../../services/persistence/ServicePersistenceFactory";
-import { generateUUID } from "../../utils/uuid";
 import lieuType from "../types/lieuType";
 import Lieu from "../valueObject/Lieu";
 
 class LieuxFavorisBuilder {
-  // private lieuxFavoris: Lieu[];
   private static serviceGeo: ServiceGeographie = new ServiceGeographie(process.env.OPEN_GEO_API_URL ?? "");
 
-  private constructor() {}
+  private constructor() { }
 
   public static async rechercheLieux(nomLieu: string): Promise<Lieu[]> {
     const lieuxData: lieuType[] = await LieuxFavorisBuilder.serviceGeo.rechercheLieux(nomLieu);
 
     const resultLieuxRecherche: Lieu[] = [];
-    const lieuxMap = new Map<string, Lieu>(); // Utilisation d'une Map pour stocker les lieux uniques
 
     lieuxData.forEach(lieuData => {
-      if (lieuData) {
-        const key = `${lieuData.nom}-${lieuData.pays}-${lieuData.region}`; // Utiliser une clé unique basée sur le nom, le pays et la région
+      const lieu = new Lieu(lieuData);
 
-        if (!lieuxMap.has(key)) {
-          const uuid = generateUUID();
-          const lieu = new Lieu({
-            UID: uuid,
-            ...lieuData
-          });
-
-          resultLieuxRecherche.push(lieu);
-          lieuxMap.set(key, lieu); // Ajouter le lieu à la Map pour suivre les doublons
-        }
-      }
+      resultLieuxRecherche.push(lieu);
     });
 
     return resultLieuxRecherche;
@@ -55,31 +41,31 @@ class LieuxFavorisBuilder {
   }
 
   public static async supprimerLieuFavori(lieu: Lieu, UIDutilisateur: string): Promise<void> {
-    if (!lieu.UID) {
+    if (!lieu.key) {
       throw new Error("[ERREUR] Suppression impossible : UID du lieu manquant");
     }
 
     const servicePersistence = ServicePersistenceFactory.getServicePersistence();
-    servicePersistence.supprimerLieuFavori(lieu.UID, UIDutilisateur);
+    servicePersistence.supprimerLieuFavori(lieu.key, UIDutilisateur);
   }
 
   // Fonctions utiles
   private static transformerObjectToType(lieu: Lieu): lieuType {
     const lieuxType: lieuType = {
-      UID: lieu.UID,
+      key: lieu.key,
       nom: lieu.nom,
       lon: lieu.longitude.getValeur(),
       lat: lieu.latitude.getValeur(),
       pays: lieu.pays,
       region: lieu.region
     };
-    
+
     return lieuxType;
   }
 
   private static transformerTypeToObject(lieuxType: lieuType[]): Lieu[] {
     const lieux: Lieu[] = [];
-    
+
     lieuxType.forEach((lieuType: lieuType) => {
       lieux.push(new Lieu(lieuType));
     })

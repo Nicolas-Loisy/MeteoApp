@@ -19,7 +19,7 @@ class ServicePersistenceFirebase implements iServicePersistence {
           const lieuData = childSnapshot.val();
 
           const lieu: lieuType = {
-            UID: lieuID,
+            key: lieuID,
             nom: lieuData.nom,
             lat: lieuData.lat,
             lon: lieuData.lon,
@@ -42,15 +42,15 @@ class ServicePersistenceFirebase implements iServicePersistence {
     if (!UIDutilisateur) {
       throw new Error("[ERREUR] Sauvegarde des favoris impossible : l'UID de l'utilisateur est manquant.");
     }
-    if (!nouveauLieu.UID) {
+    if (!nouveauLieu.key) {
       throw new Error("[ERREUR] Sauvegarde des favoris impossible : l'UID du lieu est manquant.");
     }
   
     const database = FirebaseConfig.getInstance().database;
   
     try {
-      const { UID, ...lieuData } = nouveauLieu;
-      const userRef = ref(database, `utilisateurs/${UIDutilisateur}/lieuxFavoris/${UID}`);
+      const { key, ...lieuData } = nouveauLieu;
+      const userRef = ref(database, `utilisateurs/${UIDutilisateur}/lieuxFavoris/${key}`);
       set(userRef, lieuData); 
       
     } catch (error: any) {

@@ -1,5 +1,5 @@
 type lieuType = {
-    UID?: string,
+    key: string,
     nom: string,
     lat: number,
     lon: number,

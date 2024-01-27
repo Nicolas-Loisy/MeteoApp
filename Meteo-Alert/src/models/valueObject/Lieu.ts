@@ -7,7 +7,7 @@ import lieuType from "../types/lieuType";
 import Meteo from "./Meteo";
 
 class Lieu {
-  public readonly UID: string; // A justifier dans le rapport (Economie lors des requêtes BDD)
+  public readonly key: string; // A justifier dans le rapport (Economie lors des requêtes BDD)
   public readonly nom: string;
   public readonly pays: string;
   public readonly region: string;
@@ -17,11 +17,11 @@ class Lieu {
   private reglageAlerte: iAlerte[];
 
   constructor(data: lieuType) {
-    if (!data.UID) {
+    if (!data.key) {
       throw new Error("[ERREUR] Création du lieu impossible : l'UID est manquant");
     }
-    
-    this.UID = data.UID;
+
+    this.key = data.key;
     this.nom = data.nom;
     this.pays = data.pays;
     this.region = data.region;
