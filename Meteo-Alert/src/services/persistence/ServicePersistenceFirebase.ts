@@ -1,9 +1,9 @@
-import { ref, set, get } from 'firebase/database';
+import { ref, get, push, child, remove, set } from 'firebase/database';
 import FirebaseConfig from '../../config/FirebaseConfig';
 import iServicePersistence from './iServicePersistence';
 import lieuType from '../../models/types/lieuType';
 
-class ServicePersistenceFirebase implements iServicePersistence{
+class ServicePersistenceFirebase implements iServicePersistence {
 
   public async getLieuxFavoris(UIDutilisateur: string): Promise<lieuType[]> {
     const lieuxFavoris: lieuType[] = [];
@@ -15,7 +15,18 @@ class ServicePersistenceFirebase implements iServicePersistence{
 
       if (snapshot.exists()) {
         snapshot.forEach((childSnapshot) => {
-          const lieu = childSnapshot.val() as lieuType;
+          const lieuID = childSnapshot.key;
+          const lieuData = childSnapshot.val();
+
+          const lieu: lieuType = {
+            UID: lieuID,
+            nom: lieuData.nom,
+            lat: lieuData.lat,
+            lon: lieuData.lon,
+            pays: lieuData.pays,
+            region: lieuData.region
+          };
+
           lieuxFavoris.push(lieu);
         });
       }
@@ -27,23 +38,40 @@ class ServicePersistenceFirebase implements iServicePersistence{
     }
   }
 
-  public async updateLieuxFavoris(lieuxFavoris: lieuType[], UIDutilisateur: string): Promise<void> {
+  public async ajouterLieuFavori(nouveauLieu: lieuType, UIDutilisateur: string): Promise<void> {
+    if (!UIDutilisateur) {
+      throw new Error("[ERREUR] Sauvegarde des favoris impossible : l'UID de l'utilisateur est manquant.");
+    }
+    if (!nouveauLieu.UID) {
+      throw new Error("[ERREUR] Sauvegarde des favoris impossible : l'UID du lieu est manquant.");
+    }
+  
+    const database = FirebaseConfig.getInstance().database;
+  
+    try {
+      const { UID, ...lieuData } = nouveauLieu;
+      const userRef = ref(database, `utilisateurs/${UIDutilisateur}/lieuxFavoris/${UID}`);
+      set(userRef, lieuData); 
+      
+    } catch (error: any) {
+      console.error("[ERREUR] Echec de l'ajout du lieu favori dans Firebase :", error);
+      throw error;
+    }
+  }
+
+  public async supprimerLieuFavori(UIDlieu: string, UIDutilisateur: string): Promise<void> {
     if (UIDutilisateur) {
       const database = FirebaseConfig.getInstance().database;
-      const userRef = ref(database, `utilisateurs/${UIDutilisateur}`);
+      const userRef = ref(database, `utilisateurs/${UIDutilisateur}/lieuxFavoris`);
 
       try {
-        // Obtenir l'objet utilisateur actuel
-        const snapshot = await get(userRef);
-        let userData = snapshot.exists() ? snapshot.val() : {};
+        // Référence au lieu spécifique à supprimer
+        const lieuRef = child(userRef, UIDlieu);
 
-        // Mettre à jour la propriété lieuxFavoris
-        userData.lieuxFavoris = lieuxFavoris;
-
-        // Mettre à jour l'objet utilisateur dans la base de données
-        await set(userRef, userData);
+        // Supprimer le lieu de la base de données
+        await remove(lieuRef);
       } catch (error: any) {
-        console.error('Erreur lors de la mise à jour des lieux favoris:', error);
+        console.error('Erreur lors de la suppression du lieu favori:', error);
         throw error;
       }
     }

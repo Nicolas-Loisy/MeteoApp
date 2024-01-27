@@ -29,14 +29,6 @@ const DetailLieu = () => {
     fetchMeteo();
   }, [lieu]);
 
-  useEffect(() => {
-    if (meteo) {
-      console.log("Debug : ", [meteo.temperature.toString()]);
-    } else {
-      console.log("Debug : meteo n'est pas encore chargé");
-    }
-  }, [meteo])
-
   return (
     <LayoutTemplate>
       <Croix onPress={() => navigation.goBack()} style={[styles.croix, { left: croixPosition }]} />
@@ -49,7 +41,6 @@ const DetailLieu = () => {
           meteo &&
           (Object.keys(meteo) as Array<keyof Meteo>).map((key) => {
             if (meteo[key] && meteo[key] != undefined) {
-              console.log("DEBUG :", meteo[key], );
               return <Text key={key}>{`${label[key]}${meteo[key]}`}</Text>;
             }
           })

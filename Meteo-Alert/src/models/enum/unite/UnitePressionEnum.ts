@@ -1,5 +1,5 @@
 enum UnitePressionEnum {
-  "hPa"
+  "hPa" = "hPa"
 }
 
 export default UnitePressionEnum;

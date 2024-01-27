@@ -45,17 +45,13 @@ class Utilisateur {
     });
 
     if (!isLieuExistant){
+      LieuxFavorisBuilder.ajouterLieuFavori(lieu, this.uid);
       this.lieuxFavoris.push(lieu);
     }
-
-    LieuxFavorisBuilder.enregistrerLieuxFavoris(this.lieuxFavoris, this.uid);
   }
   
 }
 
 export default Utilisateur;
 
-
-// possede en attribut un builder builderLieuxFavori qui comporte une liste de lieuxfavoris
-// voir comment sauvegarder les lieux fav dans firebase 
 // voir comment sauvegarder les reglagesApp fav dans firebase 
