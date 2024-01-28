@@ -22,6 +22,7 @@
             "testInjection": "The test with the number: {{number}} !!!"
         },
         "detailLieu": {
+            "releveDirect": "Live statement :",
             "label": {
                 "heureActualisation": "Last Update Time: ",
                 "neige": "Snow: ",
@@ -68,7 +69,11 @@
             "deconnexion": "Logout"
         },
         "aUnite": {
-            "mesure-undefined": "The measurement has not been taken." 
+            "mesure-undefined": "Unavailable" 
+        },
+        "TimeAgoText": {
+            "timeAgo": "{{elapsedMinutes}} minutes ago",
+            "timeAgo_plurial": "{{elapsedMinutes}} minute ago"
         }
     }
 }

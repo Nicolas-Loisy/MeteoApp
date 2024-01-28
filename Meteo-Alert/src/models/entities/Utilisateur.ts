@@ -7,7 +7,7 @@ class Utilisateur {
 
   private prenom: string;
   private mail: string;
-  private lieuxFavoris: Lieu[];
+  public lieuxFavoris: Readonly<Lieu>[];
 
   constructor(dataUtilisateur: utilisateurType) {
     this.prenom = dataUtilisateur.prenom;
@@ -23,9 +23,10 @@ class Utilisateur {
     this.lieuxFavoris.push(...lieuxFavorisPersistence);
   }
 
-  public getLieuxFavoris(): ReadonlyArray<Lieu> {
+  public getLieuxFavoris(): Readonly<Lieu>[] {
     return this.lieuxFavoris;
   }
+  
 
   public getPrenom() {
     return this.prenom;
@@ -36,26 +37,16 @@ class Utilisateur {
   }
 
   public ajouterLieuFavori(lieu: Lieu) {
-    const isLieuExistant = this.lieuxFavoris.some(lieuFav => {
-      return (
-        lieuFav.nom === lieu.nom &&
-        lieuFav.pays === lieu.pays &&
-        lieuFav.region === lieu.region
-      );
-    });
+    const isLieuExistant = this.lieuxFavoris.some(lieuFav => lieu.key === lieuFav.key);
 
     if (!isLieuExistant){
+      LieuxFavorisBuilder.ajouterLieuFavori(lieu, this.uid);
       this.lieuxFavoris.push(lieu);
     }
-
-    LieuxFavorisBuilder.enregistrerLieuxFavoris(this.lieuxFavoris, this.uid);
   }
   
 }
 
 export default Utilisateur;
 
-
-// possede en attribut un builder builderLieuxFavori qui comporte une liste de lieuxfavoris
-// voir comment sauvegarder les lieux fav dans firebase 
 // voir comment sauvegarder les reglagesApp fav dans firebase 

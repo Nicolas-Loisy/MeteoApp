@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, Pressable, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
@@ -62,33 +62,35 @@ const Inscription = () => {
         <Text style={styles.text}>{t('inscription.titre')}</Text>
       </View>
 
-      <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
 
-        {/* Formulaire prénom */}
-        <Field onChangeText={setPrenom} iconSource={require('../assets/icons/logo-utilisateur.png')} fieldName={t('inscription.prenom')} displayValidation/>
-        
-        {/* Formulaire adresse e-mail */}
-        <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' displayValidation/>
+          {/* Formulaire prénom */}
+          <Field onChangeText={setPrenom} iconSource={require('../assets/icons/logo-utilisateur.png')} fieldName={t('inscription.prenom')} displayValidation/>
+          
+          {/* Formulaire adresse e-mail */}
+          <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' displayValidation/>
 
-        {/* Formulaire de mot de passe */}
-        <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword/>
-        <SummaryRules
-          rules={passwordRules}
-        />
+          {/* Formulaire de mot de passe */}
+          <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword/>
+          <SummaryRules
+            rules={passwordRules}
+          />
 
-        {/* Bouton Inscription */}
-        <Button
-          onPress={handleInscription}
-          title={t('inscription.inscription')}
-          styleBtn="whiteBg"
-        />
+          {/* Bouton Inscription */}
+          <Button
+            onPress={handleInscription}
+            title={t('inscription.inscription')}
+            styleBtn="whiteBg"
+          />
 
-        {/* Bouton pour aller à la page d'inscription */}
-        <ClickableText
-          text={t('inscription.deja_inscrit')}
-          onPress={() => navigation.navigate('Connexion')}
-        />
-      </View>
+          {/* Bouton pour aller à la page d'inscription */}
+          <ClickableText
+            text={t('inscription.deja_inscrit')}
+            onPress={() => navigation.navigate('Connexion')}
+          />
+        </View>
+      </TouchableWithoutFeedback>
     </LayoutTemplate>
   );
 };

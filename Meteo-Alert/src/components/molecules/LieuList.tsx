@@ -4,7 +4,7 @@ import Lieu from '../../models/valueObject/Lieu';
 import LieuCard from './LieuCard';
 
 interface LieuListProps {
-  lieux: ReadonlyArray<Lieu>;
+  lieux: ReadonlyArray<Readonly<Lieu>>;
 }
 
 const LieuList: React.FC<LieuListProps> = ({ lieux }) => {

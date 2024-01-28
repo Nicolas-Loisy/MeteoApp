@@ -5,23 +5,12 @@ import meteoType from "../types/meteoType";
 import Meteo from "../valueObject/Meteo";  
 
 class MeteoBuilder {
+    private constructor() {}
 
-    private static instance: MeteoBuilder | null = null;
-    private serviceMeteo: ServiceMeteo;
+    private static serviceMeteo: ServiceMeteo = new ServiceMeteo(process.env.OPEN_WEATHER_API_URL!);
 
-    private constructor(serviceMeteo: ServiceMeteo) {
-        this.serviceMeteo = serviceMeteo;
-    }
-
-    public static getInstance(): MeteoBuilder {
-        if (!MeteoBuilder.instance) {
-            MeteoBuilder.instance = new MeteoBuilder(new ServiceMeteo(process.env.OPEN_WEATHER_API_URL ?? ""));
-        }
-        return MeteoBuilder.instance;
-    }
-
-    public async getMeteo(longitude: dtUniteCoordonnee, latitude: dtUniteCoordonnee, units: SystemeMesureEnum = SystemeMesureEnum.METRIQUE): Promise<Meteo> {
-        const jsonMeteoData: meteoType = await this.serviceMeteo.getMeteo(longitude, latitude, units);
+    public static async getMeteo(longitude: dtUniteCoordonnee, latitude: dtUniteCoordonnee, units: SystemeMesureEnum = SystemeMesureEnum.METRIQUE): Promise<Meteo> {
+        const jsonMeteoData: meteoType = await MeteoBuilder.serviceMeteo.getMeteo(longitude, latitude, units);
 
         const meteo: Meteo = new Meteo(
             units,
