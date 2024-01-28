@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Image, Alert } from 'react-native';
+import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
@@ -47,36 +47,38 @@ const Connexion = () => {
 
   return (
     <LayoutTemplate>
-      <View style={styles.container}>
-        <LogoMeteo {...styles.logoMeteo}/>
-        <Text style={styles.text}>{t('connexion.titre')}</Text>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
+          <LogoMeteo {...styles.logoMeteo}/>
+          <Text style={styles.text}>{t('connexion.titre')}</Text>
 
-        {/* Formulaire d'adresse e-mail */}
-        <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')}/>
-        {/* Formulaire de mot de passe */}
-        <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} isPassword/>
+          {/* Formulaire d'adresse e-mail */}
+          <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')}/>
+          {/* Formulaire de mot de passe */}
+          <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} isPassword/>
 
-        <View style={styles.viewForgetMdp}>
-          <ClickableText
-            text={t('connexion.forget_mdp')}
-            onPress={() => null}
+          <View style={styles.viewForgetMdp}>
+            <ClickableText
+              text={t('connexion.forget_mdp')}
+              onPress={() => null}
+            />
+          </View>
+
+          {/* Bouton de connexion */}
+          <Button
+              onPress={handleConnexion}
+              title={t('connexion.connexion')}
+              styleBtn="whiteBg"
+          />
+
+          {/* Bouton pour aller à la page d'inscription */}
+          <Button
+              onPress={() => navigation.navigate('Inscription')}
+              title={t('connexion.redirect_inscription')}
+              styleBtn="noBg"
           />
         </View>
-
-        {/* Bouton de connexion */}
-        <Button
-            onPress={handleConnexion}
-            title={t('connexion.connexion')}
-            styleBtn="whiteBg"
-        />
-
-        {/* Bouton pour aller à la page d'inscription */}
-        <Button
-            onPress={() => navigation.navigate('Inscription')}
-            title={t('connexion.redirect_inscription')}
-            styleBtn="noBg"
-        />
-      </View>
+      </TouchableWithoutFeedback>
     </LayoutTemplate>
   );
 };
