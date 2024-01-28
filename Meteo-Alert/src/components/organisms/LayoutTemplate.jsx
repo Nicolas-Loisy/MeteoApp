@@ -5,10 +5,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 const LayoutTemplate = ({ children }) => {
   return (
       <LinearGradient
-        colors={['#F8EBFF', '#AAD0EE', '#40A3DA']}
-        style={styles.container}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0.8 }}
+        colors={['#F8EBFF', '#AAD0EE', '#40A3DA']}
+        style={styles.container}
       >
         <View style={styles.header}>
           {/* Contenu de l'en-tête */}

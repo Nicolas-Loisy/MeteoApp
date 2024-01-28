@@ -48,39 +48,22 @@ const Accueil = () => {
     
     if (resultLieux && resultLieux.length > 0) {
         utilisateur?.ajouterLieuFavori(resultLieux[0]);
-
-        let premierLieu = utilisateur?.getLieuxFavoris()[0];
-
-        if (premierLieu && premierLieu.getMeteo) {
-            let test = await premierLieu.getMeteo();
-            console.log("Temp : " + test.temperature.toString());
-        }
     }
   }
 
-  async function affMeteo() {
-    let premierLieu = utilisateur?.getLieuxFavoris()[0];
-    if (premierLieu) {
-        let test = await (premierLieu as Lieu).getMeteo();
-        console.log("METEO Temp : " + test.temperature.toString());
-    }
-  }
 
   newLieu('Loches');
-  newLieu('Loches');
-
-  // newLieu('Murat');
-  // newLieu('Paris');
-  // newLieu('Reignac');
-  // newLieu('Ezanville');
-  // newLieu('Lyon');
-  // newLieu('Tour');
-  // newLieu('Coltine');
-  // newLieu('Montreal');
-  // newLieu('Ax-les-Thermes');
-  // newLieu('Albiez Montrond');
+  newLieu('Murat');
+  newLieu('Paris');
+  newLieu('Reignac');
+  newLieu('Ezanville');
+  newLieu('Lyon');
+  newLieu('Tour');
+  newLieu('Coltine');
+  newLieu('Montreal');
+  newLieu('Ax-les-Thermes');
+  newLieu('Albiez Montrond');
   
-  affMeteo();
   // TESTS DU MODEL FIN  
 
   return (

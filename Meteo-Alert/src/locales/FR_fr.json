@@ -22,6 +22,7 @@
             "testInjection": "Le test avec le numero : {{number}} !!!"
         },
         "detailLieu": {
+            "releveDirect": "Relevé en direct :",
             "label": {
                 "heureActualisation": "Dernière mise à jour : ",
                 "neige": "Neige : ",
@@ -68,7 +69,11 @@
             "deconnexion": "Déconnexion"
         },
         "aUnite": {
-            "mesure-undefined": "La mesure n'a pas été effectuée." 
+            "mesure-undefined": "Indisponible"
+        },
+        "TimeAgoText": {
+            "timeAgo": "Il y a {{elapsedMinutes}} minute",
+            "timeAgo_plurial": "Il y a {{elapsedMinutes}} minutes"
         }
     }
 }
