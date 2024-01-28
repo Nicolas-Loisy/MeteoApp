@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, View, ScrollView } from 'react-native';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
@@ -13,7 +13,7 @@ import ListeInfoMeteo from '../components/molecules/ListInfoMeteo';
 
 const DetailLieu = () => {
   const { t } = useTranslation();
-  
+
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const { lieu } = useLieu();
@@ -26,21 +26,27 @@ const DetailLieu = () => {
         setMeteo(meteoData);
       }
     };
-  
+
     fetchMeteo();
   }, [lieu]);
 
   return (
     <LayoutTemplate>
-      <ArrowReturn onPress={() => navigation.goBack()} style={[styles.arrowReturn]} />
+      <ArrowReturn onPress={() => navigation.goBack()} style={styles.arrowReturn} />
+
       <View style={styles.container}>
         <Title text={lieu?.nom} fontSize={50} />
         <Title text={lieu?.region} fontSize={20} />
         <TimeAgoText lastUpdateDate={meteo?.heureActualisation} fontSize={15} />
-          <View style={styles.details}>
-            <Title text={t("detailLieu.releveDirect")} fontSize={22} />
+
+        <View style={styles.details}>
+          <Title text={t("detailLieu.releveDirect")} fontSize={22} />
+          <ScrollView showsVerticalScrollIndicator={false}>
             <ListeInfoMeteo meteo={meteo} blacklist={['heureActualisation']} />
-          </View>
+            <ListeInfoMeteo meteo={meteo} blacklist={['heureActualisation']} />
+          </ScrollView>
+        </View>
+
       </View>
     </LayoutTemplate>
   );
@@ -48,9 +54,8 @@ const DetailLieu = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'center',
-    width: "100%",
     paddingBottom: 40,
     marginTop: 35,
   },
@@ -62,10 +67,10 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     marginLeft: -25,
-    color: "Red"
   },
   details: {
-    marginTop: 20
+    marginTop: 20,
+    marginBottom: 120
   }
 });
 
