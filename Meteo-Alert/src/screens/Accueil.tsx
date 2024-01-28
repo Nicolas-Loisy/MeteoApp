@@ -18,15 +18,9 @@ const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { t } = useTranslation();
   const { utilisateur } = useUser();
-  const { statutConnecte, serviceCompte } = useAccountContext();
+  const { serviceCompte } = useAccountContext();
   const [isVoletOpen, setIsVoletOpen] = useState(false);
-  const [lieuxFavoris, setLieuxFavoris] = useState<ReadonlyArray<Readonly<Lieu>> | []>(utilisateur?.lieuxFavoris|| []);
-
-  useEffect(() => {
-    if (!statutConnecte) {
-      navigation.navigate('Connexion');
-    }
-  }, [statutConnecte]);
+  const [lieuxFavoris, setLieuxFavoris] = useState<ReadonlyArray<Readonly<Lieu>> | []>([]);
 
   const handleDeconnexion = () => {
     serviceCompte.deconnexion();
@@ -61,10 +55,8 @@ const Accueil = () => {
   }
 
   useEffect(() => {
-    if (utilisateur) {
-      setLieuxFavoris(utilisateur.lieuxFavoris);
-    }
-  }, [utilisateur?.lieuxFavoris]);
+    setLieuxFavoris(utilisateur?.getLieuxFavoris() ?? []);
+  }, [utilisateur]);
 
   return (
     <>
