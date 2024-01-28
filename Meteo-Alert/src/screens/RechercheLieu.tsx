@@ -13,8 +13,6 @@ import LieuxFavorisBuilder from '../models/builder/LieuxFavorisBuilder';
 
 const RechercheLieu = () => {
   const { t } = useTranslation();
-  const { width } = Dimensions.get('window');
-  const croixPosition = width * 0.10;
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const [searchText, setSearchText] = useState('');
@@ -31,7 +29,7 @@ const RechercheLieu = () => {
     <MyStatusBar/>
     
     <LayoutTemplate>
-      <Croix onPress={() => navigation.goBack()} style={[styles.croix, { left: croixPosition }]} />
+      <Croix onPress={() => navigation.goBack()} style={[styles.croix]} />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -47,7 +45,7 @@ const RechercheLieu = () => {
                 data={searchResults}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                  <LieuSearchCard lieu={item} lieuxFavorisBuilder={lieuxFavorisBuilder} utilisateurUid={'uid'} />
+                  <LieuSearchCard lieu={item} />
                 )}
               />
 
@@ -73,6 +71,7 @@ const styles = StyleSheet.create({
     marginRight: '2%', 
   },
   croix: {
+    left: Dimensions.get('window').width * 0.10,
     position: 'absolute',
     top: 40,
     zIndex: 1,

@@ -44,9 +44,6 @@ const Demo = () => {
     }
   }, [passwordValue]);
 
-  const { width } = Dimensions.get('window');
-  const croixPosition = width * 0.10;
-
   return (
     <>
     <MyStatusBar/>
@@ -54,7 +51,7 @@ const Demo = () => {
       <View style={styles.container}>
         <Text>{t('demo.test')}</Text> 
         <Text>{t('demo.testInjection', { number: '1234567890' })}</Text> 
-        <Croix onPress={() => navigation.goBack()} style={[styles.croix, { left: croixPosition }]} />
+        <Croix onPress={() => navigation.goBack()} style={[styles.croix]} />
         <ClickableText
             text="ClickableText"
             onPress={() => navigation.navigate('RechercheLieu')}
@@ -96,6 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   croix: {
+    left: Dimensions.get('window').width * 0.10,
     position: 'absolute',
     top: 40,
     zIndex: 1,

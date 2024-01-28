@@ -2,34 +2,35 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import Lieu from '../../models/valueObject/Lieu';
 import LieuxFavorisBuilder from '../../models/builder/LieuxFavorisBuilder';
-import Utilisateur from '../../models/Utilisateur';
+import { useUser } from '../../services/context/UserContext';
 
 interface LieuSearchCardProps {
   lieu: Lieu;
-  lieuxFavorisBuilder: LieuxFavorisBuilder;
 }
 
-const LieuSearchCard: React.FC<LieuSearchCardProps> = ({ lieu, lieuxFavorisBuilder }) => {
-  const [isFavorite, setIsFavorite] = useState(lieuxFavorisBuilder.isLieuAlreadyExist(lieu));
+const LieuSearchCard: React.FC<LieuSearchCardProps> = ({ lieu }) => {
+  const { utilisateur } = useUser();
+  // const [isFavorite, setIsFavorite] = useState(LieuxFavorisBuilder.isLieuAlreadyExist(lieu));
+  const [isFavorite, setIsFavorite] = useState(false); // TODO
 
   const handleToggleFavorite = () => {
-    const uidUtilisateur = 'je sais pas comment récupérer luid de l utilisateur';
-
-    if (isFavorite) {
-      lieuxFavorisBuilder.supprimerLieu(lieu.getNom(), lieu.getRegion(), lieu.getPays());
-    } else {
-      lieuxFavorisBuilder.ajouterLieu(lieu, uidUtilisateur);
+    if (utilisateur) {
+      if (isFavorite) {
+        LieuxFavorisBuilder.supprimerLieuFavori(lieu, utilisateur.uid);
+      } else {
+        LieuxFavorisBuilder.ajouterLieuFavori(lieu, utilisateur.uid);
+      }
+      setIsFavorite(!isFavorite);
     }
-    setIsFavorite(!isFavorite);
   };
 
   return (
     <Pressable style={styles.card} onPress={handleToggleFavorite}>
       <View style={styles.cardContent}>
         <View>
-          <Text style={styles.cityName}>{lieu.getNom()}</Text>
-          <Text style={styles.regionName}>{lieu.getRegion()}</Text>
-          <Text style={styles.paysName}>{lieu.getPays()}</Text>
+          <Text style={styles.cityName}>{lieu.nom}</Text>
+          <Text style={styles.regionName}>{lieu.region}</Text>
+          <Text style={styles.paysName}>{lieu.pays}</Text>
         </View>
 
         <View style={styles.favoriteButton}>
