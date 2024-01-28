@@ -8,7 +8,6 @@ import Accueil from "../screens/Accueil";
 import DetailLieu from "../screens/DetailLieu";
 import RechercheLieu from "../screens/RechercheLieu";
 import { useAccountContext } from "../services/compteUtilisateur/AccountContext";
-import Demo from "../screens/Demo";
 
 const Stack = createStackNavigator();
 
