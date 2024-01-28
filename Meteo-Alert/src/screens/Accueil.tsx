@@ -19,13 +19,7 @@ const Accueil = () => {
   const { utilisateur } = useUser();
   const { statutConnecte, serviceCompte } = useAccountContext();
   const [isVoletOpen, setIsVoletOpen] = useState(false);
-  const [lieuxFavoris, setLieuxFavoris] = useState<ReadonlyArray<Readonly<Lieu>> | []>(utilisateur?.lieuxFavoris|| []);
-
-  useEffect(() => {
-    if (!statutConnecte) {
-      navigation.navigate('Connexion');
-    }
-  }, [statutConnecte]);
+  const [lieuxFavoris, setLieuxFavoris] = useState<ReadonlyArray<Readonly<Lieu>> | []>([]);
 
   const handleDeconnexion = () => {
     serviceCompte.deconnexion();
@@ -36,10 +30,14 @@ const Accueil = () => {
   }
 
   useEffect(() => {
-    if (utilisateur) {
-      setLieuxFavoris(utilisateur.lieuxFavoris);
+    if (!statutConnecte) {
+      navigation.navigate('Connexion');
     }
-  }, [utilisateur?.lieuxFavoris]);
+  }, [statutConnecte]);
+
+  useEffect(() => {
+    setLieuxFavoris(utilisateur?.getLieuxFavoris() ?? []);
+  }, [utilisateur]);
 
   return (
     <>

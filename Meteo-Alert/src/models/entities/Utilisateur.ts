@@ -7,7 +7,7 @@ class Utilisateur {
 
   private prenom: string;
   private mail: string;
-  public lieuxFavoris: Lieu[];
+  public lieuxFavoris: Readonly<Lieu>[];
 
   constructor(dataUtilisateur: utilisateurType) {
     this.prenom = dataUtilisateur.prenom;
@@ -23,10 +23,10 @@ class Utilisateur {
     this.lieuxFavoris.push(...lieuxFavorisPersistence);
   }
 
-  public getLieuxFavoris(): ReadonlyArray<Readonly<Lieu>> {
-    const reglageAlerteReadOnly: Readonly<Lieu>[] = this.lieuxFavoris.map(lieu => Object.freeze(lieu));
-    return Object.freeze(reglageAlerteReadOnly);
+  public getLieuxFavoris(): Readonly<Lieu>[] {
+    return this.lieuxFavoris;
   }
+  
 
   public getPrenom() {
     return this.prenom;
