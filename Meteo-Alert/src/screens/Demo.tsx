@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import Password from '../models/datatype/dtPassword';
 import SummaryRules from '../components/atoms/SummaryRules';
 import Croix from '../assets/icons/svg/vector.svg';
+import LieuSearchCard from '../components/molecules/LieuSearchCard';
 
 const Demo = () => {
   const { t } = useTranslation();

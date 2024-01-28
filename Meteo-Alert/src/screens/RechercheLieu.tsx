@@ -1,20 +1,30 @@
-import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Dimensions, FlatList } from 'react-native';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
 import Field from '../components/molecules/Field';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import MyStatusBar from '../components/atoms/MyStatusBar';
 import Croix from '../assets/icons/svg/vector.svg';
+import LieuSearchCard from '../components/molecules/LieuSearchCard';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
+import LieuxFavorisBuilder from '../models/builder/LieuxFavorisBuilder';
 
 const RechercheLieu = () => {
   const { t } = useTranslation();
-
   const { width } = Dimensions.get('window');
   const croixPosition = width * 0.10;
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [lieuxFavorisBuilder, setLieuxFavorisBuilder] = useState<LieuxFavorisBuilder | null>(null);
+
+  useEffect(() => {
+    const builder = new LieuxFavorisBuilder();
+    setLieuxFavorisBuilder(builder);
+  }, []);
 
   return (
     <>
@@ -27,10 +37,20 @@ const RechercheLieu = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
+
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.container}>
             <View style={styles.traitBlanc} />
             <Field onChangeText={() => null} iconSource={require('../assets/icons/magnifying-glass-solid.png')} fieldName={t('rechercheLieu.recherche')}/>
+
+              <FlatList
+                data={searchResults}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <LieuSearchCard lieu={item} lieuxFavorisBuilder={lieuxFavorisBuilder} utilisateurUid={'uid'} />
+                )}
+              />
+
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
