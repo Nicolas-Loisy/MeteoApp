@@ -43,11 +43,6 @@ const Demo = () => {
     }
   }, [passwordValue]);
 
-  // TODO a retirer
-  useEffect(() => {
-    console.log("Password : ", password);
-  }, [password]);
-
   const { width } = Dimensions.get('window');
   const croixPosition = width * 0.10;
 

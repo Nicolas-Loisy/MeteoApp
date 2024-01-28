@@ -16,7 +16,7 @@ import MoonSvg from '../../assets/icons/svg/moon.svg';
 import { useLieu } from '../../services/context/LieuContext';
 
 interface LieuCardProps {
-  lieu: Lieu;
+  lieu: Readonly<Lieu>;
 }
 
 export type RootStackParamList = {

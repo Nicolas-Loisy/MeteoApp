@@ -9,7 +9,7 @@ import UniteTempEnum from "../../enum/unite/UniteTempEnum";
 import UniteVitesseEnum from "../../enum/unite/UniteVitesseEnum";
 import iUnite from "./iUnite";
 
-abstract class aUnite implements iUnite{
+abstract class aUnite implements iUnite {
     valeur: number;
     unite: 
         UniteCoordonneeEnum | 

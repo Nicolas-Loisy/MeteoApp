@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, View, ScrollView } from 'react-native';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
-import Croix from '../assets/icons/svg/vector.svg';
+import ArrowReturn from '../assets/icons/svg/arrow-left-short.svg';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Meteo from '../models/valueObject/Meteo';
 import { useLieu } from '../services/context/LieuContext';
+import Title from '../components/atoms/Title';
+import TimeAgoText from '../components/atoms/TimeAgoText';
+import ListeInfoMeteo from '../components/molecules/ListInfoMeteo';
 
 const DetailLieu = () => {
   const { t } = useTranslation();
-  const label = t("detailLieu.label", { returnObjects: true }) as Record<string, string>;
-  
-  const croixPosition = Dimensions.get('window').width * 0.10;
+
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const { lieu } = useLieu();
-  const [meteo, setMeteo] = useState<Meteo | null>();
+  const [meteo, setMeteo] = useState<Meteo | undefined>();
 
   useEffect(() => {
     const fetchMeteo = async () => {
@@ -25,35 +26,25 @@ const DetailLieu = () => {
         setMeteo(meteoData);
       }
     };
-  
+
     fetchMeteo();
   }, [lieu]);
 
-  useEffect(() => {
-    if (meteo) {
-      console.log("Debug : ", [meteo.temperature.toString()]);
-    } else {
-      console.log("Debug : meteo n'est pas encore chargé");
-    }
-  }, [meteo])
-
   return (
     <LayoutTemplate>
-      <Croix onPress={() => navigation.goBack()} style={[styles.croix, { left: croixPosition }]} />
-      <View style={styles.container}>
-        <Text>Nom du lieu: {lieu?.nom}</Text>
-        <Text>Région: {lieu?.region}</Text>
-        <Text>Pays: {lieu?.pays}</Text>
+      <ArrowReturn onPress={() => navigation.goBack()} style={styles.arrowReturn} />
 
-        {
-          meteo &&
-          (Object.keys(meteo) as Array<keyof Meteo>).map((key) => {
-            if (meteo[key] && meteo[key] != undefined) {
-              console.log("DEBUG :", meteo[key], );
-              return <Text key={key}>{`${label[key]}${meteo[key]}`}</Text>;
-            }
-          })
-        }
+      <View style={styles.container}>
+        <Title text={lieu?.nom} fontSize={50} />
+        <Title text={lieu?.region} fontSize={20} />
+        <TimeAgoText lastUpdateDate={meteo?.heureActualisation} fontSize={15} />
+
+        <View style={styles.details}>
+          <Title text={t("detailLieu.releveDirect")} fontSize={22} />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <ListeInfoMeteo meteo={meteo} blacklist={['heureActualisation']} />
+          </ScrollView>
+        </View>
 
       </View>
     </LayoutTemplate>
@@ -62,19 +53,24 @@ const DetailLieu = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // justifyContent: 'center',
+    flexGrow: 1,
     alignItems: 'center',
-    // backgroundColor: 'blue',
-    width: "100%",
     paddingBottom: 40,
     marginTop: 35,
   },
-  croix: {
+  arrowReturn: {
+    left: Dimensions.get('window').width * 0.10,
     position: 'absolute',
     top: 30,
     zIndex: 1,
+    width: 60,
+    height: 60,
+    marginLeft: -25,
   },
+  details: {
+    marginTop: 20,
+    marginBottom: 120
+  }
 });
 
 export default DetailLieu;

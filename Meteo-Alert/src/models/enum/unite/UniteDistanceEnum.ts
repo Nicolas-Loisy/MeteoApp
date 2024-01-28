@@ -1,5 +1,5 @@
 enum UniteDistanceEnum {
-  "m"
+  "m" = "m"
 }
 
 export default UniteDistanceEnum;
