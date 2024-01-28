@@ -1,18 +1,22 @@
+import iAlerte from "../../services/alertes/iAlerte";
 import ServiceGeographie from "../../services/api/geographieAPI/ServiceGeographieOW";
 import ServicePersistenceFactory from "../../services/persistence/ServicePersistenceFactory";
 import lieuType from "../types/lieuType";
+import { alerteType } from "../types/alerteType";
 import Lieu from "../valueObject/Lieu";
 
 class LieuxFavorisBuilder {
-  private static serviceGeo: ServiceGeographie = new ServiceGeographie(process.env.OPEN_GEO_API_URL ?? "");
-
   private constructor() { }
 
+  private static serviceGeo: ServiceGeographie = new ServiceGeographie(process.env.OPEN_GEO_API_URL!);
+  private static servicePersistence = ServicePersistenceFactory.getServicePersistence();
+
   public static async rechercheLieux(nomLieu: string): Promise<Lieu[]> {
+    // Lancement de la recherche
     const lieuxData: lieuType[] = await LieuxFavorisBuilder.serviceGeo.rechercheLieux(nomLieu);
 
+    // Tri des résultats
     const resultLieuxRecherche: Lieu[] = [];
-
     lieuxData.forEach(lieuData => {
       const lieu = new Lieu(lieuData);
 
@@ -23,31 +27,48 @@ class LieuxFavorisBuilder {
   }
 
   public static async getLieuxFavoris(UIDutilisateur: string): Promise<Lieu[]> {
+    const lieuxType = await LieuxFavorisBuilder.servicePersistence.getLieuxFavoris(UIDutilisateur);
+
     const lieuxFavoris: Lieu[] = [];
-
-    const servicePersistence = ServicePersistenceFactory.getServicePersistence();
-    const lieuxType = await servicePersistence.getLieuxFavoris(UIDutilisateur);
-
     lieuxFavoris.push(...this.transformerTypeToObject(lieuxType));
 
     return lieuxFavoris;
   }
 
   public static async ajouterLieuFavori(nouveauLieu: Lieu, UIDutilisateur: string): Promise<void> {
-    const servicePersistence = ServicePersistenceFactory.getServicePersistence();
+    // Sauvegarde du lieu
     const nouveauLieuData = this.transformerObjectToType(nouveauLieu);
+    LieuxFavorisBuilder.servicePersistence.ajouterLieuFavori(nouveauLieuData, UIDutilisateur);
 
-    servicePersistence.ajouterLieuFavori(nouveauLieuData, UIDutilisateur);
+    // Sauvegarde des réglages du lieu
+    const reglageAlerte = nouveauLieu.getReglageAlerte();
+    this.updateReglageAlertes(reglageAlerte, nouveauLieu.key, UIDutilisateur);
   }
 
   public static async supprimerLieuFavori(lieu: Lieu, UIDutilisateur: string): Promise<void> {
-    if (!lieu.key) {
-      throw new Error("[ERREUR] Suppression impossible : UID du lieu manquant");
-    }
-
-    const servicePersistence = ServicePersistenceFactory.getServicePersistence();
-    servicePersistence.supprimerLieuFavori(lieu.key, UIDutilisateur);
+    LieuxFavorisBuilder.servicePersistence.supprimerLieuFavori(lieu.key, UIDutilisateur);
   }
+
+  public static async updateReglageAlertes(alertes: ReadonlyArray<iAlerte>, keyLieu: string, UIDutilisateur: string) {
+    // Converti l'objet lieu au format sauvegardé dans la base de données
+    const reglageAlertes: alerteType[] = [];
+
+    alertes.forEach((alerte: iAlerte) => {
+      reglageAlertes.push({
+        typeEvenement: alerte.typeEvenement,
+        isActiver: alerte.isActiver,
+        criteres: Object.fromEntries(
+          Object.entries(alerte.criteres).map(([key, value]) => [key, value.getValeur()])
+        )
+      })
+    })
+
+    // Enregistrement
+    reglageAlertes.forEach((reglageAlerte: alerteType) => {
+      LieuxFavorisBuilder.servicePersistence.ajouterReglageAlerte(reglageAlerte, keyLieu, UIDutilisateur);
+    })
+  }
+
 
   // Fonctions utiles
   private static transformerObjectToType(lieu: Lieu): lieuType {

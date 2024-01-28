@@ -1,21 +1,22 @@
 import dtUnitePrecipitation from "../../models/datatype/unite/dtUnitePrecipitation";
 import EvenementEnum from "../../models/enum/EvenementEnum";
+import critereKeys from "../../models/types/critereKeys";
 import critereType from "../../models/types/critereType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 
-const precipitationCritere: critereType  = {
-  neige: new dtUnitePrecipitation(10),
-  pluie: new dtUnitePrecipitation(10)
-};
+export type criterePrecipitationKeys = Extract<critereKeys, "neige" | "pluie">;
 
 class AlertePrecipitation extends aAlerte {
-  public constructor() {
-    super(EvenementEnum.PRECIPITATION, precipitationCritere);
+  criteres: critereType<criterePrecipitationKeys>;
+
+  public constructor(precipitationCritere: critereType<criterePrecipitationKeys>) {
+    super(EvenementEnum.PRECIPITATION);
+    this.criteres = precipitationCritere;
   }
 
   public checkEvenement(mesureMeteo: Meteo): boolean {
-    if (!Object.keys(precipitationCritere).every(key => key in mesureMeteo)) {
+    if (!Object.keys(this.criteres).every(key => key in mesureMeteo)) {
       throw new Error("Attributs manquants");
     }
 
