@@ -17,7 +17,7 @@ const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { t } = useTranslation();
   const { utilisateur } = useUser();
-  const { statutConnecte, serviceCompte } = useAccountContext();
+  const { serviceCompte } = useAccountContext();
   const [isVoletOpen, setIsVoletOpen] = useState(false);
   const [lieuxFavoris, setLieuxFavoris] = useState<ReadonlyArray<Readonly<Lieu>> | []>([]);
 
@@ -28,12 +28,6 @@ const Accueil = () => {
   const handleVolet = () => {
     setIsVoletOpen(!isVoletOpen);
   }
-
-  useEffect(() => {
-    if (!statutConnecte) {
-      navigation.navigate('Connexion');
-    }
-  }, [statutConnecte]);
 
   useEffect(() => {
     setLieuxFavoris(utilisateur?.getLieuxFavoris() ?? []);
