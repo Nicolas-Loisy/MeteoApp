@@ -1,28 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import Lieu from '../../models/valueObject/Lieu';
-import LieuxFavorisBuilder from '../../models/builder/LieuxFavorisBuilder';
 import { useUser } from '../../services/context/UserContext';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface LieuSearchCardProps {
-  lieu: Lieu;
+  lieu: Readonly<Lieu>;
 }
 
 const LieuSearchCard: React.FC<LieuSearchCardProps> = ({ lieu }) => {
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { utilisateur } = useUser();
-  // const [isFavorite, setIsFavorite] = useState(LieuxFavorisBuilder.isLieuAlreadyExist(lieu));
-  const [isFavorite, setIsFavorite] = useState(false); // TODO
+  const [ isFavori, setFavori ] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (utilisateur) {
+      const isLieuFav = utilisateur.getLieuxFavoris().some((lieuFav: Readonly<Lieu>) => lieuFav.key === lieu.key);  
+      setFavori(isLieuFav);
+    }
+  }, [utilisateur, lieu]);
+  
   const handleToggleFavorite = () => {
     if (utilisateur) {
-      if (isFavorite) {
-        LieuxFavorisBuilder.supprimerLieuFavori(lieu, utilisateur.uid);
+      if (isFavori) {
+        utilisateur.supprimerLieuFavori(lieu);
       } else {
-        LieuxFavorisBuilder.ajouterLieuFavori(lieu, utilisateur.uid);
+        utilisateur.ajouterLieuFavori(lieu);
       }
-      setIsFavorite(!isFavorite);
+      navigation.navigate('Accueil');
     }
   };
+  
 
   return (
     <Pressable style={styles.card} onPress={handleToggleFavorite}>
@@ -34,7 +43,7 @@ const LieuSearchCard: React.FC<LieuSearchCardProps> = ({ lieu }) => {
         </View>
 
         <View style={styles.favoriteButton}>
-          <Text>{isFavorite ? 'Retirer' : 'Ajouter'}</Text>
+          <Text>{isFavori ? 'Retirer' : 'Ajouter'}</Text>
         </View>
       </View>
     </Pressable>

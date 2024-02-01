@@ -12,51 +12,20 @@ import { useTranslation } from 'react-i18next';
 import { useUser } from '../services/context/UserContext';
 import LieuxSection from '../components/organisms/LieuxSection';
 import Lieu from '../models/valueObject/Lieu';
-import LieuxFavorisBuilder from '../models/builder/LieuxFavorisBuilder';
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { t } = useTranslation();
   const { utilisateur } = useUser();
   const { serviceCompte } = useAccountContext();
-  const [isVoletOpen, setIsVoletOpen] = useState(false);
-  const [lieuxFavoris, setLieuxFavoris] = useState<ReadonlyArray<Readonly<Lieu>> | []>([]);
-
+  const [ isVoletOpen, setIsVoletOpen ] = useState<boolean>(false);
   const handleDeconnexion = () => {
     serviceCompte.deconnexion();
   };
 
-  // TESTS DU MODEL DEBUT  
-  async function newLieu(lieu: string) {
-    let resultLieux = await LieuxFavorisBuilder.rechercheLieux(lieu);
-    
-    if (resultLieux && resultLieux.length > 0) {
-        utilisateur?.ajouterLieuFavori(resultLieux[0]);
-    }
-  }
-
-
-  newLieu('Loches');
-  newLieu('Murat');
-  newLieu('Paris');
-  newLieu('Reignac');
-  newLieu('Ezanville');
-  newLieu('Lyon');
-  newLieu('Tour');
-  newLieu('Coltine');
-  newLieu('Montreal');
-  newLieu('Ax-les-Thermes');
-  newLieu('Albiez Montrond');
-  
-  // TESTS DU MODEL FIN  
-
   const handleVolet = () => {
     setIsVoletOpen(!isVoletOpen);
   }
-
-  useEffect(() => {
-    setLieuxFavoris(utilisateur?.getLieuxFavoris() ?? []);
-  }, [utilisateur]);
 
   return (
     <>
@@ -68,9 +37,8 @@ const Accueil = () => {
         </View>
 
         <View style={styles.container}>
-          {/* <Text>{t('accueil.titre')}</Text> */}
 
-          <LieuxSection lieux={lieuxFavoris} />
+          <LieuxSection lieux={utilisateur?.lieuxFavoris ?? []} />
           {/* Liste scrollable avec des cartes contenants les lieux avec le nom et la temperature */}
 
           <Button

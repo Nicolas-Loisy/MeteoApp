@@ -35,7 +35,7 @@ class LieuxFavorisBuilder {
     return lieuxFavoris;
   }
 
-  public static async ajouterLieuFavori(nouveauLieu: Lieu, UIDutilisateur: string): Promise<void> {
+  public static async ajouterLieuFavori(nouveauLieu: Readonly<Lieu>, UIDutilisateur: string): Promise<void> {
     // Sauvegarde du lieu
     const nouveauLieuData = this.transformerObjectToType(nouveauLieu);
     LieuxFavorisBuilder.servicePersistence.ajouterLieuFavori(nouveauLieuData, UIDutilisateur);
@@ -45,7 +45,7 @@ class LieuxFavorisBuilder {
     this.updateReglageAlertes(reglageAlerte, nouveauLieu.key, UIDutilisateur);
   }
 
-  public static async supprimerLieuFavori(lieu: Lieu, UIDutilisateur: string): Promise<void> {
+  public static async supprimerLieuFavori(lieu: Readonly<Lieu>, UIDutilisateur: string): Promise<void> {
     LieuxFavorisBuilder.servicePersistence.supprimerLieuFavori(lieu.key, UIDutilisateur);
   }
 
@@ -69,9 +69,8 @@ class LieuxFavorisBuilder {
     })
   }
 
-
   // Fonctions utiles
-  private static transformerObjectToType(lieu: Lieu): lieuType {
+  private static transformerObjectToType(lieu: Readonly<Lieu>): lieuType {
     const lieuxType: lieuType = {
       key: lieu.key,
       nom: lieu.nom,

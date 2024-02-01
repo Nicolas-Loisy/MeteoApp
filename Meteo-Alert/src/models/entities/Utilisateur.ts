@@ -24,9 +24,8 @@ class Utilisateur {
   }
 
   public getLieuxFavoris(): Readonly<Lieu>[] {
-    return this.lieuxFavoris;
+    return [...this.lieuxFavoris];
   }
-  
 
   public getPrenom() {
     return this.prenom;
@@ -36,15 +35,23 @@ class Utilisateur {
     return this.mail;
   }
 
-  public ajouterLieuFavori(lieu: Lieu) {
+  public async ajouterLieuFavori(lieu: Readonly<Lieu>): Promise<void> {
     const isLieuExistant = this.lieuxFavoris.some(lieuFav => lieu.key === lieuFav.key);
-
+    
     if (!isLieuExistant){
-      LieuxFavorisBuilder.ajouterLieuFavori(lieu, this.uid);
+      await LieuxFavorisBuilder.ajouterLieuFavori(lieu, this.uid);
       this.lieuxFavoris.push(lieu);
     }
   }
-  
+
+  public async supprimerLieuFavori(lieu: Readonly<Lieu>): Promise<void> {
+    const isLieuExistant = this.lieuxFavoris.some((lieuFav: Readonly<Lieu>) => lieuFav.key === lieu.key);
+
+    if (isLieuExistant) {
+      await LieuxFavorisBuilder.supprimerLieuFavori(lieu, this.uid);
+      this.lieuxFavoris = this.lieuxFavoris.filter((lieuFav) => lieuFav.key !== lieu.key);
+    }
+  }
 }
 
 export default Utilisateur;
