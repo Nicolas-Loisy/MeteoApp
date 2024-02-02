@@ -7,7 +7,7 @@ class Utilisateur {
 
   private prenom: string;
   private mail: string;
-  public lieuxFavoris: Readonly<Lieu>[];
+  private lieuxFavoris: Readonly<Lieu>[];
 
   constructor(dataUtilisateur: utilisateurType) {
     this.prenom = dataUtilisateur.prenom;
@@ -23,10 +23,9 @@ class Utilisateur {
     this.lieuxFavoris.push(...lieuxFavorisPersistence);
   }
 
-  public getLieuxFavoris(): Readonly<Lieu>[] {
+  public getLieuxFavoris(): ReadonlyArray<Readonly<Lieu>> {
     return this.lieuxFavoris;
   }
-  
 
   public getPrenom() {
     return this.prenom;
@@ -36,15 +35,23 @@ class Utilisateur {
     return this.mail;
   }
 
-  public ajouterLieuFavori(lieu: Lieu) {
+  public async ajouterLieuFavori(lieu: Readonly<Lieu>): Promise<void> {
     const isLieuExistant = this.lieuxFavoris.some(lieuFav => lieu.key === lieuFav.key);
-
+    
     if (!isLieuExistant){
-      LieuxFavorisBuilder.ajouterLieuFavori(lieu, this.uid);
-      this.lieuxFavoris.push(lieu);
+      await LieuxFavorisBuilder.ajouterLieuFavori(lieu, this.uid);
+      this.lieuxFavoris = [...this.lieuxFavoris, lieu];
     }
   }
-  
+
+  public async supprimerLieuFavori(lieu: Readonly<Lieu>): Promise<void> {
+    const isLieuExistant = this.lieuxFavoris.some((lieuFav: Readonly<Lieu>) => lieuFav.key === lieu.key);
+
+    if (isLieuExistant) {
+      await LieuxFavorisBuilder.supprimerLieuFavori(lieu, this.uid);
+      this.lieuxFavoris = [...this.lieuxFavoris.filter((lieuFav) => lieuFav.key !== lieu.key)];
+    }
+  }
 }
 
 export default Utilisateur;

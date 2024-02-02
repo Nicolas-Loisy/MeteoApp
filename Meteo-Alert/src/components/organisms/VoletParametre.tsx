@@ -5,7 +5,7 @@ import { useAccountContext } from '../../services/compteUtilisateur/AccountConte
 import Button from '../atoms/Button';
 import { t } from 'i18next';
 import Logo from '../atoms/Logo';
-import { useUser } from '../../services/context/UserContext';
+import { useUtilisateur } from '../../services/context/UtilisateurContext';
 
 interface VoletParametreProps {
   isOpen: boolean;
@@ -19,7 +19,7 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
     serviceCompte.deconnexion();
   };
 
-  const { utilisateur } = useUser();
+  const { prenom, mail } = useUtilisateur();
 
 
   return (
@@ -46,8 +46,8 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
         
         {/* Contenu du volet */}
         <View style={styles.voletContent} >
-          <Text style={styles.text}>{utilisateur?.getPrenom()}</Text>
-          <Text style={styles.text}>{utilisateur?.getMail()}</Text>
+          <Text style={styles.text}>{prenom}</Text>
+          <Text style={styles.text}>{mail}</Text>
 
           {/* Bouton de connexion */}
           <Button

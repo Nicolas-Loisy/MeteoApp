@@ -5,9 +5,9 @@ import * as NavigationBar from 'expo-navigation-bar';
 import * as Font from 'expo-font';
 import { Text } from 'react-native';
 import './src/services/i18n/i18n';
-import { UserProvider } from './src/services/context/UserContext';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { LieuProvider } from './src/services/context/LieuContext';
+import { UtilisateurProvider } from './src/services/context/UtilisateurContext';
 
 const App = () => {
 
@@ -47,7 +47,7 @@ const App = () => {
 
 
   return (
-    <UserProvider>
+    <UtilisateurProvider>
       <AccountProvider>
       <LieuProvider>
 
@@ -57,7 +57,7 @@ const App = () => {
 
       </LieuProvider>
       </AccountProvider>
-    </UserProvider>
+    </UtilisateurProvider>
   );
 };
 
