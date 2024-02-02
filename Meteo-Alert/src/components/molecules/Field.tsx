@@ -11,6 +11,7 @@ interface FieldProps {
   placeholder?: string; // Placeholder du champ de saisie
   validationType?: 'mail' | 'mdp' | 'default';
   displayValidation?: boolean;
+  textContentType?: string;
 }
 
 const Field: React.FC<FieldProps> = ({
@@ -54,6 +55,7 @@ const Field: React.FC<FieldProps> = ({
         onChangeText={handleTextChange} // Utiliser la fonction de gestion de changement de texte
         value={text}
         secureTextEntry={isPassword}
+        
       />
       {displayValidation && (
         isValid ? (
