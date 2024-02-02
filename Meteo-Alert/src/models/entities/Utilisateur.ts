@@ -7,7 +7,7 @@ class Utilisateur {
 
   private prenom: string;
   private mail: string;
-  public lieuxFavoris: Readonly<Lieu>[];
+  private lieuxFavoris: Readonly<Lieu>[];
 
   constructor(dataUtilisateur: utilisateurType) {
     this.prenom = dataUtilisateur.prenom;
@@ -23,8 +23,8 @@ class Utilisateur {
     this.lieuxFavoris.push(...lieuxFavorisPersistence);
   }
 
-  public getLieuxFavoris(): Readonly<Lieu>[] {
-    return [...this.lieuxFavoris];
+  public getLieuxFavoris(): ReadonlyArray<Readonly<Lieu>> {
+    return this.lieuxFavoris;
   }
 
   public getPrenom() {
@@ -40,7 +40,7 @@ class Utilisateur {
     
     if (!isLieuExistant){
       await LieuxFavorisBuilder.ajouterLieuFavori(lieu, this.uid);
-      this.lieuxFavoris.push(lieu);
+      this.lieuxFavoris = [...this.lieuxFavoris, lieu];
     }
   }
 
@@ -49,7 +49,7 @@ class Utilisateur {
 
     if (isLieuExistant) {
       await LieuxFavorisBuilder.supprimerLieuFavori(lieu, this.uid);
-      this.lieuxFavoris = this.lieuxFavoris.filter((lieuFav) => lieuFav.key !== lieu.key);
+      this.lieuxFavoris = [...this.lieuxFavoris.filter((lieuFav) => lieuFav.key !== lieu.key)];
     }
   }
 }

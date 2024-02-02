@@ -8,6 +8,7 @@ import Accueil from "../screens/Accueil";
 import DetailLieu from "../screens/DetailLieu";
 import RechercheLieu from "../screens/RechercheLieu";
 import { useAccountContext } from "../services/compteUtilisateur/AccountContext";
+import Test from "../screens/Test";
 
 const Stack = createStackNavigator();
 
@@ -16,7 +17,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Accueil" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Connexion" screenOptions={{ headerShown: false }}>
         {/* <Stack.Screen name="Demo" component={Demo} options={{ headerShown: false }} /> */}
 
         {/* Espace non-connecte */}
@@ -24,6 +25,7 @@ export default function Navigation() {
           <>
             <Stack.Screen name="Connexion" component={Connexion} options={{ headerShown: false }} />
             <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
+            <Stack.Screen name="Test" component={Test} options={{ headerShown: false }} />
           </>
         )}
 

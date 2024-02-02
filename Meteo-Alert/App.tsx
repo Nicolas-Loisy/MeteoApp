@@ -8,6 +8,7 @@ import './src/services/i18n/i18n';
 import { UserProvider } from './src/services/context/UserContext';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { LieuProvider } from './src/services/context/LieuContext';
+import { LieuxFavorisProvider } from './src/services/context/LieuxFavorisContext';
 
 const App = () => {
 
@@ -49,6 +50,7 @@ const App = () => {
   return (
     <UserProvider>
       <AccountProvider>
+      <LieuxFavorisProvider>
       <LieuProvider>
 
           <AlertNotificationRoot>
@@ -56,6 +58,7 @@ const App = () => {
           </AlertNotificationRoot>
 
       </LieuProvider>
+      </LieuxFavorisProvider>
       </AccountProvider>
     </UserProvider>
   );

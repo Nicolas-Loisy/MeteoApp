@@ -9,16 +9,16 @@ import EngrenageParametre from '../components/atoms/EngrenageParametre';
 import VoletParametre from '../components/organisms/VoletParametre';
 import MyStatusBar from '../components/atoms/MyStatusBar';
 import { useTranslation } from 'react-i18next';
-import { useUser } from '../services/context/UserContext';
 import LieuxSection from '../components/organisms/LieuxSection';
-import Lieu from '../models/valueObject/Lieu';
+import { useLieuxFavoris } from '../services/context/LieuxFavorisContext';
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { t } = useTranslation();
-  const { utilisateur } = useUser();
   const { serviceCompte } = useAccountContext();
-  const [ isVoletOpen, setIsVoletOpen ] = useState<boolean>(false);
+  const [isVoletOpen, setIsVoletOpen] = useState<boolean>(false);
+  const { lieuxFavoris } = useLieuxFavoris();
+ 
   const handleDeconnexion = () => {
     serviceCompte.deconnexion();
   };
@@ -38,7 +38,7 @@ const Accueil = () => {
 
         <View style={styles.container}>
 
-          <LieuxSection lieux={utilisateur?.lieuxFavoris ?? []} />
+          <LieuxSection lieux={lieuxFavoris} />
           {/* Liste scrollable avec des cartes contenants les lieux avec le nom et la temperature */}
 
           <Button

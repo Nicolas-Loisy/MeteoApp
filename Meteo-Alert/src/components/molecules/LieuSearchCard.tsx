@@ -4,6 +4,7 @@ import Lieu from '../../models/valueObject/Lieu';
 import { useUser } from '../../services/context/UserContext';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useLieuxFavoris } from '../../services/context/LieuxFavorisContext';
 
 interface LieuSearchCardProps {
   lieu: Readonly<Lieu>;
@@ -12,22 +13,24 @@ interface LieuSearchCardProps {
 const LieuSearchCard: React.FC<LieuSearchCardProps> = ({ lieu }) => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { utilisateur } = useUser();
+  const { lieuxFavoris, setLieuxFavoris } = useLieuxFavoris();
   const [ isFavori, setFavori ] = useState<boolean>(false);
 
   useEffect(() => {
     if (utilisateur) {
-      const isLieuFav = utilisateur.getLieuxFavoris().some((lieuFav: Readonly<Lieu>) => lieuFav.key === lieu.key);  
+      const isLieuFav = lieuxFavoris.some((lieuFav: Readonly<Lieu>) => lieuFav.key === lieu.key);  
       setFavori(isLieuFav);
     }
   }, [utilisateur, lieu]);
   
-  const handleToggleFavorite = () => {
+  const handleToggleFavorite = async () => {
     if (utilisateur) {
       if (isFavori) {
-        utilisateur.supprimerLieuFavori(lieu);
+        await utilisateur.supprimerLieuFavori(lieu);
       } else {
-        utilisateur.ajouterLieuFavori(lieu);
+        await utilisateur.ajouterLieuFavori(lieu);
       }
+      setLieuxFavoris(utilisateur.getLieuxFavoris());
       navigation.navigate('Accueil');
     }
   };
