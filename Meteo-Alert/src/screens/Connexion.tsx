@@ -8,15 +8,15 @@ import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import ClickableText from '../components/atoms/ClickableText';
 import Field from '../components/molecules/Field';
 import { useTranslation } from 'react-i18next';
-import { useUser } from '../services/context/UserContext';
 import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import { useUtilisateur } from '../services/context/UtilisateurContext';
 
 const Connexion = () => {
   const { t } = useTranslation();
   
   // hook useUser pour accéder au contexte d'utilisateur
-  const { setUtilisateur, utilisateur } = useUser();
+  const { setUtilisateur } = useUtilisateur();
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const serviceCompte = ServiceCompteFactory.getServiceCompte();

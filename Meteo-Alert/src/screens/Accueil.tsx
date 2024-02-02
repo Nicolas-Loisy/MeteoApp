@@ -10,14 +10,14 @@ import VoletParametre from '../components/organisms/VoletParametre';
 import MyStatusBar from '../components/atoms/MyStatusBar';
 import { useTranslation } from 'react-i18next';
 import LieuxSection from '../components/organisms/LieuxSection';
-import { useLieuxFavoris } from '../services/context/LieuxFavorisContext';
+import { useUtilisateur } from '../services/context/UtilisateurContext';
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { t } = useTranslation();
   const { serviceCompte } = useAccountContext();
   const [isVoletOpen, setIsVoletOpen] = useState<boolean>(false);
-  const { lieuxFavoris } = useLieuxFavoris();
+  const { lieuxFavoris} = useUtilisateur();
  
   const handleDeconnexion = () => {
     serviceCompte.deconnexion();
