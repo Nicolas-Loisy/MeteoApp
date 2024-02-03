@@ -17,6 +17,21 @@
                 "btn": "Close"
             }
         },
+        "resetPwd": {
+            "titre": "Reset password",
+            "email": "Email",
+            "resetPwd": "",
+            "popup-err": {
+                "title": "",
+                "body": "",
+                "btn": ""
+            },
+            "popup-valid": {
+                "title": "",
+                "body": "",
+                "btn": ""
+            }
+        },
         "demo": {
             "test": "The test",
             "testInjection": "The test with the number: {{number}} !!!"

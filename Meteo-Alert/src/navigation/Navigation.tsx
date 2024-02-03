@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Connexion from "../screens/Connexion";
 import Inscription from "../screens/Inscription";
+import MdpOublie from "../screens/MdpOublie";
 import Accueil from "../screens/Accueil";
 import DetailLieu from "../screens/DetailLieu";
 import RechercheLieu from "../screens/RechercheLieu";
@@ -25,6 +26,7 @@ export default function Navigation() {
           <>
             <Stack.Screen name="Connexion" component={Connexion} options={{ headerShown: false }} />
             <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
+            <Stack.Screen name="MdpOublie" component={MdpOublie} options={{ headerShown: false }} />
             <Stack.Screen name="Test" component={Test} options={{ headerShown: false }} />
           </>
         )}

@@ -17,6 +17,21 @@
                 "btn": "Fermer"
             }
         },
+        "resetPwd": {
+            "titre": "Réinitialisation du mot de passe",
+            "email": "E-mail",
+            "resetPwd": "",
+            "popup-err": {
+                "title": "",
+                "body": "",
+                "btn": ""
+            },
+            "popup-valid": {
+                "title": "",
+                "body": "",
+                "btn": ""
+            }
+        },
         "demo": {
             "test": "Le test",
             "testInjection": "Le test avec le numero : {{number}} !!!"

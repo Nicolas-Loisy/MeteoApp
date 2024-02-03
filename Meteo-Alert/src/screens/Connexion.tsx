@@ -60,7 +60,7 @@ const Connexion = () => {
           <View style={styles.viewForgetMdp}>
             <ClickableText
               text={t('connexion.forget_mdp')}
-              onPress={() => null}
+              onPress={() => navigation.navigate('MdpOublie')}
             />
           </View>
 
