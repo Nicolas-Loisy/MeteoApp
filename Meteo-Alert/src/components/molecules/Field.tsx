@@ -12,6 +12,7 @@ interface FieldProps {
   validationType?: 'mail' | 'mdp' | 'default';
   displayValidation?: boolean;
   textContentType?: string;
+  keyboardType?: 'email-address' | 'visible-password' | 'default' ;
 }
 
 const Field: React.FC<FieldProps> = ({
@@ -23,6 +24,7 @@ const Field: React.FC<FieldProps> = ({
   placeholder,
   validationType = 'default', // defaut, mail, mdp
   displayValidation,
+  keyboardType,
 }) => {
   const [text, setText] = useState(value);
   const [isValid, setIsValid] = useState(false);
@@ -55,7 +57,8 @@ const Field: React.FC<FieldProps> = ({
         onChangeText={handleTextChange} // Utiliser la fonction de gestion de changement de texte
         value={text}
         secureTextEntry={isPassword}
-        
+        textContentType='oneTimeCode'
+        keyboardType={keyboardType}
       />
       {displayValidation && (
         isValid ? (
