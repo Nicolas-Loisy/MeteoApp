@@ -52,16 +52,17 @@ const Connexion = () => {
         <LayoutTemplate>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.container}>
+            style={styles.container}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? -70 : 0}>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
               <View style={styles.inner}>
                 <LogoMeteo {...styles.logoMeteo}/>
                 <Text style={styles.text}>{t('connexion.titre')}</Text>
 
                 {/* Formulaire d'adresse e-mail */}
-                <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')} keyboardType='email-address'/>
+                <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')} keyboardType='email-address' autoCorrect={false}/>
                 {/* Formulaire de mot de passe */}
-                <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} isPassword/>
+                <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} keyboardType='visible-password' isPassword/>
 
                 <View style={styles.viewForgetMdp}>
                   <ClickableText

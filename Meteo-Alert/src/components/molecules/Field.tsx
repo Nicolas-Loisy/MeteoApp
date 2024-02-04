@@ -13,6 +13,8 @@ interface FieldProps {
   displayValidation?: boolean;
   textContentType?: string;
   keyboardType?: 'email-address' | 'visible-password' | 'default' ;
+  autoCorrect?: boolean;
+  returnKeyType?: string;
 }
 
 const Field: React.FC<FieldProps> = ({
@@ -25,6 +27,7 @@ const Field: React.FC<FieldProps> = ({
   validationType = 'default', // defaut, mail, mdp
   displayValidation,
   keyboardType,
+  autoCorrect,
 }) => {
   const [text, setText] = useState(value);
   const [isValid, setIsValid] = useState(false);
@@ -59,6 +62,8 @@ const Field: React.FC<FieldProps> = ({
         secureTextEntry={isPassword}
         textContentType='oneTimeCode'
         keyboardType={keyboardType}
+        autoCorrect={autoCorrect}
+        returnKeyType='go'
       />
       {displayValidation && (
         isValid ? (
