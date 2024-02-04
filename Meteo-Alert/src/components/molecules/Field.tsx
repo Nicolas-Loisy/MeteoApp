@@ -15,6 +15,7 @@ interface FieldProps {
   keyboardType?: 'email-address' | 'visible-password' | 'default' ;
   autoCorrect?: boolean;
   returnKeyType?: string;
+  onSubmitEditing?: () => void;
 }
 
 const Field: React.FC<FieldProps> = ({
@@ -28,6 +29,7 @@ const Field: React.FC<FieldProps> = ({
   displayValidation,
   keyboardType,
   autoCorrect,
+  onSubmitEditing
 }) => {
   const [text, setText] = useState(value);
   const [isValid, setIsValid] = useState(false);
@@ -64,6 +66,7 @@ const Field: React.FC<FieldProps> = ({
         keyboardType={keyboardType}
         autoCorrect={autoCorrect}
         returnKeyType='go'
+        onSubmitEditing={onSubmitEditing}
       />
       {displayValidation && (
         isValid ? (
