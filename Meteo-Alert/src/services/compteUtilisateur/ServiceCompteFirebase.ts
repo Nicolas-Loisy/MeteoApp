@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth, setPersistence, getReactNativePersistence } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth, setPersistence, getReactNativePersistence, sendPasswordResetEmail, updatePassword } from "firebase/auth";
 
 import { ref, set, get } from 'firebase/database';
 
@@ -116,4 +116,29 @@ export default class ServiceCompteFirebase implements iServiceCompte {
 
     this.notify();
   }
+
+  public async reinitialiserMdp(email: string): Promise<void> {
+    const auth = FirebaseConfig.getInstance().auth;
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error: any) {
+      console.log(error);
+      throw (error);
+    }
+  }
+
+  public async modifierMdp(motDePasse: string): Promise<void> {
+    const auth = FirebaseConfig.getInstance().auth;
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error("FirebaseError: user is null");
+
+      await updatePassword(user, motDePasse);
+    } catch (error: any) {
+      console.log(error);
+      throw (error);
+    }
+  }
+
+
 }

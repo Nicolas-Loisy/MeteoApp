@@ -9,48 +9,67 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Field from '../components/molecules/Field';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import Button from '../components/atoms/Button';
+import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
 
 
 const Inscription = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  // États pour stocker les valeurs du formulaire
   const [email, setEmail] = useState('');
 
-  const handleResetPwd = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const serviceCompte = ServiceCompteFactory.getServiceCompte();
+
+
+  const handleResetPassword = () => {
     if (email) {
-    //     .then(() => {
-    //       navigation.navigate('Accueil');
-    //     })
-    //     .catch((error) => {
-    //       Dialog.show({
-    //         type: ALERT_TYPE.DANGER,
-    //         title: t("resetPwd.popup-err.title"),
-    //         textBody: t("resetPwd.popup-err.body"),
-    //         button: t("resetPwd.popup-err.btn"),
-    //       });
-    //     })
-    //   ;
+      serviceCompte.reinitialiserMdp(email)
+      .then(() => {
+        Dialog.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: t("mdp_oublie.popup_confirmation.title"),
+          textBody: t("mdp_oublie.popup_confirmation.textBody"),
+          button: t("mdp_oublie.popup_confirmation.button"),
+        });
+      })
+      .catch((error: Error) => {
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: t("mdp_oublie.popup_erreur.title"),
+          textBody: error.message,
+          button: t("mdp_oublie.popup_erreur.button"),
+        });
+      });
+    } else {
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: t("mdp_oublie.popup_erreur.title"),
+        textBody: t("mdp_oublie.popup_erreur.mail_manquant"),
+        button: t("mdp_oublie.popup_erreur.button"),
+      });
     }
-  };
+  }
 
   return (
     <LayoutTemplate>
-    <ArrowReturn onPress={() => navigation.goBack()} style={styles.arrowReturn} />
+      <ArrowReturn onPress={() => navigation.goBack()} style={styles.arrowReturn} />
+
       <View style={styles.containerHeader}>
         <LogoMeteo {...styles.logoMeteo}/>
-        <Text style={styles.text}>{t('resetPwd.titre')}</Text>
+        <Text style={styles.text}>{t('mdp_oublie.logo')}</Text>
       </View>
 
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
+            {/* Titre */}
+            <Text>{t("mdp_oublie.titre")}</Text>
+
             {/* Formulaire d'adresse e-mail */}
-            <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('resetPwd.email')}/>
+            <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('mdp_oublie.email')}/>
 
             {/* Bouton de resetPwd */}
             <Button
-                onPress={handleResetPwd}
-                title={t('resetPwd.resetPwd')}
+                onPress={handleResetPassword}
+                title={t('mdp_oublie.button')}
                 styleBtn="whiteBg"
             />
         </View>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import {ParamListBase, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
 import Button from '../components/atoms/Button';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
@@ -30,7 +30,6 @@ const Connexion = () => {
       serviceCompte.connexion(email, motDePasse)
         .then((utilisateurConn) => {
           setUtilisateur(utilisateurConn); // fonction du contexte pour mettre à jour l'utilisateur
-
           navigation.navigate('Accueil');
         })
         .catch((error) => {

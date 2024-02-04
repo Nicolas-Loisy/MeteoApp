@@ -17,19 +17,20 @@
                 "btn": "Close"
             }
         },
-        "resetPwd": {
-            "titre": "Reset password",
-            "email": "Email",
-            "resetPwd": "",
-            "popup-err": {
-                "title": "",
-                "body": "",
-                "btn": ""
+        "mdp_oublie": {
+            "logo": "Weather Alerts",
+            "titre": "Reset my password",
+            "email": "mail adress",
+            "button": "send an email",
+            "popup_confirmation" : {
+                "title": "Password reset",
+                "textBody": "An email has been sent.",
+                "button": "Close"
             },
-            "popup-valid": {
-                "title": "",
-                "body": "",
-                "btn": ""
+            "popup_erreur" : {
+                "title": "Impossible to reset the password",
+                "mail_manquant": "A mail adress is required.",
+                "button": "Close"
             }
         },
         "demo": {

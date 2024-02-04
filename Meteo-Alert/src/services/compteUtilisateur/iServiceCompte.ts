@@ -5,7 +5,10 @@ export default interface iServiceCompte {
   inscription(email: string, motDePasse: string, userData:Object): Promise<Utilisateur | null>;
   connexion(email: string, motDePasse: string): Promise<Utilisateur | null>;
   deconnexion(): Promise<void>;
+  reinitialiserMdp(email: string): Promise<void>;
+  modifierMdp(motDePasse: string): Promise<void>;
+  
+  // Observer
   addObserver(observer: iObserverConnexion): void;
   remObserver(observer: iObserverConnexion): void;
-  // updateFavoris(lieuxFavoris: string, uid: string): void;
 }

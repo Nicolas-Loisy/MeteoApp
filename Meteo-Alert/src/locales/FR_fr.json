@@ -17,19 +17,20 @@
                 "btn": "Fermer"
             }
         },
-        "resetPwd": {
-            "titre": "Réinitialisation du mot de passe",
-            "email": "E-mail",
-            "resetPwd": "",
-            "popup-err": {
-                "title": "",
-                "body": "",
-                "btn": ""
+        "mdp_oublie": {
+            "logo": "Méteo Alertes",
+            "titre": "Réinitialiser mon mot de passe",
+            "email": "Adresse mail",
+            "button": "Envoyer un mail",
+            "popup_confirmation" : {
+                "title": "Réinitialisation du mot de passe",
+                "textBody": "Un email a été envoyé à l'adresse fournie.",
+                "button": "Fermer"
             },
-            "popup-valid": {
-                "title": "",
-                "body": "",
-                "btn": ""
+            "popup_erreur" : {
+                "title": "Réinitialisation du mot de passe impossible",
+                "mail_manquant": "Indiquer une adresse mail",
+                "button": "Fermer"
             }
         },
         "demo": {
