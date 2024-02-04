@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
 import Logo from '../atoms/Logo';
 
 interface FieldProps {
@@ -29,10 +29,11 @@ const Field: React.FC<FieldProps> = ({
   displayValidation,
   keyboardType,
   autoCorrect,
-  onSubmitEditing
+  onSubmitEditing,
 }) => {
   const [text, setText] = useState(value);
   const [isValid, setIsValid] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
 
   const handleTextChange = (newText: string) => {
     setText(newText);
@@ -53,6 +54,10 @@ const Field: React.FC<FieldProps> = ({
     onChangeText(newText); // Appeler la fonction de rappel avec le nouveau texte
   };
 
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <View style={styles.container}>
       <Logo imageSource={iconSource} size={25} />
@@ -61,13 +66,22 @@ const Field: React.FC<FieldProps> = ({
         placeholder={placeholder || fieldName} // Utiliser le placeholder spécifié ou le nom de champ par défaut
         onChangeText={handleTextChange} // Utiliser la fonction de gestion de changement de texte
         value={text}
-        secureTextEntry={isPassword}
+        secureTextEntry={isPassword ? showPassword : false}
         textContentType='oneTimeCode'
         keyboardType={keyboardType}
         autoCorrect={autoCorrect}
         returnKeyType='go'
         onSubmitEditing={onSubmitEditing}
       />
+      {isPassword && (
+        <TouchableOpacity onPress={togglePassword}>
+          {showPassword ? (
+            <Image source={require('../../assets/icons/eye-closed.png')} style={{ width: 25, height: 25, tintColor: '#1E375A' }}/>
+          ) : (
+            <Image source={require('../../assets/icons/eye-open.png')} style={{ width: 25, height: 25, tintColor: '#1E375A' }}/>
+          )}
+        </TouchableOpacity>
+      )}
       {displayValidation && (
         isValid ? (
           <Logo imageSource={require('../../assets/icons/check-solid.png')} size={25} color='#1E375A'/>

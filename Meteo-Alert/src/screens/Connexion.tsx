@@ -25,8 +25,23 @@ const Connexion = () => {
   // États pour stocker les valeurs du formulaire
   const [email, setEmail] = useState('');
   const [motDePasse, setMotDePasse] = useState('');
+  /*const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);*/
 
   const handleConnexion = () => {
+    // Vérification de la validité de l'email et du mot de passe
+    /*if (!email) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+
+    if (!motDePasse) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }*/
+
     if (email && motDePasse) {
       serviceCompte.connexion(email, motDePasse)
         .then((utilisateurConn) => {
