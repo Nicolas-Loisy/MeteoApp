@@ -9,8 +9,8 @@ import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
 import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
 import Field from '../components/molecules/Field';
-import SummaryRules from '../components/atoms/SummaryRules';
-import Password from '../models/datatype/dtPassword';
+import ReglesMDP from '../components/atoms/ReglesMDP';
+import dtMotDePasse from '../models/datatype/dtMotDePasse';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 
 
@@ -24,21 +24,21 @@ const Inscription = () => {
   const [email, setEmail] = useState('');
   const [prenom, setPrenom] = useState('');
   
-  const [motDePasse, setMotDePasse] = useState<string>('');
-  const [password, setPassword] = useState<Password | null>(null);
-  const passwordRules = Password.checkRules(motDePasse);
+  const [motDePasseValue, setMotDePasseValue] = useState<string>('');
+  const [motDePasse, setMotDePasse] = useState<dtMotDePasse | null>(null);
+  const passwordRules = dtMotDePasse.checkRules(motDePasseValue);
 
   useEffect(() => {
-    const rules = Password.checkRules(motDePasse);
+    const rules = dtMotDePasse.checkRules(motDePasseValue);
     if (!Object.values(rules).includes(false)) {
-      setPassword(new Password(motDePasse));
+      setMotDePasse(new dtMotDePasse(motDePasseValue));
     }
-  }, [motDePasse]);
+  }, [motDePasseValue]);
 
   const handleInscription = () => {
 
     if (email && motDePasse && prenom) {
-      serviceCompte.inscription(email, motDePasse, {"prenom": prenom, "lieuxFavoris": []})
+      serviceCompte.inscription(email, motDePasse.value, {"prenom": prenom, "lieuxFavoris": []})
         .then(() => {
           navigation.navigate('Accueil');
         })
@@ -72,8 +72,8 @@ const Inscription = () => {
           <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' displayValidation/>
 
           {/* Formulaire de mot de passe */}
-          <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword/>
-          <SummaryRules
+          <Field onChangeText={setMotDePasseValue} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword/>
+          <ReglesMDP
             rules={passwordRules}
           />
 

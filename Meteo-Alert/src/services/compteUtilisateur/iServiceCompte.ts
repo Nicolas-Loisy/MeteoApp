@@ -6,7 +6,8 @@ export default interface iServiceCompte {
   connexion(email: string, motDePasse: string): Promise<Utilisateur | null>;
   deconnexion(): Promise<void>;
   reinitialiserMdp(email: string): Promise<void>;
-  modifierMdp(motDePasse: string): Promise<void>;
+  modifierMdp(ancienMotDePasse: string, motDePasse: string): Promise<void>;
+  supprimerCompte(motDePasse: string): Promise<void>;
   
   // Observer
   addObserver(observer: iObserverConnexion): void;

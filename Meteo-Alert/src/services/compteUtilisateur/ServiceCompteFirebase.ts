@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth, setPersistence, getReactNativePersistence, sendPasswordResetEmail, updatePassword } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth, setPersistence, getReactNativePersistence, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential, deleteUser } from "firebase/auth";
 
 import { ref, set, get } from 'firebase/database';
 
@@ -127,18 +127,56 @@ export default class ServiceCompteFirebase implements iServiceCompte {
     }
   }
 
-  public async modifierMdp(motDePasse: string): Promise<void> {
+  public async modifierMdp(ancienMotDePasse: string, motDePasse: string): Promise<void> {
     const auth = FirebaseConfig.getInstance().auth;
     try {
-      const user = auth.currentUser;
-      if (!user) throw new Error("FirebaseError: user is null");
+      const isConnexionVerifiee = await this.verifierConnexion(motDePasse);
+      if (isConnexionVerifiee) throw new Error("FirebaseError: reauthentication failed");
 
-      await updatePassword(user, motDePasse);
+      /* Mise à jour du mot de passe */
+      await updatePassword(auth.currentUser!, motDePasse);
+      
     } catch (error: any) {
       console.log(error);
       throw (error);
     }
   }
 
+  public async supprimerCompte(motDePasse: string): Promise<void> {
+    const auth = FirebaseConfig.getInstance().auth;
+    try {
+      const isConnexionVerifiee = await this.verifierConnexion(motDePasse);
+      if (isConnexionVerifiee) throw new Error("FirebaseError: reauthentication failed");
 
+      /* Mise à jour du mot de passe */
+      await deleteUser(auth.currentUser!);
+    } catch (error: any) {
+      console.log(error);
+      throw (error);
+    }
+  }
+
+  private async verifierConnexion(motDePasse: string): Promise<boolean> {
+    const auth = FirebaseConfig.getInstance().auth;
+
+    try {
+      /* Vérification du statut de l'utilisateur */
+      const user = auth.currentUser;
+      if (!user) throw new Error("FirebaseError: user is null");
+      if (!user.email) throw new Error("FirebaseError: user email is null")
+
+      /* Vérification de l'ancien mot de passe */
+      var credential = EmailAuthProvider.credential(
+        user.email!,
+        motDePasse
+      );
+
+      const userCredential = await reauthenticateWithCredential(user, credential);
+
+      return !!userCredential;
+    } catch (error: any) {
+      console.log(error);
+      throw (error);
+    }
+  }
 }

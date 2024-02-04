@@ -7,7 +7,7 @@ type Props = {
   rules: Record<string, boolean>;
 };
 
-const SummaryRules: React.FC<Props> = ({ rules }) => {
+const ReglesMDP: React.FC<Props> = ({ rules }) => {
   return (
     <View>
       {/* <Text style={styles.title}>Summary Rules:</Text> */}
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SummaryRules;
+export default ReglesMDP;

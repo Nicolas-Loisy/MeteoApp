@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Modal, TouchableWithoutFeedback } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { useAccountContext } from '../../services/compteUtilisateur/AccountContext';
@@ -6,6 +6,10 @@ import Button from '../atoms/Button';
 import { t } from 'i18next';
 import Logo from '../atoms/Logo';
 import { useUtilisateur } from '../../services/context/UtilisateurContext';
+import Field from '../molecules/Field';
+import dtMotDePasse from '../../models/datatype/dtMotDePasse';
+import ReglesMDP from '../atoms/ReglesMDP';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 
 interface VoletParametreProps {
   isOpen: boolean;
@@ -13,14 +17,56 @@ interface VoletParametreProps {
 }
 
 const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
-  
   const { serviceCompte } = useAccountContext();
+  const { prenom, mail } = useUtilisateur();
+
+  const [ ancienMotDePasseValue, setAncienMotDePasseValue ] = useState<string>("");
+  const [ motDePasseValue, setMotDePasseValue ] = useState<string>("");
+  const [ motDePasse, setMotDePasse ] = useState<dtMotDePasse | null>(null);
+
+  const motDePasseRegles = dtMotDePasse.checkRules(motDePasseValue);
+
+  useEffect(() => {
+    const rules = dtMotDePasse.checkRules(motDePasseValue);
+    if (!Object.values(rules).includes(false)) {
+      setMotDePasse(new dtMotDePasse(motDePasseValue));
+    }
+  }, [motDePasseValue]);
+  
+  const handleModifierMotDePasse = async () => {
+    if (!motDePasse) {
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Modification du mot de passe impossible",
+        textBody: "Le nouveau mot de passe ne respecte pas les règles attendues",
+        button: "Fermer",
+      });
+
+      return;
+    }
+    
+    serviceCompte.modifierMdp(ancienMotDePasseValue, motDePasse.value)
+    .then(() => {
+      Dialog.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: "Modification du mot de passe terminée",
+        textBody: "Votre mot de passe a bien été modifié !",
+        button: "Fermer",
+      });
+    })
+    .catch( (error: Error) => {
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Modification du mot de passe impossible",
+        textBody: error.message,
+        button: "Fermer",
+      });
+    })
+  }
+
   const handleDeconnexion = () => {
     serviceCompte.deconnexion();
   };
-
-  const { prenom, mail } = useUtilisateur();
-
 
   return (
     <Modal
@@ -28,7 +74,6 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
       animationType="none"
       visible={isOpen}
       onRequestClose={onClose}
-      // statusBarTranslucent
     >
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay} />
@@ -38,7 +83,7 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
         duration={600}
         style={styles.volet}
       >
-        <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+        <TouchableOpacity onPress={onClose}>
           <View style={styles.closeButtonLogo} >
             <Logo imageSource={require('../../assets/icons/icon-refus.png')} color='white' size={30}/>
           </View>
@@ -49,6 +94,18 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
           <Text style={styles.text}>{prenom}</Text>
           <Text style={styles.text}>{mail}</Text>
 
+          {/* Formulaire de modification de mot de passe */}
+          <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Ancien mot de passe"} isPassword/>
+          <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Nouveau mot de passe"} isPassword/>
+          <ReglesMDP
+            rules={motDePasseRegles}
+          />
+
+          <Button
+            onPress={handleModifierMotDePasse}
+            title={"Modifier votre mot de passe"}
+            styleBtn="noBg"
+          />
           {/* Bouton de connexion */}
           <Button
             onPress={handleDeconnexion}
@@ -63,13 +120,16 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
 };
 
 const styles = StyleSheet.create({
-  overlay: {
+   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   volet: {
     width: 322,
     height: '100%',
+    paddingTop: 50,
+    paddingLeft: 20,
+    paddingRight: 20,
     backgroundColor: '#1E375A',
     position: 'absolute',
     top: 0,
@@ -78,12 +138,6 @@ const styles = StyleSheet.create({
   voletContent: {
     marginTop: 50,
     height: "90%",
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    marginBottom: 30,
   },
   closeButtonLogo: {
     color: '#FFF',
