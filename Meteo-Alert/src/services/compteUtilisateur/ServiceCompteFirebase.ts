@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth, setPersistence, getReactNativePersistence, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential, deleteUser } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential, deleteUser, onAuthStateChanged, User } from "firebase/auth";
 
 import { ref, set, get } from 'firebase/database';
 
@@ -83,22 +83,12 @@ export default class ServiceCompteFirebase implements iServiceCompte {
     try {
       //Connexion
       const auth = FirebaseConfig.getInstance().auth;
-      const database = FirebaseConfig.getInstance().database;
 
       const userCredential = await signInWithEmailAndPassword(auth, mail, password);
       this.token = await userCredential.user.getIdToken();
 
       //Récupération des informations de compte
-      const userRef = ref(database, `utilisateurs/${userCredential.user.uid}`);
-      const userDataFB = await get(userRef);
-
-      let userData: utilisateurType = {
-        ...userDataFB.val(), // prenom et lieuxFavoris
-        "mail": userCredential.user.email,
-        "uid": userCredential.user.uid,
-      }
-
-      let utilisateur = new Utilisateur(userData)
+      const utilisateur = this.getUtilisateurData(userCredential.user);
 
       this.notify();
       return utilisateur;
@@ -108,12 +98,27 @@ export default class ServiceCompteFirebase implements iServiceCompte {
     }
   }
 
+  public async fetchConnexion(): Promise<Utilisateur | null> {
+    return new Promise<Utilisateur | null>((resolve, reject) => {
+      const auth = FirebaseConfig.getInstance().auth;
+  
+      onAuthStateChanged(auth, async (user) => {
+
+        if (user) {
+          const userLocal = await this.getUtilisateurData(user);
+          this.notify();
+          resolve(userLocal);
+        } else {
+          resolve(null);
+        }
+      }, reject);
+    });
+  }
+
   public async deconnexion(): Promise<any> {
     const auth = FirebaseConfig.getInstance().auth;
-
     await auth.signOut();
     this.token = null;
-
     this.notify();
   }
 
@@ -154,6 +159,31 @@ export default class ServiceCompteFirebase implements iServiceCompte {
       console.log(error);
       throw (error);
     }
+  }
+
+  /* ------------------- Private ------------------- */
+  private async getUtilisateurData(user: User): Promise<Utilisateur | null> {
+    const database = FirebaseConfig.getInstance().database;
+
+    try {
+      //Récupération des informations de compte
+      const userRef = ref(database, `utilisateurs/${user.uid}`);
+      const userDataFB = await get(userRef);
+
+      let userData: utilisateurType = {
+        ...userDataFB.val(), // prenom et lieuxFavoris
+        "mail": user.email,
+        "uid": user.uid,
+      }
+
+      let utilisateur = new Utilisateur(userData)
+
+      return utilisateur;
+    } catch (err: any) {
+      console.log(err);
+
+      return null;
+    } 
   }
 
   private async verifierConnexion(motDePasse: string): Promise<boolean> {

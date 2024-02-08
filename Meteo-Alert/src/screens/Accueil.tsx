@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useAccountContext } from '../services/compteUtilisateur/AccountContext';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import Button from '../components/atoms/Button';
 import EngrenageParametre from '../components/atoms/EngrenageParametre';
@@ -15,12 +14,11 @@ import { useUtilisateur } from '../services/context/UtilisateurContext';
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { t } = useTranslation();
-  const { serviceCompte } = useAccountContext();
   const [isVoletOpen, setIsVoletOpen] = useState<boolean>(false);
-  const { lieuxFavoris} = useUtilisateur();
+  const { lieuxFavoris, deconnexion } = useUtilisateur(); 
  
   const handleDeconnexion = () => {
-    serviceCompte.deconnexion();
+    deconnexion();
   };
 
   const handleVolet = () => {

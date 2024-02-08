@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
 import Button from '../components/atoms/Button';
 import ClickableText from '../components/atoms/ClickableText';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
@@ -12,14 +11,14 @@ import Field from '../components/molecules/Field';
 import ReglesMDP from '../components/atoms/ReglesMDP';
 import dtMotDePasse from '../models/datatype/dtMotDePasse';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import { useUtilisateur } from '../services/context/UtilisateurContext';
 
 
 const Inscription = () => {
   const { t } = useTranslation();
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const serviceCompte = ServiceCompteFactory.getServiceCompte();
-
+  const { inscription } = useUtilisateur();
   // États pour stocker les valeurs du formulaire
   const [email, setEmail] = useState('');
   const [prenom, setPrenom] = useState('');
@@ -35,23 +34,18 @@ const Inscription = () => {
     }
   }, [motDePasseValue]);
 
-  const handleInscription = () => {
-
+  const handleInscription = async () => {
     if (email && motDePasse && prenom) {
-      serviceCompte.inscription(email, motDePasse.value, {"prenom": prenom, "lieuxFavoris": []})
-        .then(() => {
-          navigation.navigate('Accueil');
-        })
-        .catch((error) => {
-          Dialog.show({
-            type: ALERT_TYPE.DANGER,
-            title: t("inscription.popup.title"),
-            textBody: t("inscription.popup.body"),
-            button: t("inscription.popup.btn"),
-          });
-          // console.error('Erreur de Inscription :', error);
-        })
-      ;
+      try {
+        await inscription(email, motDePasse.value, {"prenom": prenom, "lieuxFavoris": []});
+      } catch {
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: t("inscription.popup.title"),
+          textBody: t("inscription.popup.body"),
+          button: t("inscription.popup.btn"),
+        });
+      }
     }
   };
 

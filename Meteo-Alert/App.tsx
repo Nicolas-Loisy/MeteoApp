@@ -48,15 +48,13 @@ const App = () => {
 
   return (
     <UtilisateurProvider>
-      <AccountProvider>
-      <LieuProvider>
+    <LieuProvider>
 
-          <AlertNotificationRoot>
-            <Navigation />
-          </AlertNotificationRoot>
+      <AlertNotificationRoot>
+        <Navigation />
+      </AlertNotificationRoot>
 
-      </LieuProvider>
-      </AccountProvider>
+    </LieuProvider>
     </UtilisateurProvider>
   );
 };

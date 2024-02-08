@@ -9,36 +9,33 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Field from '../components/molecules/Field';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import Button from '../components/atoms/Button';
-import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
+import { useUtilisateur } from '../services/context/UtilisateurContext';
 
 
-const Inscription = () => {
+const MdpOublie = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
-
+  const { reinitialiserMotDePasse } = useUtilisateur();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const serviceCompte = ServiceCompteFactory.getServiceCompte();
 
-
-  const handleResetPassword = () => {
+  const handleResetPassword = async () => {
     if (email) {
-      serviceCompte.reinitialiserMdp(email)
-      .then(() => {
+      try {
+        await reinitialiserMotDePasse(email);
         Dialog.show({
           type: ALERT_TYPE.SUCCESS,
           title: t("mdp_oublie.popup_confirmation.title"),
           textBody: t("mdp_oublie.popup_confirmation.textBody"),
           button: t("mdp_oublie.popup_confirmation.button"),
         });
-      })
-      .catch((error: Error) => {
+      } catch (error: any) {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
           title: t("mdp_oublie.popup_erreur.title"),
           textBody: error.message,
           button: t("mdp_oublie.popup_erreur.button"),
         });
-      });
+      }
     } else {
       Dialog.show({
         type: ALERT_TYPE.DANGER,
@@ -111,4 +108,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Inscription;
+export default MdpOublie;

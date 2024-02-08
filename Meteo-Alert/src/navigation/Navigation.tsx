@@ -8,14 +8,14 @@ import MdpOublie from "../screens/MdpOublie";
 import Accueil from "../screens/Accueil";
 import DetailLieu from "../screens/DetailLieu";
 import RechercheLieu from "../screens/RechercheLieu";
-import { useAccountContext } from "../services/compteUtilisateur/AccountContext";
 import Test from "../screens/Test";
+import { useUtilisateur } from "../services/context/UtilisateurContext";
 
 const Stack = createStackNavigator();
 
 export default function Navigation() {
-  const { statutConnecte } = useAccountContext();
-
+  const statutConnecte = !!useUtilisateur().UID;
+  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Connexion" screenOptions={{ headerShown: false }}>

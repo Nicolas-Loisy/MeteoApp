@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Modal, TouchableWithoutFeedback } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { useAccountContext } from '../../services/compteUtilisateur/AccountContext';
 import Button from '../atoms/Button';
 import { t } from 'i18next';
 import Logo from '../atoms/Logo';
@@ -17,12 +16,12 @@ interface VoletParametreProps {
 }
 
 const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
-  const { serviceCompte } = useAccountContext();
-  const { prenom, mail } = useUtilisateur();
+  const { prenom, mail, modifierMotDePasse, deconnexion } = useUtilisateur();
 
   const [ ancienMotDePasseValue, setAncienMotDePasseValue ] = useState<string>("");
   const [ motDePasseValue, setMotDePasseValue ] = useState<string>("");
   const [ motDePasse, setMotDePasse ] = useState<dtMotDePasse | null>(null);
+  
 
   const motDePasseRegles = dtMotDePasse.checkRules(motDePasseValue);
 
@@ -44,28 +43,36 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
 
       return;
     }
-    
-    serviceCompte.modifierMdp(ancienMotDePasseValue, motDePasse.value)
-    .then(() => {
+
+    try {
+      await modifierMotDePasse(ancienMotDePasseValue, motDePasse.value)
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
         title: "Modification du mot de passe terminée",
         textBody: "Votre mot de passe a bien été modifié !",
         button: "Fermer",
       });
-    })
-    .catch( (error: Error) => {
+    } catch (error: any) {
       Dialog.show({
         type: ALERT_TYPE.DANGER,
         title: "Modification du mot de passe impossible",
         textBody: error.message,
         button: "Fermer",
       });
-    })
+    }
   }
 
-  const handleDeconnexion = () => {
-    serviceCompte.deconnexion();
+  const handleDeconnexion = async () => {
+    try {
+      await deconnexion();
+    } catch (error: any ){
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Deconnexion",
+        textBody: error.message,
+        button: "Fermer",
+      });
+    }
   };
 
   return (
