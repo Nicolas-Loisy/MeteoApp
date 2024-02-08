@@ -3,13 +3,37 @@ import FirebaseConfig from '../../config/FirebaseConfig';
 import iServicePersistence from './iServicePersistence';
 import lieuType from '../../models/types/lieuType';
 import { alerteType } from '../../models/types/alerteType';
+import utilisateurPersistenceType from '../../models/types/utilisateurPersistenceType';
+import ErreurBDD from './ErreurBDD';
 
 class ServicePersistenceFirebase implements iServicePersistence {
 
-  public async getLieuxFavoris(UIDutilisateur: string): Promise<lieuType[]> {
-    const lieuxFavoris: lieuType[] = [];
+  public async inscription(GUID: string, utilisateurData: utilisateurPersistenceType): Promise<void> {
+    try {
+      const database = FirebaseConfig.getInstance().database;
+      const userRef = ref(database, `utilisateurs/${GUID}`);
+      await set(userRef, utilisateurData);
+    } catch (err: any) {
+      throw ErreurBDD.ERREUR_DATABASE
+    }
+  }
+
+  public async getUtilisateurData(GUID: string): Promise<utilisateurPersistenceType> {
     const database = FirebaseConfig.getInstance().database;
-    const userRef = ref(database, `utilisateurs/${UIDutilisateur}/lieuxFavoris`);
+    try {
+      const utilisateurRef = ref(database, `utilisateurs/${GUID}`);
+      const utilisateurData = await get(utilisateurRef);
+
+      return utilisateurData as unknown as utilisateurPersistenceType;
+    } catch (err: any) {
+      throw ErreurBDD.ERREUR_DATABASE
+    }
+  }
+
+  public async getLieuxFavoris(GUID: string): Promise<lieuType[]> {
+    const database = FirebaseConfig.getInstance().database;
+    const lieuxFavoris: lieuType[] = [];
+    const userRef = ref(database, `utilisateurs/${GUID}/lieuxFavoris`);
 
     try {
       const snapshot = await get(userRef);
@@ -39,12 +63,12 @@ class ServicePersistenceFirebase implements iServicePersistence {
     }
   }
 
-  public async ajouterLieuFavori(nouveauLieu: lieuType, UIDutilisateur: string): Promise<void> {
+  public async ajouterLieuFavori(nouveauLieu: lieuType, GUID: string): Promise<void> {
     const database = FirebaseConfig.getInstance().database;
   
     try {
       const { key, ...lieuData } = nouveauLieu;
-      const userRef = ref(database, `utilisateurs/${UIDutilisateur}/lieuxFavoris/${key}`);
+      const userRef = ref(database, `utilisateurs/${GUID}/lieuxFavoris/${key}`);
       set(userRef, lieuData); 
       
     } catch (error: any) {
@@ -53,9 +77,9 @@ class ServicePersistenceFirebase implements iServicePersistence {
     }
   }
 
-  public async supprimerLieuFavori(UIDlieu: string, UIDutilisateur: string): Promise<void> {
+  public async supprimerLieuFavori(UIDlieu: string, GUID: string): Promise<void> {
     const database = FirebaseConfig.getInstance().database;
-    const userRef = ref(database, `utilisateurs/${UIDutilisateur}/lieuxFavoris`);
+    const userRef = ref(database, `utilisateurs/${GUID}/lieuxFavoris`);
 
     try {
       // Référence au lieu spécifique à supprimer

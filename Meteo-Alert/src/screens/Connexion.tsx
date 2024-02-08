@@ -26,11 +26,11 @@ const Connexion = () => {
     if (email && motDePasse) {
       try {
         await connexion(email, motDePasse);
-      } catch {
+      } catch (error: unknown) {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
           title: t("connexion.popup.title"),
-          textBody: t("connexion.popup.body"),
+          textBody: t(`erreur.auth.${error}`),
           button: t("connexion.popup.btn"),
         });
       }

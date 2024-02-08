@@ -56,23 +56,14 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
       Dialog.show({
         type: ALERT_TYPE.DANGER,
         title: "Modification du mot de passe impossible",
-        textBody: error.message,
+        textBody: t(`erreur.auth.${error}`),
         button: "Fermer",
       });
     }
   }
 
   const handleDeconnexion = async () => {
-    try {
-      await deconnexion();
-    } catch (error: any ){
-      Dialog.show({
-        type: ALERT_TYPE.DANGER,
-        title: "Deconnexion",
-        textBody: error.message,
-        button: "Fermer",
-      });
-    }
+    await deconnexion();
   };
 
   return (

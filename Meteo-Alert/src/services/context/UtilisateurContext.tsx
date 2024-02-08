@@ -3,10 +3,12 @@ import Utilisateur from '../../models/entities/Utilisateur';
 import Lieu from '../../models/valueObject/Lieu';
 import ServiceCompteFactory from '../compteUtilisateur/ServiceCompteFactory';
 import utilisateurType from '../../models/types/utilisateurType';
+import ServicePersistenceFactory from '../persistence/ServicePersistenceFactory';
+import utilisateurPersistenceType from '../../models/types/utilisateurPersistenceType';
 
 // Définition des attributs disponibles
 type UtilisateurContextType = {
-  inscription: (email: string, motDePasse: string, utilisateurData: Object) => Promise<void>
+  inscription: (email: string, motDePasse: string, utilisateurData: utilisateurType) => Promise<void>
   connexion: (email: string, motDePasse: string) => Promise<void>;
   deconnexion: () => Promise<void>;
   reinitialiserMotDePasse: (email: string) => Promise<void>;
@@ -27,78 +29,66 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   /* Attributs */
   const [utilisateur, setUtilisateur] = useState<Utilisateur | null>(null);
   const [lieuxFavoris, setLieuxFavoris] = useState<ReadonlyArray<Readonly<Lieu>>>([]);
+
   const serviceCompte = ServiceCompteFactory.getServiceCompte();
+  const servicePersistence = ServicePersistenceFactory.getServicePersistence();
 
   /* Méthodes */
-  const inscription = async (email: string, motDePasse: string, utilisateurData: Object): Promise<void> => {
-    try {
-      const utilisateur = await serviceCompte.inscription(email, motDePasse, utilisateurData);
-      setUtilisateur(utilisateur);
-    } catch(error: any) {
-      console.error(error);
-      throw error;
+  const inscription = async (email: string, motDePasse: string, utilisateurData: utilisateurType): Promise<void> => {
+    // Ajout dans le système d'authentification
+    const GUID = await serviceCompte.inscription(email, motDePasse, utilisateurData);
+
+    // Ajout dans la base de données
+    const utilisateurPersistance: utilisateurPersistenceType = {
+      email: email,
+      lieuxFavoris: {},
+      prenom: utilisateurData.prenom
     }
+    await servicePersistence.inscription(GUID, utilisateurPersistance);
+
+    // Création de l'utilisateur dans l'application
+    const utilisateur = new Utilisateur(GUID, email, utilisateurData);
+    setUtilisateur(utilisateur);
   }
 
   const connexion = async (email: string, motDePasse: string): Promise<void> => {
-    try {
-      const utilisateur = await serviceCompte.connexion(email, motDePasse);
-      setUtilisateur(utilisateur);
-    } catch(error: any) {
-      console.error(error);
-      throw error;
-    }
+    // Ajout dans le système d'authentification
+    const GUID = await serviceCompte.connexion(email, motDePasse);
+    console.log("GUID = " + GUID);
+
+    // Ajout dans la base de données
+    const utilisateurData = await servicePersistence.getUtilisateurData(GUID);
+    console.log(utilisateurData);
+
+    // Création de l'utilisateur dans l'application
+    const utilisateur = new Utilisateur(GUID, email, utilisateurData);
+    setUtilisateur(utilisateur);
   }
 
   const deconnexion = async (): Promise<void> => {
-    try {
-      await serviceCompte.deconnexion();
-      setUtilisateur(null);
-    } catch(error: any) {
-      console.error(error);
-      throw error;
-    }
+    await serviceCompte.deconnexion();
+    setUtilisateur(null);
   }
 
-  const reinitialiserMotDePasse =  async (email: string): Promise<void> => {
-    try {
-      await serviceCompte.reinitialiserMdp(email);
-    } catch(error: any) {
-      console.error(error);
-      throw error;
-    }
+  const reinitialiserMotDePasse = async (email: string): Promise<void> => {
+    await serviceCompte.reinitialiserMdp(email);
   }
 
   const modifierMotDePasse = async (ancienMotDePasse: string, nouveauMotDePasse: string): Promise<void> => {
-    try {
-      await serviceCompte.modifierMdp(ancienMotDePasse, nouveauMotDePasse);
-    } catch(error: any) {
-      console.error(error)
-      throw error;
-    }
+    await serviceCompte.modifierMdp(ancienMotDePasse, nouveauMotDePasse);
   }
 
   const ajouterLieuFavori = async (lieu: Readonly<Lieu>) => {
     if (utilisateur) {
-      try {
-        await utilisateur?.ajouterLieuFavori(lieu);
-        setLieuxFavoris(utilisateur.getLieuxFavoris());
-      } catch (error: any){
-        console.error(error);
-        throw error;
-      }
+      await utilisateur?.ajouterLieuFavori(lieu);
+      setLieuxFavoris(utilisateur.getLieuxFavoris());
     }
   }
-  
+
   const supprimerLieuFavori = async (lieu: Readonly<Lieu>) => {
     if (utilisateur) {
-      try {
-        await utilisateur?.supprimerLieuFavori(lieu);
-        setLieuxFavoris(utilisateur.getLieuxFavoris());
-      } catch (error: any) {
-        console.error(error);
-        throw error;
-      }
+      await utilisateur?.supprimerLieuFavori(lieu);
+      setLieuxFavoris(utilisateur.getLieuxFavoris());
     }
   }
 
@@ -106,8 +96,18 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const utilisateur = await ServiceCompteFactory.getServiceCompte().fetchConnexion();
-        setUtilisateur(utilisateur);
+        const GUID = await ServiceCompteFactory.getServiceCompte().fetchConnexion();
+        if (GUID) {
+          // Ajout dans la base de données
+          const utilisateurData = await servicePersistence.getUtilisateurData(GUID);
+
+          // Création de l'utilisateur dans l'application
+          const utilisateur = new Utilisateur(GUID, utilisateurData.email, utilisateurData);
+          setUtilisateur(utilisateur);
+
+        } else {
+          setUtilisateur(null);
+        }
       } catch (error) {
         console.error('Erreur lors de la récupération des données utilisateur :', error);
       }
@@ -123,21 +123,21 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   }, [utilisateur])
 
   return (
-    <UtilisateurContext.Provider 
-      value={{ 
-        inscription, 
-        connexion, 
-        deconnexion, 
-        reinitialiserMotDePasse, 
-        modifierMotDePasse, 
-        ajouterLieuFavori, 
-        supprimerLieuFavori, 
-        lieuxFavoris, 
-        prenom: utilisateur?.getPrenom() ?? null, 
-        mail: utilisateur?.getMail() ?? null, 
+    <UtilisateurContext.Provider
+      value={{
+        inscription,
+        connexion,
+        deconnexion,
+        reinitialiserMotDePasse,
+        modifierMotDePasse,
+        ajouterLieuFavori,
+        supprimerLieuFavori,
+        lieuxFavoris,
+        prenom: utilisateur?.getPrenom() ?? null,
+        mail: utilisateur?.getMail() ?? null,
         UID: utilisateur?.uid ?? null
       }}
-      >
+    >
       {children}
     </UtilisateurContext.Provider>
   );

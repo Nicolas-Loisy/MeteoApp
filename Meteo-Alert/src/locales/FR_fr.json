@@ -1,5 +1,15 @@
 {
     "react-native": {
+        "erreur": {
+            "auth": {
+                "ERREUR_IDENTIFIANTS_INVALIDES": "Identifiants invalides",
+                "ERREUR_EMAIL_INVALIDE": "Format d'adresse mail invalide",
+                "ERREUR_EMAIL_UTILISE": "Cette adresse mail est déjà utilisée",
+                "ERREUR_MDP_FAIBLE": "Ce mot de passe est trop faible",
+                "ERREUR_RECONNEXION_NECESSAIRE": "Une reconnexion est nécessaire",
+                "ERREUR_COMPTE_DESACTIVE": "Votre compte est désactivé"
+            }
+        },
         "accueil": {
             "titre": "Accueil",
             "rechercheLieu": "Ajouter un lieu"
@@ -13,7 +23,6 @@
             "redirect_inscription": "Pas encore de compte ?",
             "popup": {
                 "title": "Erreur de connexion",
-                "body": "Veuillez vérifier vos informations de connexion et réessayer.",
                 "btn": "Fermer"
             }
         },

@@ -12,13 +12,14 @@ import ReglesMDP from '../components/atoms/ReglesMDP';
 import dtMotDePasse from '../models/datatype/dtMotDePasse';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
+import utilisateurType from '../models/types/utilisateurType';
 
 
 const Inscription = () => {
   const { t } = useTranslation();
-
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { inscription } = useUtilisateur();
+
   // États pour stocker les valeurs du formulaire
   const [email, setEmail] = useState('');
   const [prenom, setPrenom] = useState('');
@@ -37,12 +38,15 @@ const Inscription = () => {
   const handleInscription = async () => {
     if (email && motDePasse && prenom) {
       try {
-        await inscription(email, motDePasse.value, {"prenom": prenom, "lieuxFavoris": []});
-      } catch {
+        const utilisateurData: utilisateurType = {
+          prenom: prenom
+        }
+        await inscription(email, motDePasse.value, utilisateurData);
+      } catch (error: unknown) {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
           title: t("inscription.popup.title"),
-          textBody: t("inscription.popup.body"),
+          textBody: t(`erreur.auth.${error}`),
           button: t("inscription.popup.btn"),
         });
       }

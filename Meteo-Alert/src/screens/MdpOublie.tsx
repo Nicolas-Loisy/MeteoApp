@@ -28,21 +28,14 @@ const MdpOublie = () => {
           textBody: t("mdp_oublie.popup_confirmation.textBody"),
           button: t("mdp_oublie.popup_confirmation.button"),
         });
-      } catch (error: any) {
+      } catch (error: unknown) {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
           title: t("mdp_oublie.popup_erreur.title"),
-          textBody: error.message,
+          textBody: t(`erreur.auth.${error}`),
           button: t("mdp_oublie.popup_erreur.button"),
         });
       }
-    } else {
-      Dialog.show({
-        type: ALERT_TYPE.DANGER,
-        title: t("mdp_oublie.popup_erreur.title"),
-        textBody: t("mdp_oublie.popup_erreur.mail_manquant"),
-        button: t("mdp_oublie.popup_erreur.button"),
-      });
     }
   }
 

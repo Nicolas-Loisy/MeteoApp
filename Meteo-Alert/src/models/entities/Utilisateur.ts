@@ -9,11 +9,12 @@ class Utilisateur {
   private mail: string;
   private lieuxFavoris: Readonly<Lieu>[];
 
-  constructor(dataUtilisateur: utilisateurType) {
-    this.prenom = dataUtilisateur.prenom;
-    this.mail = dataUtilisateur.mail;
-    this.uid = dataUtilisateur.uid;
+  constructor(GUID: string, email: string, dataUtilisateur: utilisateurType) {
+    this.mail = email;
+    this.uid = GUID;
 
+    this.prenom = dataUtilisateur.prenom;
+    
     this.lieuxFavoris = [];
     this.initializeLieuxFavoris();
   }
