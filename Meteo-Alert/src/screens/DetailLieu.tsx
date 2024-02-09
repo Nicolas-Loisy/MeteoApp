@@ -6,17 +6,25 @@ import { ParamListBase, useNavigation } from '@react-navigation/native';
 import ArrowReturn from '../assets/icons/svg/arrow-left-short.svg';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Meteo from '../models/valueObject/Meteo';
-import { useLieu } from '../services/context/LieuContext';
 import Title from '../components/atoms/Title';
 import TimeAgoText from '../components/atoms/TimeAgoText';
 import ListeInfoMeteo from '../components/molecules/ListInfoMeteo';
+import { useRoute } from '@react-navigation/native';
+import { useUtilisateur } from '../services/context/UtilisateurContext';
+
+type params = {
+  params: {
+    key: string
+  }
+}
 
 const DetailLieu = () => {
   const { t } = useTranslation();
+  const { lieuxFavoris } = useUtilisateur();
+  const params = useRoute() as params;
+  const lieu = lieuxFavoris.find(lieuFav => lieuFav.key === params.params.key);
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-
-  const { lieu } = useLieu();
   const [meteo, setMeteo] = useState<Meteo | undefined>();
 
   useEffect(() => {

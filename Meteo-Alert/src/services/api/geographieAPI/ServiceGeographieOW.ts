@@ -15,42 +15,6 @@ type lieu_OW = {
   state: string;
 }
 
-function ajusterDonnees(data: any): lieu_OW[] {
-  const lieux: lieu_OW[] = [];
-
-  // Supposant que data soit un tableau d'objets JSON
-  if (Array.isArray(data)) {
-    for (const lieuData of data) {
-      lieux.push({
-        name: lieuData.name || "",
-        local_names: {
-          fr: lieuData.local_names?.fr || "",
-          oc: lieuData.local_names?.oc || ""
-        },
-        lat: lieuData.lat || 0,
-        lon: lieuData.lon || 0,
-        country: lieuData.country || "",
-        state: lieuData.state || ""
-      });
-    }
-  } else {
-    lieux.push({
-      name: data.name || "",
-      local_names: {
-        fr: data.local_names?.fr || "",
-        oc: data.local_names?.oc || ""
-      },
-      lat: data.lat || 0,
-      lon: data.lon || 0,
-      country: data.country || "",
-      state: data.state || ""
-    });
-  }
-
-  return lieux;
-}
-
-
 export default class ServiceGeographieOW extends aRestService implements iServiceGeographie {
   constructor(baseUrl: string) {
     super(baseUrl);
@@ -63,7 +27,7 @@ export default class ServiceGeographieOW extends aRestService implements iServic
 
     const urlLieux: string = `direct?q=${nomLieu}&limit=${limitApiResult}&appid=${openWeatherApiKey}`;
     const JSONdata: JSON = await this.get(urlLieux);
-    const JSONlieux: lieu_OW[] = ajusterDonnees(JSONdata as any);
+    const JSONlieux: lieu_OW[] = this.ajusterDonnees(JSONdata as any);
 
     const uniqueKeys = new Set<string>();
     const lieux: lieuType[] = [];
@@ -80,11 +44,47 @@ export default class ServiceGeographieOW extends aRestService implements iServic
           lon: lieu.lon,
           region: lieu.state,
           pays: lieu.country,
-          key: key
+          key: key,
+          reglageAlerte: []
         });
       }
     });
 
+    return lieux;
+  }
+
+  private ajusterDonnees(data: any): lieu_OW[] {
+    const lieux: lieu_OW[] = [];
+  
+    // Supposant que data soit un tableau d'objets JSON
+    if (Array.isArray(data)) {
+      for (const lieuData of data) {
+        lieux.push({
+          name: lieuData.name || "",
+          local_names: {
+            fr: lieuData.local_names?.fr || "",
+            oc: lieuData.local_names?.oc || ""
+          },
+          lat: lieuData.lat || 0,
+          lon: lieuData.lon || 0,
+          country: lieuData.country || "",
+          state: lieuData.state || ""
+        });
+      }
+    } else {
+      lieux.push({
+        name: data.name || "",
+        local_names: {
+          fr: data.local_names?.fr || "",
+          oc: data.local_names?.oc || ""
+        },
+        lat: data.lat || 0,
+        lon: data.lon || 0,
+        country: data.country || "",
+        state: data.state || ""
+      });
+    }
+  
     return lieux;
   }
 }

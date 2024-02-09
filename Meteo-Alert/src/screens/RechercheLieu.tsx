@@ -8,20 +8,18 @@ import MyStatusBar from '../components/atoms/MyStatusBar';
 import Croix from '../assets/icons/svg/vector.svg';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
-import Lieu from '../models/valueObject/Lieu';
 import LieuSearchCard from '../components/molecules/LieuSearchCard';
-import LieuxFavorisBuilder from '../models/builder/LieuxFavorisBuilder';
+import { useGeographie } from '../services/context/GeographieContext';
 
 const RechercheLieu = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [ resultatsRecherche, setResultatsRecherche ] = useState<Readonly<Lieu>[]>([])
+  const { rechercheLieux, resultatsRecherche } = useGeographie();
 
   async function handleRecherche(nomLieu: string) {
     if (nomLieu) {
       try {
-        const resultats: Readonly<Lieu>[] = await LieuxFavorisBuilder.rechercheLieux(nomLieu);
-        setResultatsRecherche(resultats);
+        rechercheLieux(nomLieu);
       } catch (error) {
         console.error(error);
       }

@@ -8,7 +8,6 @@ import MdpOublie from "../screens/MdpOublie";
 import Accueil from "../screens/Accueil";
 import DetailLieu from "../screens/DetailLieu";
 import RechercheLieu from "../screens/RechercheLieu";
-import Test from "../screens/Test";
 import { useUtilisateur } from "../services/context/UtilisateurContext";
 
 const Stack = createStackNavigator();
@@ -27,7 +26,6 @@ export default function Navigation() {
             <Stack.Screen name="Connexion" component={Connexion} options={{ headerShown: false }} />
             <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
             <Stack.Screen name="MdpOublie" component={MdpOublie} options={{ headerShown: false }} />
-            <Stack.Screen name="Test" component={Test} options={{ headerShown: false }} />
           </>
         )}
 

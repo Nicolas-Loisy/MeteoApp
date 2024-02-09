@@ -1,4 +1,3 @@
-import LieuxFavorisBuilder from '../builder/LieuxFavorisBuilder';
 import utilisateurType from '../types/utilisateurType';
 import Lieu from '../valueObject/Lieu';
 
@@ -9,19 +8,12 @@ class Utilisateur {
   private mail: string;
   private lieuxFavoris: Readonly<Lieu>[];
 
-  constructor(GUID: string, email: string, dataUtilisateur: utilisateurType) {
-    this.mail = email;
+  constructor(GUID: string, dataUtilisateur: utilisateurType, lieuxFavoris: Readonly<Lieu>[] = []) {
     this.uid = GUID;
+    this.mail = dataUtilisateur.email;
 
     this.prenom = dataUtilisateur.prenom;
-    
-    this.lieuxFavoris = [];
-    this.initializeLieuxFavoris();
-  }
-
-  private async initializeLieuxFavoris(): Promise<void> {
-    const lieuxFavorisPersistence = await LieuxFavorisBuilder.getLieuxFavoris(this.uid);
-    this.lieuxFavoris.push(...lieuxFavorisPersistence);
+    this.lieuxFavoris = lieuxFavoris;
   }
 
   public getLieuxFavoris(): ReadonlyArray<Readonly<Lieu>> {
@@ -36,22 +28,20 @@ class Utilisateur {
     return this.mail;
   }
 
-  public async ajouterLieuFavori(lieu: Readonly<Lieu>): Promise<void> {
+  public ajouterLieuFavori(lieu: Readonly<Lieu>): void {
     const isLieuExistant = this.lieuxFavoris.some(lieuFav => lieu.key === lieuFav.key);
     
-    if (!isLieuExistant){
-      await LieuxFavorisBuilder.ajouterLieuFavori(lieu, this.uid);
-      this.lieuxFavoris = [...this.lieuxFavoris, lieu];
-    }
+    if (isLieuExistant) throw new Error("[ERREUR] Lieu déjà en favori");
+
+    this.lieuxFavoris = [...this.lieuxFavoris, lieu];
   }
 
-  public async supprimerLieuFavori(lieu: Readonly<Lieu>): Promise<void> {
+  public supprimerLieuFavori(lieu: Readonly<Lieu>): void {
     const isLieuExistant = this.lieuxFavoris.some((lieuFav: Readonly<Lieu>) => lieuFav.key === lieu.key);
 
-    if (isLieuExistant) {
-      await LieuxFavorisBuilder.supprimerLieuFavori(lieu, this.uid);
-      this.lieuxFavoris = [...this.lieuxFavoris.filter((lieuFav) => lieuFav.key !== lieu.key)];
-    }
+    if (!isLieuExistant) throw new Error("[ERREUR] Lieu non trouvé dans les favoris");
+
+    this.lieuxFavoris = [...this.lieuxFavoris.filter((lieuFav) => lieuFav.key !== lieu.key)];
   }
 }
 

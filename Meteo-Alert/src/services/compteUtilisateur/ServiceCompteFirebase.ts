@@ -24,7 +24,7 @@ export default class ServiceCompteFirebase implements iServiceCompte {
   }
 
 
-  public async connexion(mail: string, password: string): Promise<string | any> {
+  public async connexion(mail: string, password: string): Promise<string> {
     try {
       //Connexion
       const auth = FirebaseConfig.getInstance().auth;

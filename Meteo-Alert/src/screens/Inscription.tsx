@@ -39,9 +39,10 @@ const Inscription = () => {
     if (email && motDePasse && prenom) {
       try {
         const utilisateurData: utilisateurType = {
-          prenom: prenom
+          prenom: prenom,
+          email: email
         }
-        await inscription(email, motDePasse.value, utilisateurData);
+        await inscription(motDePasse.value, utilisateurData);
       } catch (error: unknown) {
         Dialog.show({
           type: ALERT_TYPE.DANGER,

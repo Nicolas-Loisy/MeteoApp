@@ -1,18 +1,20 @@
-import dtUnitePrecipitation from "../../models/datatype/unite/dtUnitePrecipitation";
 import EvenementEnum from "../../models/enum/EvenementEnum";
-import critereKeys from "../../models/types/critereKeys";
-import critereType from "../../models/types/critereType";
+import meteoType from "../../models/types/meteoType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 
-export type criterePrecipitationKeys = Extract<critereKeys, "neige" | "pluie">;
-
 class AlertePrecipitation extends aAlerte {
-  criteres: critereType<criterePrecipitationKeys>;
+  protected criteres: {
+    pluie: number,
+    neige: number
+  };
 
-  public constructor(precipitationCritere: critereType<criterePrecipitationKeys>) {
+  public constructor() {
     super(EvenementEnum.PRECIPITATION);
-    this.criteres = precipitationCritere;
+    this.criteres = {
+      pluie: 10,
+      neige: 10
+    };
   }
 
   public checkEvenement(mesureMeteo: Meteo): boolean {
@@ -21,8 +23,8 @@ class AlertePrecipitation extends aAlerte {
     }
 
     return (
-      mesureMeteo.neige.getValeur() > this.criteres.neige!.getValeur() || 
-      mesureMeteo.pluie.getValeur() > this.criteres.pluie!.getValeur()
+      mesureMeteo.neige.getValeur() > this.criteres.neige || 
+      mesureMeteo.pluie.getValeur() > this.criteres.pluie
     );
   }
 }
