@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList } from 'react-native';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
 import Field from '../components/molecules/Field';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import MyStatusBar from '../components/atoms/MyStatusBar';
-import Lieu from '../models/valueObject/Lieu';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
 import LieuSearchCard from '../components/molecules/LieuSearchCard';
-import LieuxFavorisBuilder from '../models/builder/LieuxFavorisBuilder';
+import { useGeographie } from '../services/context/GeographieContext';
 import GoBackButton from '../components/atoms/GoBackButton';
 
 const RechercheLieu = () => {
   const { t } = useTranslation();
-  const [resultatsRecherche, setResultatsRecherche] = useState<Readonly<Lieu>[]>([])
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { rechercheLieux, resultatsRecherche } = useGeographie();
 
   async function handleRecherche(nomLieu: string) {
     if (nomLieu) {
       try {
-        const resultats: Readonly<Lieu>[] = await LieuxFavorisBuilder.rechercheLieux(nomLieu);
-        setResultatsRecherche(resultats);
+        rechercheLieux(nomLieu);
       } catch (error) {
         console.error(error);
       }

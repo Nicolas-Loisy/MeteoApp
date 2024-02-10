@@ -1,0 +1,6 @@
+enum ErreurUtilisateur {
+  ERREUR_LIEU_FAVORI_EXISTANT = "ERREUR_LIEU_FAVORI_EXISTANT",
+  ERREUR_LIEU_FAVORI_MANQUANT = "ERREUR_LIEU_FAVORI_MANQUANT",
+}
+
+export default ErreurUtilisateur;

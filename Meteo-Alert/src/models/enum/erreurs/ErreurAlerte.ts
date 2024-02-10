@@ -1,0 +1,6 @@
+enum ErreurAlerte {
+  ATTRIBUT_METEO_MANQUANT = "ATTRIBUT_METEO_MANQUANT",
+  ATTRIBUT_INCORRECT = "ATTRIBUT_INCORRECT"
+}
+
+export default ErreurAlerte;

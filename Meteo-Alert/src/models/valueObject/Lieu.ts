@@ -1,28 +1,23 @@
-import AlerteFactory from "../../services/alertes/AlerteFactory";
 import iAlerte from "../../services/alertes/iAlerte";
 import MeteoBuilder from "../builder/MeteoBuilder";
 import dtUniteCoordonnee from "../datatype/unite/dtUniteCoordonnee";
 import EvenementEnum from "../enum/EvenementEnum";
+import ErreurLieu from "../enum/erreurs/ErreurLieu";
 import lieuType from "../types/lieuType";
-import { alerteType } from "../types/alerteType";
+import meteoType from "../types/meteoType";
 import Meteo from "./Meteo";
-import critereKeys from "../types/critereKeys";
 
 class Lieu {
-  public readonly key: string; // A justifier dans le rapport (Economie lors des requêtes BDD)
+  public readonly key: string;
   public readonly nom: string;
   public readonly pays: string;
   public readonly region: string;
   public readonly longitude: dtUniteCoordonnee;
   public readonly latitude: dtUniteCoordonnee;
   private meteo: Meteo | null;
-  private reglageAlerte: iAlerte[];
+  private reglageAlerte: ReadonlyArray<Readonly<iAlerte>>;
 
   constructor(data: lieuType) {
-    if (!data.key) {
-      throw new Error("[ERREUR] Création du lieu impossible : l'UID est manquant");
-    }
-
     this.key = data.key;
     this.nom = data.nom;
     this.pays = data.pays;
@@ -31,7 +26,7 @@ class Lieu {
     this.latitude = new dtUniteCoordonnee(data.lat);
     this.meteo = null;
     this.updateMeteo();
-    this.reglageAlerte = AlerteFactory.initAlertes();
+    this.reglageAlerte = data.reglageAlerte;
   }
 
   public async updateMeteo() {
@@ -39,34 +34,15 @@ class Lieu {
   }
 
   public async getMeteo(actualiser: boolean = true): Promise<Meteo> {
-    if (actualiser) await this.updateMeteo();
-
-    if (!this.meteo) {
-      throw new Error("Meteo data is not available yet");
+    if (!this.meteo || actualiser) {
+      this.meteo = await MeteoBuilder.getMeteo(this.longitude, this.latitude);
     }
+
     return this.meteo;
   }
 
   public getReglageAlerte(): ReadonlyArray<Readonly<iAlerte>> {
-    const reglageAlerteReadOnly: Readonly<iAlerte>[] = this.reglageAlerte.map(alerte => Object.freeze(alerte));
-    return reglageAlerteReadOnly as ReadonlyArray<iAlerte>;
-  }
-
-  public async setReglageAlerte(alerte: alerteType): Promise<void> {
-    const alerteOld = this.reglageAlerte.find(e => e.typeEvenement === alerte.typeEvenement);
-
-    if (!alerteOld) {
-      throw new Error("[ERREUR] Echec setReglageAlerte: impossible de trouver l'alerte indiquée");
-    }
-    if (!Object.keys(alerteOld.criteres).every(key => key in alerte.criteres)) {
-      throw new Error("[ERREUR] Echec setReglageAlerte: les attributs critères ne correspondent pas");
-    }
-
-    alerteOld.isActiver = alerte.isActiver;
-
-    Object.entries(alerte.criteres).forEach(([cle, valeur]) => {
-      alerteOld.setSeuilPersonnalise(cle as critereKeys, valeur);
-    });
+    return this.reglageAlerte.slice();
   }
 
   public checkEvenements(): Record<EvenementEnum, boolean> | null {
@@ -81,6 +57,13 @@ class Lieu {
     }
 
     return null;
+  }
+
+  public setSeuilPersonnalise(typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number): void {
+    const alerte = this.reglageAlerte.find(alerte => alerte.typeEvenement === typeEvenement);
+    if (!alerte) throw ErreurLieu.EVENEMENT_MANQUANT;
+
+    alerte.setSeuilPersonnalise(critere, valeur);
   }
 }
 

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from './src/navigation/Navigation';
-import { AccountProvider } from './src/services/compteUtilisateur/AccountContext';
 import * as NavigationBar from 'expo-navigation-bar';
 import * as Font from 'expo-font';
 import { Text } from 'react-native';
 import './src/services/i18n/i18n';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
-import { LieuProvider } from './src/services/context/LieuContext';
 import { UtilisateurProvider } from './src/services/context/UtilisateurContext';
+import { GeographieProvider } from './src/services/context/GeographieContext';
 
 const App = () => {
 
@@ -48,15 +47,13 @@ const App = () => {
 
   return (
     <UtilisateurProvider>
-      <AccountProvider>
-      <LieuProvider>
+    <GeographieProvider>
 
-          <AlertNotificationRoot>
-            <Navigation />
-          </AlertNotificationRoot>
+      <AlertNotificationRoot>
+        <Navigation />
+      </AlertNotificationRoot>
 
-      </LieuProvider>
-      </AccountProvider>
+    </GeographieProvider>
     </UtilisateurProvider>
   );
 };

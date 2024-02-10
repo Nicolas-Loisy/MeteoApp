@@ -1,7 +1,6 @@
 type utilisateurType = {
-  prenom: string;
-  mail: string;
-  uid: string;
+  prenom: string,
+  email: string
 }
 
 export default utilisateurType;

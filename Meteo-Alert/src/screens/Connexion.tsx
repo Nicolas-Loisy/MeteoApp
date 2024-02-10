@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import {ParamListBase, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Button from '../components/atoms/Button';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import ClickableText from '../components/atoms/ClickableText';
@@ -16,32 +15,25 @@ const Connexion = () => {
   const { t } = useTranslation();
   
   // hook useUser pour accéder au contexte d'utilisateur
-  const { setUtilisateur } = useUtilisateur();
-
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const serviceCompte = ServiceCompteFactory.getServiceCompte();
+  const { connexion } = useUtilisateur();
 
   // États pour stocker les valeurs du formulaire
   const [email, setEmail] = useState('');
   const [motDePasse, setMotDePasse] = useState('');
 
-  const handleConnexion = () => {
+  const handleConnexion = async () => {
     if (email && motDePasse) {
-      serviceCompte.connexion(email, motDePasse)
-        .then((utilisateurConn) => {
-          setUtilisateur(utilisateurConn); // fonction du contexte pour mettre à jour l'utilisateur
-
-          navigation.navigate('Accueil');
-        })
-        .catch((error) => {
-          Dialog.show({
-            type: ALERT_TYPE.DANGER,
-            title: t("connexion.popup.title"),
-            textBody: t("connexion.popup.body"),
-            button: t("connexion.popup.btn"),
-          });
-        })
-      ;
+      try {
+        await connexion(email, motDePasse);
+      } catch (error: unknown) {
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: t("connexion.popup.title"),
+          textBody: t(`erreur.auth.${error}`),
+          button: t("connexion.popup.btn"),
+        });
+      }
     }
   };
 
@@ -60,7 +52,7 @@ const Connexion = () => {
           <View style={styles.viewForgetMdp}>
             <ClickableText
               text={t('connexion.forget_mdp')}
-              onPress={() => null}
+              onPress={() => navigation.navigate('MdpOublie')}
             />
           </View>
 
