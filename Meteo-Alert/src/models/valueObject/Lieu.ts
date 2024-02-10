@@ -3,6 +3,7 @@ import MeteoBuilder from "../builder/MeteoBuilder";
 import dtUniteCoordonnee from "../datatype/unite/dtUniteCoordonnee";
 import EvenementEnum from "../enum/EvenementEnum";
 import lieuType from "../types/lieuType";
+import meteoType from "../types/meteoType";
 import Meteo from "./Meteo";
 
 class Lieu {
@@ -13,7 +14,7 @@ class Lieu {
   public readonly longitude: dtUniteCoordonnee;
   public readonly latitude: dtUniteCoordonnee;
   private meteo: Meteo | null;
-  private reglageAlerte: Readonly<iAlerte[]>;
+  private reglageAlerte: ReadonlyArray<Readonly<iAlerte>>;
 
   constructor(data: lieuType) {
     if (!data.key) {
@@ -45,8 +46,7 @@ class Lieu {
   }
 
   public getReglageAlerte(): ReadonlyArray<Readonly<iAlerte>> {
-    const reglageAlerteReadOnly: Readonly<iAlerte>[] = this.reglageAlerte.map(alerte => Object.freeze(alerte));
-    return reglageAlerteReadOnly;
+    return this.reglageAlerte.slice();
   }
 
   public checkEvenements(): Record<EvenementEnum, boolean> | null {
@@ -61,6 +61,13 @@ class Lieu {
     }
 
     return null;
+  }
+
+  public setSeuilPersonnalise(typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number): void {
+    const alerte = this.reglageAlerte.find(alerte => alerte.typeEvenement === typeEvenement);
+    if (!alerte) throw new Error("[ERREUR] Impossible de trouver l'évènement recherché");
+
+    alerte.setSeuilPersonnalise(critere, valeur);
   }
 }
 

@@ -3,6 +3,7 @@ import Lieu from '../../models/valueObject/Lieu';
 import lieuType from '../../models/types/lieuType';
 import iServiceGeographie from '../api/geographieAPI/iServiceGeographie';
 import ServiceGeographieFactory from '../api/geographieAPI/ServiceGeographieFactory';
+import AlerteFactory from '../alertes/AlerteFactory';
 
 type GeographieContextProps = {
   resultatsRecherche: ReadonlyArray<Readonly<Lieu>> | null;
@@ -25,13 +26,13 @@ export const GeographieProvider = ({ children }: { children: ReactNode }) => {
     // Tri des résultats
     const resultLieuxRecherche: Readonly<Lieu>[] = [];
     lieuxData.forEach(lieuData => {
+      lieuData.reglageAlerte = AlerteFactory.initAlertes();
       const lieu = new Lieu(lieuData);
       resultLieuxRecherche.push(lieu);
     });
 
     setResultatsRecherche(resultLieuxRecherche);
   }
-
 
   return (
     <GeographieContext.Provider value={{resultatsRecherche, rechercheLieux }}>

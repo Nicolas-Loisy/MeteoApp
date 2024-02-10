@@ -17,7 +17,7 @@ class Utilisateur {
   }
 
   public getLieuxFavoris(): ReadonlyArray<Readonly<Lieu>> {
-    return this.lieuxFavoris;
+    return this.lieuxFavoris.slice();
   }
 
   public getPrenom() {

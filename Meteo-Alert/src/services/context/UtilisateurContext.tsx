@@ -10,6 +10,8 @@ import AlerteFactory from '../alertes/AlerteFactory';
 import utilisateurDataType from '../../models/types/pertistence/utilisateurDataType';
 import lieuxFavorisDataType from '../../models/types/pertistence/lieuxFavorisDataType';
 import reglageAlerteDataType from '../../models/types/pertistence/reglageAlerteData';
+import EvenementEnum from '../../models/enum/EvenementEnum';
+import meteoType from '../../models/types/meteoType';
 
 // Définition des attributs disponibles
 type UtilisateurContextType = {
@@ -20,11 +22,11 @@ type UtilisateurContextType = {
   modifierMotDePasse: (ancienMotDePasse: string, nouveauMotDePasse: string) => Promise<void>;
   ajouterLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   supprimerLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
+  setSeuilPersonnalise: (keyLieu: string, typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number) => Promise<void>;
 
+  // Utilisateur privé de ses attributs devant être non accessibles par le front
+  readonly utilisateur: Readonly<Omit<Utilisateur, "getLieuxFavoris" | "ajouterLieuFavori" | "supprimerLieuFavori">> | null; 
   readonly lieuxFavoris: ReadonlyArray<Readonly<Lieu>>;
-  readonly prenom: string | null;
-  readonly mail: string | null;
-  readonly UID: string | null;
 };
 
 // Création du contexte
@@ -35,11 +37,13 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   /* Attributs */
   const [utilisateur, setUtilisateur] = useState<Utilisateur | null>(null);
   const [lieuxFavoris, setLieuxFavoris] = useState<ReadonlyArray<Readonly<Lieu>>>([]);
-  
+
   const serviceCompte = ServiceCompteFactory.getServiceCompte();
   const servicePersistence = ServicePersistenceFactory.getServicePersistence();
 
   /* Fonctions locales */
+
+  /* Récupération de l'ensemble des données d'un utilisateur et création de l'objet Utilisateur */
   const getUtilisateur = async (GUID: string): Promise<Utilisateur> => {
     // Récupération depuis la base de données
     const utilisateurData: utilisateurDataType = await servicePersistence.getUtilisateurData(GUID);
@@ -71,6 +75,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     return utilisateur;
   }
 
+  /* Enregistrement des lieux favoris dans la base de données */
   const enregistrerLieuxFavoris = async () => {
     if (!utilisateur) throw ("[ERREUR] Enregistrement BDD impossible : utilisateur nul");
 
@@ -144,29 +149,46 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const ajouterLieuFavori = async (lieu: Readonly<Lieu>) => {
-    if (utilisateur) {
-      // Ajout du lieu dans utilisateur (Application)
-      utilisateur.ajouterLieuFavori(lieu);
+    if (!utilisateur) throw new Error("[ERREUR] Aucun utilisateur connecté");
 
-      // Enregistrement dans la BDD
-      await enregistrerLieuxFavoris();
+    // Ajout du lieu dans utilisateur (Application)
+    utilisateur.ajouterLieuFavori(lieu);
 
-      // Mise à jour du context
-      setLieuxFavoris(utilisateur.getLieuxFavoris());
-    }
+    // Enregistrement dans la BDD
+    await enregistrerLieuxFavoris();
+
+    // Mise à jour du context
+    setLieuxFavoris(utilisateur.getLieuxFavoris());
+    
   }
 
   const supprimerLieuFavori = async (lieu: Readonly<Lieu>) => {
-    if (utilisateur) {
-      // Suppression du lieu dans utilisateur (Application)
-      utilisateur.supprimerLieuFavori(lieu);
+    if (!utilisateur) throw new Error("[ERREUR] Aucun utilisateur connecté");
 
-      // Enregistrement dans la BDD
-      await enregistrerLieuxFavoris();
+    // Suppression du lieu dans utilisateur (Application)
+    utilisateur.supprimerLieuFavori(lieu);
 
-      // Mise à jour du context
-      setLieuxFavoris(utilisateur.getLieuxFavoris());
-    }
+    // Enregistrement dans la BDD
+    await enregistrerLieuxFavoris();
+
+    // Mise à jour du context
+    setLieuxFavoris(utilisateur.getLieuxFavoris()); 
+  }
+
+  const setSeuilPersonnalise = async (keyLieu: string, typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number) => {
+    if (!utilisateur) throw new Error("[ERREUR] Aucun utilisateur connecté");
+
+    const lieu = lieuxFavoris.find(lieuFav => lieuFav.key === keyLieu);
+    if (!lieu) throw new Error("[ERREUR] Impossible de retrouver le lieu dans les favoris");
+
+    // Mise à jour dans utilisateur (Application)
+    lieu.setSeuilPersonnalise(typeEvenement, critere, valeur);
+
+    //  Enregistrement dans la BDD
+    enregistrerLieuxFavoris();
+
+    // Mise à jour du contexte
+    setLieuxFavoris(utilisateur.getLieuxFavoris());
   }
 
   /* UseEffect */
@@ -192,7 +214,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     if (utilisateur) {
       setLieuxFavoris(utilisateur.getLieuxFavoris());
     }
-  }, [utilisateur])
+  }, [utilisateur]);
 
   return (
     <UtilisateurContext.Provider
@@ -204,10 +226,10 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
         modifierMotDePasse,
         ajouterLieuFavori,
         supprimerLieuFavori,
+        setSeuilPersonnalise,
+
         lieuxFavoris,
-        prenom: utilisateur?.getPrenom() ?? null,
-        mail: utilisateur?.getMail() ?? null,
-        UID: utilisateur?.uid ?? null
+        utilisateur
       }}
     >
       {children}
