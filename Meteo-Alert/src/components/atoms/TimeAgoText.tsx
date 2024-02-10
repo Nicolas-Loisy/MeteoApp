@@ -17,7 +17,6 @@ const TimeAgoText: React.FC<TimeAgoTextProps> = ({ lastUpdateDate, fontSize = 20
       if (now !== undefined && lastUpdateDate !== undefined ) {
         const diffInMs = now.getTime() - lastUpdateDate.getTime();
         const diffInMin = Math.floor(diffInMs / (1000 * 60));
-        console.log(diffInMin);
         setElapsedMinutes(diffInMin);
       }
 

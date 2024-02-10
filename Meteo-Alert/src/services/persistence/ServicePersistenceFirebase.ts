@@ -28,8 +28,13 @@ class ServicePersistenceFirebase implements iServicePersistence {
         throw ErreurBDD.ERREUR_DATABASE;
       }
   
-      const data = snapshot.val() as utilisateurDataType;
+      const data: utilisateurDataType = {
+        lieuxFavoris: snapshot.val().lieuxFavoris ?? {},
+        prenom: snapshot.val().prenom ?? "",
+        email: snapshot.val().email ?? ""
+      };
 
+      console.log(data);
       return data;
     } catch (error) {
       throw ErreurBDD.ERREUR_DATABASE;
