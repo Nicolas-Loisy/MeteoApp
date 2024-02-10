@@ -1,6 +1,6 @@
-type utilisateurDataType = {
+type utilisateurType = {
   prenom: string,
   email: string
 }
 
-export default utilisateurDataType;
+export default utilisateurType;

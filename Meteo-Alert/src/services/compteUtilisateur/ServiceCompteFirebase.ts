@@ -2,7 +2,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswor
 
 import iServiceCompte from "./iServiceCompte";
 import FirebaseConfig from "../../config/FirebaseConfig";
-import ErreurAuth from "./ErreurAuth";
+import ErreurAuth from "../../models/enum/erreurs/ErreurAuth";
 import { FirebaseError } from "firebase/app";
 
 export default class ServiceCompteFirebase implements iServiceCompte {

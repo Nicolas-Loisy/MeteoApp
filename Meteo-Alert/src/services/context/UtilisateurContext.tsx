@@ -12,6 +12,7 @@ import lieuxFavorisDataType from '../../models/types/pertistence/lieuxFavorisDat
 import reglageAlerteDataType from '../../models/types/pertistence/reglageAlerteData';
 import EvenementEnum from '../../models/enum/EvenementEnum';
 import meteoType from '../../models/types/meteoType';
+import ErreurContextUtilisateur from '../../models/enum/erreurs/ErreurContexUtilisateur';
 
 // Définition des attributs disponibles
 type UtilisateurContextType = {
@@ -149,7 +150,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const ajouterLieuFavori = async (lieu: Readonly<Lieu>) => {
-    if (!utilisateur) throw new Error("[ERREUR] Aucun utilisateur connecté");
+    if (!utilisateur) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
 
     // Ajout du lieu dans utilisateur (Application)
     utilisateur.ajouterLieuFavori(lieu);
@@ -163,7 +164,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const supprimerLieuFavori = async (lieu: Readonly<Lieu>) => {
-    if (!utilisateur) throw new Error("[ERREUR] Aucun utilisateur connecté");
+    if (!utilisateur) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
 
     // Suppression du lieu dans utilisateur (Application)
     utilisateur.supprimerLieuFavori(lieu);
@@ -176,10 +177,10 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const setSeuilPersonnalise = async (keyLieu: string, typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number) => {
-    if (!utilisateur) throw new Error("[ERREUR] Aucun utilisateur connecté");
+    if (!utilisateur) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
 
     const lieu = lieuxFavoris.find(lieuFav => lieuFav.key === keyLieu);
-    if (!lieu) throw new Error("[ERREUR] Impossible de retrouver le lieu dans les favoris");
+    if (!lieu) throw ErreurContextUtilisateur.ERREUR_LIEU_FAV_NON_TROUVE;
 
     // Mise à jour dans utilisateur (Application)
     lieu.setSeuilPersonnalise(typeEvenement, critere, valeur);
@@ -241,7 +242,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
 export const useUtilisateur = () => {
   const context = useContext(UtilisateurContext);
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw ErreurContextUtilisateur.ERREUR_USE_CONTEXT_HORS_PROVIDER;
   }
   return context;
 };

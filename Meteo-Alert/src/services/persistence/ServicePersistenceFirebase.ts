@@ -1,7 +1,7 @@
 import { ref, get, set } from 'firebase/database';
 import FirebaseConfig from '../../config/FirebaseConfig';
 import iServicePersistence from './iServicePersistence';
-import ErreurBDD from './ErreurBDD';
+import ErreurBDD from '../../models/enum/erreurs/ErreurBDD';
 import utilisateurDataType from '../../models/types/pertistence/utilisateurDataType';
 import lieuxFavorisDataType from '../../models/types/pertistence/lieuxFavorisDataType';
 
