@@ -4,6 +4,7 @@ import Lieu from '../../models/valueObject/Lieu';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useUtilisateur } from '../../services/context/UtilisateurContext';
+import AjouterRetirerButton from '../atoms/AjouterRetirerButton';
 
 interface LieuSearchCardProps {
   lieu: Readonly<Lieu>;
@@ -33,7 +34,7 @@ const LieuSearchCard: React.FC<LieuSearchCardProps> = ({ lieu }) => {
   };
   
   return (
-    <Pressable style={styles.card} onPress={handleToggleFavorite}>
+    <Pressable style={styles.card}>
       <View style={styles.cardContent}>
         <View>
           <Text style={styles.cityName}>{lieu.nom}</Text>
@@ -42,7 +43,7 @@ const LieuSearchCard: React.FC<LieuSearchCardProps> = ({ lieu }) => {
         </View>
 
         <View style={styles.favoriteButton}>
-          <Text>{isFavori ? 'Retirer' : 'Ajouter'}</Text>
+          <AjouterRetirerButton isAdd={!isFavori} onPress={handleToggleFavorite}/>
         </View>
       </View>
     </Pressable>
