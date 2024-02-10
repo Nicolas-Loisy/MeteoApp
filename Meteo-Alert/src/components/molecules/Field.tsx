@@ -9,13 +9,13 @@ interface FieldProps {
   value?: string; // Valeur du champ de saisie
   isPassword?: boolean; // Champ de mot de passe (par défaut, c'est un champ de texte normal)
   placeholder?: string; // Placeholder du champ de saisie
-  validationType?: 'mail' | 'mdp' | 'default';
+  validationType?: 'mail' | 'mdp' | 'default'; 
   displayValidation?: boolean;
-  textContentType?: string;
-  keyboardType?: 'email-address' | 'visible-password' | 'default' ;
-  autoCorrect?: boolean;
-  returnKeyType?: string;
-  onSubmitEditing?: () => void;
+  textContentType?: string; // Eviter le bug avec le gestionnaire de mot de passe ios
+  keyboardType?: 'email-address' | 'visible-password' | 'default' ; // Définir le type de clavier selon le text input
+  autoCorrect?: boolean; // Pour activer l'auto correction sur le clavier
+  returnKeyType?: string; // Modifier le bouton submit du clavier
+  onSubmitEditing?: () => void; // Valider la sélection en cliquant sur le bouton submit du clavier
 }
 
 const Field: React.FC<FieldProps> = ({
@@ -67,7 +67,7 @@ const Field: React.FC<FieldProps> = ({
         onChangeText={handleTextChange} // Utiliser la fonction de gestion de changement de texte
         value={text}
         secureTextEntry={isPassword ? showPassword : false}
-        textContentType='oneTimeCode'
+        textContentType='oneTimeCode' // Pour ne plus affiche le gestionnaire de mot de passe sur IOS
         keyboardType={keyboardType}
         autoCorrect={autoCorrect}
         returnKeyType='go'
