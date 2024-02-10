@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const LayoutTemplate = ({ children }) => {
@@ -28,7 +28,7 @@ const LayoutTemplate = ({ children }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
+    paddingTop:  Platform.OS === 'ios' ? 40 : 0,
   },
   header: {
     // Styles de l'en-tête
