@@ -22,7 +22,7 @@ export default class ServiceGeographieOW extends aRestService implements iServic
 
   public async rechercheLieux(nomLieu: string): Promise<lieuType[]> {
     // Implémente la méthode à partir d'une API REST
-    const openWeatherApiKey = process.env.OPEN_WEATHER_API_KEY;
+    const openWeatherApiKey = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
     const limitApiResult = process.env.LIMIT_API_RESULT ?? 5;
 
     const urlLieux: string = `direct?q=${nomLieu}&limit=${limitApiResult}&appid=${openWeatherApiKey}`;

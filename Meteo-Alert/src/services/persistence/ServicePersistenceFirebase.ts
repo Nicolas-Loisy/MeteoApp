@@ -34,7 +34,6 @@ class ServicePersistenceFirebase implements iServicePersistence {
         email: snapshot.val().email ?? ""
       };
 
-      console.log(data);
       return data;
     } catch (error) {
       throw ErreurBDD.ERREUR_DATABASE;
