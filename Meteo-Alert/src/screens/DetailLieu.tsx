@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
-import { ParamListBase, useNavigation } from '@react-navigation/native';
-import ArrowReturn from '../assets/icons/svg/arrow-left-short.svg';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Meteo from '../models/valueObject/Meteo';
 import Title from '../components/atoms/Title';
 import TimeAgoText from '../components/atoms/TimeAgoText';
 import ListeInfoMeteo from '../components/molecules/ListInfoMeteo';
-import { useRoute } from '@react-navigation/native';
+import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
 import meteoType from '../models/types/meteoType';
 import Button from '../components/atoms/Button';
 import Lieu from '../models/valueObject/Lieu';
+import GoBackButton from '../components/atoms/GoBackButton';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type params = {
   params: {
@@ -50,7 +49,7 @@ const DetailLieu = () => {
 
   return (
     <LayoutTemplate>
-      <ArrowReturn onPress={() => navigation.goBack()} style={styles.arrowReturn} />
+      <GoBackButton iconType='arrowReturn'/>
 
       <View style={styles.container}>
         <Title text={lieu?.nom} fontSize={50} />
@@ -101,15 +100,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 40,
     marginTop: 35,
-  },
-  arrowReturn: {
-    left: Dimensions.get('window').width * 0.10,
-    position: 'absolute',
-    top: 30,
-    zIndex: 1,
-    width: 60,
-    height: 60,
-    marginLeft: -25,
   },
   details: {
     marginTop: 20,
