@@ -15,7 +15,7 @@ import MyStatusBar from '../components/atoms/MyStatusBar';
 // Paramètrer la taille du logo météo pour son animation
 const window = Dimensions.get('window');
 const IMAGE_HEIGHT = window.width / 2;
-const IMAGE_HEIGHT_SMALL = window.width / 5;
+const IMAGE_HEIGHT_SMALL = window.width / 4;
 
 const Connexion = () => {
   const { t } = useTranslation();
@@ -48,11 +48,14 @@ const Connexion = () => {
 
   // On met des listeners pour savoir si l'action d'afficher/désactiver le clavier est enclenché
   useEffect(() => {
-    let keyboardWillShowListener: any;
-    let keyboardWillHideListener: any;
-
-    keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', keyboardWillShow);
-    keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', keyboardWillHide);
+    const keyboardWillShowListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      keyboardWillShow
+    );
+    const keyboardWillHideListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      keyboardWillHide
+    );
 
     return () => {
       keyboardWillShowListener.remove();
@@ -60,6 +63,7 @@ const Connexion = () => {
     };
   }, []);
 
+  // Pour ios
   const keyboardWillShow = () => {
     Animated.parallel([
       Animated.timing(imageHeight, {
@@ -97,7 +101,7 @@ const Connexion = () => {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.container}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? -70 : 0}>
+          keyboardVerticalOffset={Platform.OS === 'ios' ? -70 : -40}>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.inner}>
               <KeyboardAvoidingView>
@@ -121,12 +125,14 @@ const Connexion = () => {
                 />
               </View>
 
-              {/* Bouton de connexion */}
-              <Button
-                onPress={handleConnexion}
-                title={t('connexion.connexion')}
-                styleBtn="whiteBg"
-              />
+              <View style={styles.button}>
+                {/* Bouton de connexion */}
+                <Button
+                  onPress={handleConnexion}
+                  title={t('connexion.connexion')}
+                  styleBtn="whiteBg"
+                />
+              </View>
 
               {/* Bouton pour aller à la page d'inscription */}
               <Button
@@ -151,18 +157,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  input: {
-    width: '20%',
-    height: 40,
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
-  },
   button: {
-    borderWidth: 1,
-    borderColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
+    marginBottom: 10,
   },
   text: {
     color: 'white',
@@ -172,7 +168,12 @@ const styles = StyleSheet.create({
   logoMeteo: {
     height: IMAGE_HEIGHT,
     width: 200,
-    marginLeft: 45
+    marginLeft: 45,
+    ...Platform.select({
+      android: {
+        marginBottom: -40, // Ajustez cette valeur selon votre besoin
+      },
+    }),
   },
   viewForgetMdp: {
     width: '85%',

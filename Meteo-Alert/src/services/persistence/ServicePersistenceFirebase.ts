@@ -20,7 +20,7 @@ class ServicePersistenceFirebase implements iServicePersistence {
     const database = FirebaseConfig.getInstance().database;
     
     try {
-      // Récupérationd des données en base
+      // Récupération des données en base
       const utilisateurRef = ref(database, `utilisateurs/${GUID}`);
       const snapshot = await get(utilisateurRef);
   
@@ -34,7 +34,6 @@ class ServicePersistenceFirebase implements iServicePersistence {
         email: snapshot.val().email ?? ""
       };
 
-      console.log(data);
       return data;
     } catch (error) {
       throw ErreurBDD.ERREUR_DATABASE;

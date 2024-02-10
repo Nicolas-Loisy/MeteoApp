@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, Text } from 'react-native';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
 import Field from '../components/molecules/Field';
@@ -10,6 +10,7 @@ import { ParamListBase, useNavigation } from '@react-navigation/native';
 import LieuSearchCard from '../components/molecules/LieuSearchCard';
 import { useGeographie } from '../services/context/GeographieContext';
 import GoBackButton from '../components/atoms/GoBackButton';
+import SadCloudLogo from '../assets/icons/svg/sad-cloud.svg';
 
 const RechercheLieu = () => {
   const { t } = useTranslation();
@@ -31,7 +32,7 @@ const RechercheLieu = () => {
       <MyStatusBar />
 
       <LayoutTemplate>
-        <GoBackButton iconType="arrowReturn" />
+        <GoBackButton onPress={navigation.goBack} iconType="arrowReturn" />
 
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -40,14 +41,25 @@ const RechercheLieu = () => {
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container}>
               <View style={styles.containerList}>
-
-                <FlatList
-                  data={resultatsRecherche}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={({ item }) => (
-                    <LieuSearchCard lieu={item} />
-                  )}
-                />
+                {resultatsRecherche && resultatsRecherche.length > 0 ? (
+                    <FlatList
+                      data={resultatsRecherche}
+                      keyExtractor={(item, index) => index.toString()}
+                      renderItem={({ item }) => (
+                        <LieuSearchCard lieu={item} />
+                      )}
+                    />
+                ) : (
+                  <>
+                    <View style={styles.logo}>
+                      <SadCloudLogo />
+                    </View>
+                    <Text style={styles.noResultsText}>
+                      {t('rechercheLieu.aucunResultat')}
+                    </Text>
+                  </>
+                )}
+                
 
               </View>
               <View style={styles.containerSearch}>
@@ -77,6 +89,17 @@ const styles = StyleSheet.create({
   },
   containerSearch: {
     alignItems: 'center',
+  },
+  noResultsText: {
+    margin: 30,
+    alignSelf: 'center',
+    color: '#1E375A',
+    fontSize: 30,
+    fontFamily: 'Karla-Medium',
+  },
+  logo: {
+    marginTop: 50,
+    alignSelf: 'center',
   }
 });
 

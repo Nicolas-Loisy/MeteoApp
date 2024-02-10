@@ -2,18 +2,21 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import Croix from '../../assets/icons/svg/vector.svg';
 import ArrowReturn from '../../assets/icons/svg/arrow-left-short.svg';
-import { ParamListBase, useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const GoBackButton = ({ iconType = 'croix' }) => {
-    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+interface GoBackButtonProps {
+    onPress: () => void;
+    iconType: string;
+}
+
+const GoBackButton: React.FC<GoBackButtonProps> = ({ onPress, iconType = 'croix' }) => {
     const Icon = iconType === 'arrowReturn' ? ArrowReturn : Croix;
 
     return (
         <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={onPress}
             style={iconType === 'arrowReturn' ? styles.arrowReturn : styles.croix }
-            hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}>
+            hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+        >
             <Icon />
         </TouchableOpacity>
     );

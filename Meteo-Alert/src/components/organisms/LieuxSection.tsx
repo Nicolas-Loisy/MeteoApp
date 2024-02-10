@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import LieuList from '../molecules/LieuList';
 import Lieu from '../../models/valueObject/Lieu';
 
@@ -22,11 +22,9 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 30,
     width: "100%",
-    // paddingHorizontal: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
+    borderTopColor: 'white',
+    borderTopWidth: 1,
+    borderBottomColor: 'white',
+    borderBottomWidth: 1,
+  }
 });

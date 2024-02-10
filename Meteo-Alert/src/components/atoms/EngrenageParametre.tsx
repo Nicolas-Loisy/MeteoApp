@@ -8,7 +8,10 @@ interface EngrenageParametreProps {
 
 const EngrenageParametre: React.FC<EngrenageParametreProps> = ({ onOpenVolet }) => {
   return (
-    <TouchableOpacity onPress={onOpenVolet}>
+    <TouchableOpacity
+      onPress={onOpenVolet}
+      hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+    >
       <Logo imageSource={require('../../assets/icons/gear-solid.png')} size={30}/>
     </TouchableOpacity>
   );
