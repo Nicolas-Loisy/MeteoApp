@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
 import Logo from '../atoms/Logo';
 
 interface FieldProps {
@@ -9,8 +9,13 @@ interface FieldProps {
   value?: string; // Valeur du champ de saisie
   isPassword?: boolean; // Champ de mot de passe (par défaut, c'est un champ de texte normal)
   placeholder?: string; // Placeholder du champ de saisie
-  validationType?: 'mail' | 'mdp' | 'default';
+  validationType?: 'mail' | 'mdp' | 'default'; 
   displayValidation?: boolean;
+  textContentType?: string; // Eviter le bug avec le gestionnaire de mot de passe ios
+  keyboardType?: 'email-address' | 'visible-password' | 'default' ; // Définir le type de clavier selon le text input
+  autoCorrect?: boolean; // Pour activer l'auto correction sur le clavier
+  returnKeyType?: string; // Modifier le bouton submit du clavier
+  onSubmitEditing?: () => void; // Valider la sélection en cliquant sur le bouton submit du clavier
 }
 
 const Field: React.FC<FieldProps> = ({
@@ -22,9 +27,13 @@ const Field: React.FC<FieldProps> = ({
   placeholder,
   validationType = 'default', // defaut, mail, mdp
   displayValidation,
+  keyboardType,
+  autoCorrect,
+  onSubmitEditing,
 }) => {
   const [text, setText] = useState(value);
   const [isValid, setIsValid] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
 
   const handleTextChange = (newText: string) => {
     setText(newText);
@@ -45,6 +54,10 @@ const Field: React.FC<FieldProps> = ({
     onChangeText(newText); // Appeler la fonction de rappel avec le nouveau texte
   };
 
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <View style={styles.container}>
       <Logo imageSource={iconSource} size={25} />
@@ -53,13 +66,27 @@ const Field: React.FC<FieldProps> = ({
         placeholder={placeholder || fieldName} // Utiliser le placeholder spécifié ou le nom de champ par défaut
         onChangeText={handleTextChange} // Utiliser la fonction de gestion de changement de texte
         value={text}
-        secureTextEntry={isPassword}
+        secureTextEntry={isPassword ? showPassword : false}
+        textContentType='oneTimeCode' // Pour ne plus affiche le gestionnaire de mot de passe sur IOS
+        keyboardType={keyboardType}
+        autoCorrect={autoCorrect}
+        returnKeyType='go'
+        onSubmitEditing={onSubmitEditing}
       />
+      {isPassword && (
+        <TouchableOpacity onPress={togglePassword}>
+          {showPassword ? (
+            <Image source={require('../../assets/icons/eye-closed.png')} style={{ width: 25, height: 25, tintColor: '#1E375A' }} />
+          ) : (
+            <Image source={require('../../assets/icons/eye-open.png')} style={{ width: 25, height: 25, tintColor: '#1E375A' }} />
+          )}
+        </TouchableOpacity>
+      )}
       {displayValidation && (
         isValid ? (
-          <Logo imageSource={require('../../assets/icons/check-solid.png')} size={25} color='#1E375A'/>
+          <Logo imageSource={require('../../assets/icons/check-solid.png')} size={25} color='#1E375A' />
         ) : (
-          <Logo imageSource={require('../../assets/icons/icon-refus.png')} size={25} color='#C83434'/>
+          <Logo imageSource={require('../../assets/icons/icon-refus.png')} size={25} color='#C83434' />
         )
       )}
     </View>

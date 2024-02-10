@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, Animated, Dimensions } from 'react-native';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Button from '../components/atoms/Button';
@@ -10,13 +10,22 @@ import { useTranslation } from 'react-i18next';
 import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
+import MyStatusBar from '../components/atoms/MyStatusBar';
+
+// Paramètrer la taille du logo météo pour son animation
+const window = Dimensions.get('window');
+const IMAGE_HEIGHT = window.width / 2;
+const IMAGE_HEIGHT_SMALL = window.width / 5;
 
 const Connexion = () => {
   const { t } = useTranslation();
-  
+
   // hook useUser pour accéder au contexte d'utilisateur
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { connexion } = useUtilisateur();
+
+  const [textTranslateY] = useState(new Animated.Value(0));
+  const [imageHeight] = useState(new Animated.Value(IMAGE_HEIGHT));
 
   // États pour stocker les valeurs du formulaire
   const [email, setEmail] = useState('');
@@ -37,49 +46,110 @@ const Connexion = () => {
     }
   };
 
+  // On met des listeners pour savoir si l'action d'afficher/désactiver le clavier est enclenché
+  useEffect(() => {
+    let keyboardWillShowListener: any;
+    let keyboardWillHideListener: any;
+
+    keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', keyboardWillShow);
+    keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', keyboardWillHide);
+
+    return () => {
+      keyboardWillShowListener.remove();
+      keyboardWillHideListener.remove();
+    };
+  }, []);
+
+  const keyboardWillShow = () => {
+    Animated.parallel([
+      Animated.timing(imageHeight, {
+        duration: 400,
+        toValue: IMAGE_HEIGHT_SMALL,
+        useNativeDriver: false,
+      }),
+      Animated.timing(textTranslateY, {
+        duration: 400,
+        toValue: 20,
+        useNativeDriver: false,
+      }),
+    ]).start();
+  };
+
+  const keyboardWillHide = () => {
+    Animated.parallel([
+      Animated.timing(imageHeight, {
+        duration: 800,
+        toValue: IMAGE_HEIGHT,
+        useNativeDriver: false,
+      }),
+      Animated.timing(textTranslateY, {
+        duration: 800,
+        toValue: 0,
+        useNativeDriver: false,
+      }),
+    ]).start();
+  };
+
   return (
-    <LayoutTemplate>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.container}>
-          <LogoMeteo {...styles.logoMeteo}/>
-          <Text style={styles.text}>{t('connexion.titre')}</Text>
+    <>
+      <MyStatusBar />
+      <LayoutTemplate>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.container}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? -70 : 0}>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.inner}>
+              <KeyboardAvoidingView>
+                <Animated.View style={[styles.logoMeteo, { height: imageHeight }]}>
+                  <LogoMeteo />
+                </Animated.View>
+                <Animated.Text style={[styles.text, { transform: [{ translateY: textTranslateY }] }]}>
+                  {t('connexion.titre')}
+                </Animated.Text>
+              </KeyboardAvoidingView>
 
-          {/* Formulaire d'adresse e-mail */}
-          <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')}/>
-          {/* Formulaire de mot de passe */}
-          <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} isPassword/>
+              {/* Formulaire d'adresse e-mail */}
+              <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')} keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleConnexion} />
+              {/* Formulaire de mot de passe */}
+              <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} keyboardType='visible-password' onSubmitEditing={handleConnexion} isPassword />
 
-          <View style={styles.viewForgetMdp}>
-            <ClickableText
-              text={t('connexion.forget_mdp')}
-              onPress={() => navigation.navigate('MdpOublie')}
-            />
-          </View>
+              <View style={styles.viewForgetMdp}>
+                <ClickableText
+                  text={t('connexion.forget_mdp')}
+                  onPress={() => navigation.navigate('MdpOublie')}
+                />
+              </View>
 
-          {/* Bouton de connexion */}
-          <Button
-              onPress={handleConnexion}
-              title={t('connexion.connexion')}
-              styleBtn="whiteBg"
-          />
+              {/* Bouton de connexion */}
+              <Button
+                onPress={handleConnexion}
+                title={t('connexion.connexion')}
+                styleBtn="whiteBg"
+              />
 
-          {/* Bouton pour aller à la page d'inscription */}
-          <Button
-              onPress={() => navigation.navigate('Inscription')}
-              title={t('connexion.redirect_inscription')}
-              styleBtn="noBg"
-          />
-        </View>
-      </TouchableWithoutFeedback>
-    </LayoutTemplate>
+              {/* Bouton pour aller à la page d'inscription */}
+              <Button
+                onPress={() => navigation.navigate('Inscription')}
+                title={t('connexion.redirect_inscription')}
+                styleBtn="noBg"
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </LayoutTemplate>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  inner: {
     justifyContent: 'center',
     alignItems: 'center',
+    flex: 1,
   },
   input: {
     width: '20%',
@@ -90,7 +160,7 @@ const styles = StyleSheet.create({
   },
   button: {
     borderWidth: 1,
-    borderColor:'blue',
+    borderColor: 'blue',
     padding: 10,
     borderRadius: 5,
   },
@@ -100,12 +170,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Jomhuria-Regular',
   },
   logoMeteo: {
+    height: IMAGE_HEIGHT,
     width: 200,
-    height: 200,
+    marginLeft: 45
   },
   viewForgetMdp: {
-    width: '85%', 
-    alignItems:"flex-end", 
+    width: '85%',
+    alignItems: "flex-end",
     marginBottom: 30
   }
 });
