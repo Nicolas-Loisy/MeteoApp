@@ -22,7 +22,6 @@ type params = {
 
 const DetailLieu = () => {
   const { t } = useTranslation();
-  const {  } = useUtilisateur();
   const { lieuxFavoris, setSeuilPersonnalise } = useUtilisateur();
 
   const params = useRoute() as params;
@@ -49,7 +48,7 @@ const DetailLieu = () => {
 
   return (
     <LayoutTemplate>
-      <GoBackButton iconType='arrowReturn'/>
+      <GoBackButton onPress={navigation.goBack} iconType='arrowReturn'/>
 
       <View style={styles.container}>
         <Title text={lieu?.nom} fontSize={50} />
@@ -88,7 +87,6 @@ const DetailLieu = () => {
             }
           </ScrollView>
         </View>
-
       </View>
     </LayoutTemplate>
   );

@@ -20,7 +20,7 @@ class ServicePersistenceFirebase implements iServicePersistence {
     const database = FirebaseConfig.getInstance().database;
     
     try {
-      // Récupérationd des données en base
+      // Récupération des données en base
       const utilisateurRef = ref(database, `utilisateurs/${GUID}`);
       const snapshot = await get(utilisateurRef);
   

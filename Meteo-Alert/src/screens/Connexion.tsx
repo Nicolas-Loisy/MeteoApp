@@ -121,12 +121,14 @@ const Connexion = () => {
                 />
               </View>
 
-              {/* Bouton de connexion */}
-              <Button
-                onPress={handleConnexion}
-                title={t('connexion.connexion')}
-                styleBtn="whiteBg"
-              />
+              <View style={styles.button}>
+                {/* Bouton de connexion */}
+                <Button
+                  onPress={handleConnexion}
+                  title={t('connexion.connexion')}
+                  styleBtn="whiteBg"
+                />
+              </View>
 
               {/* Bouton pour aller à la page d'inscription */}
               <Button
@@ -151,18 +153,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  input: {
-    width: '20%',
-    height: 40,
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
-  },
   button: {
-    borderWidth: 1,
-    borderColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
+    marginBottom: 10,
   },
   text: {
     color: 'white',

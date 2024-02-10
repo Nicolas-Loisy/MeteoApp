@@ -47,7 +47,6 @@ const Button: React.FC<ButtonProps> = ({ onPress, title, styleBtn = 'whiteBg' })
 // Styles communs
 const styles = StyleSheet.create({
   button: {
-    margin: 10,
     width: 303,
     height: 53,
     flexShrink: 0,
