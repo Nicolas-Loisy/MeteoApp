@@ -1,3 +1,4 @@
+import ErreurUtilisateur from '../enum/erreurs/ErreurUtilisateur';
 import utilisateurType from '../types/utilisateurType';
 import Lieu from '../valueObject/Lieu';
 
@@ -31,7 +32,7 @@ class Utilisateur {
   public ajouterLieuFavori(lieu: Readonly<Lieu>): void {
     const isLieuExistant = this.lieuxFavoris.some(lieuFav => lieu.key === lieuFav.key);
     
-    if (isLieuExistant) throw new Error("[ERREUR] Lieu déjà en favori");
+    if (isLieuExistant) throw ErreurUtilisateur.ERREUR_LIEU_FAVORI_EXISTANT;
 
     this.lieuxFavoris = [...this.lieuxFavoris, lieu];
   }
@@ -39,7 +40,7 @@ class Utilisateur {
   public supprimerLieuFavori(lieu: Readonly<Lieu>): void {
     const isLieuExistant = this.lieuxFavoris.some((lieuFav: Readonly<Lieu>) => lieuFav.key === lieu.key);
 
-    if (!isLieuExistant) throw new Error("[ERREUR] Lieu non trouvé dans les favoris");
+    if (!isLieuExistant) throw ErreurUtilisateur.ERREUR_LIEU_FAVORI_MANQUANT;
 
     this.lieuxFavoris = [...this.lieuxFavoris.filter((lieuFav) => lieuFav.key !== lieu.key)];
   }

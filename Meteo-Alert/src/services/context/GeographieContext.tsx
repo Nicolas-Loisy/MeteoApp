@@ -4,6 +4,7 @@ import lieuType from '../../models/types/lieuType';
 import iServiceGeographie from '../api/geographieAPI/iServiceGeographie';
 import ServiceGeographieFactory from '../api/geographieAPI/ServiceGeographieFactory';
 import AlerteFactory from '../alertes/AlerteFactory';
+import ErreurContextGeographie from '../../models/enum/erreurs/ErreurContextGeographie';
 
 type GeographieContextProps = {
   resultatsRecherche: ReadonlyArray<Readonly<Lieu>> | null;
@@ -44,7 +45,7 @@ export const GeographieProvider = ({ children }: { children: ReactNode }) => {
 export const useGeographie = () => {
   const context = useContext(GeographieContext);
   if (!context) {
-    throw new Error('useGeographie must be used within a GeographieProvider');
+    throw ErreurContextGeographie.ERREUR_USE_CONTEXT_HORS_PROVIDER;
   }
   return context;
 };

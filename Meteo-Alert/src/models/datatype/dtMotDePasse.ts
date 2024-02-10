@@ -1,3 +1,5 @@
+import ErreurMdp from "../enum/erreurs/ErreurMdp";
+
 class dtMotDePasse {
   readonly value: string;
 
@@ -5,7 +7,7 @@ class dtMotDePasse {
     const rules = dtMotDePasse.checkRules(value);
 
     if (Object.values(rules).includes(false)) {
-      throw new Error('Invalid password');
+      throw ErreurMdp.ERREUR_FORCE_INSUFFISANTE;
     }
 
     this.value = value;

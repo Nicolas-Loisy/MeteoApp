@@ -2,12 +2,13 @@ import iAlerte from "../../services/alertes/iAlerte";
 import MeteoBuilder from "../builder/MeteoBuilder";
 import dtUniteCoordonnee from "../datatype/unite/dtUniteCoordonnee";
 import EvenementEnum from "../enum/EvenementEnum";
+import ErreurLieu from "../enum/erreurs/ErreurLieu";
 import lieuType from "../types/lieuType";
 import meteoType from "../types/meteoType";
 import Meteo from "./Meteo";
 
 class Lieu {
-  public readonly key: string; // A justifier dans le rapport (Economie lors des requêtes BDD)
+  public readonly key: string;
   public readonly nom: string;
   public readonly pays: string;
   public readonly region: string;
@@ -17,10 +18,6 @@ class Lieu {
   private reglageAlerte: ReadonlyArray<Readonly<iAlerte>>;
 
   constructor(data: lieuType) {
-    if (!data.key) {
-      throw new Error("[ERREUR] Création du lieu impossible : l'UID est manquant");
-    }
-
     this.key = data.key;
     this.nom = data.nom;
     this.pays = data.pays;
@@ -37,11 +34,10 @@ class Lieu {
   }
 
   public async getMeteo(actualiser: boolean = true): Promise<Meteo> {
-    if (actualiser) await this.updateMeteo();
-
-    if (!this.meteo) {
-      throw new Error("Meteo data is not available yet");
+    if (!this.meteo || actualiser) {
+      this.meteo = await MeteoBuilder.getMeteo(this.longitude, this.latitude);
     }
+
     return this.meteo;
   }
 
@@ -65,7 +61,7 @@ class Lieu {
 
   public setSeuilPersonnalise(typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number): void {
     const alerte = this.reglageAlerte.find(alerte => alerte.typeEvenement === typeEvenement);
-    if (!alerte) throw new Error("[ERREUR] Impossible de trouver l'évènement recherché");
+    if (!alerte) throw ErreurLieu.EVENEMENT_MANQUANT;
 
     alerte.setSeuilPersonnalise(critere, valeur);
   }

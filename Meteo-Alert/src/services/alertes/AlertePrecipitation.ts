@@ -1,4 +1,5 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
+import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
 import meteoType from "../../models/types/meteoType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
@@ -19,7 +20,7 @@ class AlertePrecipitation extends aAlerte {
 
   public checkEvenement(mesureMeteo: Meteo): boolean {
     if (!Object.keys(this.criteres).every(key => key in mesureMeteo)) {
-      throw new Error("Attributs manquants");
+      throw ErreurAlerte.ATTRIBUT_METEO_MANQUANT;
     }
 
     return (
