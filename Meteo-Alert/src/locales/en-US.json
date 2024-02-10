@@ -72,7 +72,8 @@
             }
         },
         "rechercheLieu": {
-            "recherche" : "Search..."
+            "recherche" : "Search...",
+            "aucunResultat": "No places found..."
         },
         "summaryRules": {
             "size": "14 characters", 

@@ -81,7 +81,8 @@
             }
         },
         "rechercheLieu": {
-            "recherche": "Recherche..."
+            "recherche": "Recherche...",
+            "aucunResultat": "Aucun lieu trouvé..."
         },
         "summaryRules": {
             "size": "14 caractères", 

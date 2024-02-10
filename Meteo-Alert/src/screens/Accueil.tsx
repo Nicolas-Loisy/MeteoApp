@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -17,11 +17,7 @@ const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { t } = useTranslation();
   const [isVoletOpen, setIsVoletOpen] = useState<boolean>(false);
-  const { lieuxFavoris, deconnexion } = useUtilisateur(); 
- 
-  const handleDeconnexion = () => {
-    deconnexion();
-  };
+  const { lieuxFavoris } = useUtilisateur();
 
   const handleVolet = () => {
     setIsVoletOpen(!isVoletOpen);
@@ -38,17 +34,12 @@ const Accueil = () => {
 
         <View style={styles.container}>
 
-          <LieuxSection lieux={lieuxFavoris} />
           {/* Liste scrollable avec des cartes contenants les lieux avec le nom et la temperature */}
+          <LieuxSection lieux={lieuxFavoris} />
 
           <Button
             onPress={() => navigation.navigate('RechercheLieu')}
             title={t('accueil.rechercheLieu')}
-            styleBtn="whiteBg"
-          />
-          <Button
-            onPress={() => handleDeconnexion()}
-            title={"Deconnexion"}
             styleBtn="whiteBg"
           />
           <InputLangue 
@@ -72,18 +63,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'blue',
     width: "100%",
-    paddingBottom: 40,
+    paddingBottom: 30,
     marginTop: 20,
-  },
-  button: {
-    borderWidth: 1,
-    borderColor: 'blue',
-    padding: 10,
-    marginBottom: 40,
-    borderRadius: 5,
-  },
+  }
 });
 
 export default Accueil;
