@@ -12,7 +12,7 @@ interface FieldProps {
   validationType?: 'mail' | 'mdp' | 'default'; 
   displayValidation?: boolean;
   textContentType?: string; // Eviter le bug avec le gestionnaire de mot de passe ios
-  keyboardType?: 'email-address' | 'visible-password' | 'default' ; // Définir le type de clavier selon le text input
+  keyboardType?: 'email-address' | 'default' ; // Définir le type de clavier selon le text input
   autoCorrect?: boolean; // Pour activer l'auto correction sur le clavier
   returnKeyType?: string; // Modifier le bouton submit du clavier
   onSubmitEditing?: () => void; // Valider la sélection en cliquant sur le bouton submit du clavier
