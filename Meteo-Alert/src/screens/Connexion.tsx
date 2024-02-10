@@ -112,7 +112,7 @@ const Connexion = () => {
               {/* Formulaire d'adresse e-mail */}
               <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')} keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleConnexion} />
               {/* Formulaire de mot de passe */}
-              <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} keyboardType='visible-password' onSubmitEditing={handleConnexion} isPassword />
+              <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} onSubmitEditing={handleConnexion} isPassword />
 
               <View style={styles.viewForgetMdp}>
                 <ClickableText
