@@ -4,20 +4,20 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Connexion from "../screens/Connexion";
 import Inscription from "../screens/Inscription";
+import MdpOublie from "../screens/MdpOublie";
 import Accueil from "../screens/Accueil";
 import DetailLieu from "../screens/DetailLieu";
 import RechercheLieu from "../screens/RechercheLieu";
-import { useAccountContext } from "../services/compteUtilisateur/AccountContext";
-import Demo from "../screens/Demo";
+import { useUtilisateur } from "../services/context/UtilisateurContext";
 
 const Stack = createStackNavigator();
 
 export default function Navigation() {
-  const { statutConnecte } = useAccountContext();
-
+  const statutConnecte = !!useUtilisateur().utilisateur?.uid;
+  
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Accueil" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Connexion" screenOptions={{ headerShown: false }}>
         {/* <Stack.Screen name="Demo" component={Demo} options={{ headerShown: false }} /> */}
 
         {/* Espace non-connecte */}
@@ -25,6 +25,7 @@ export default function Navigation() {
           <>
             <Stack.Screen name="Connexion" component={Connexion} options={{ headerShown: false }} />
             <Stack.Screen name="Inscription" component={Inscription} options={{ headerShown: false }} />
+            <Stack.Screen name="MdpOublie" component={MdpOublie} options={{ headerShown: false }} />
           </>
         )}
 

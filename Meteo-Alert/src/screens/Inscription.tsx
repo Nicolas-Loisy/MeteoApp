@@ -2,56 +2,55 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import ServiceCompteFactory from '../services/compteUtilisateur/ServiceCompteFactory';
 import Button from '../components/atoms/Button';
 import ClickableText from '../components/atoms/ClickableText';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
 import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
 import Field from '../components/molecules/Field';
-import SummaryRules from '../components/atoms/SummaryRules';
-import Password from '../models/datatype/dtPassword';
+import ReglesMDP from '../components/atoms/ReglesMDP';
+import dtMotDePasse from '../models/datatype/dtMotDePasse';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import { useUtilisateur } from '../services/context/UtilisateurContext';
+import utilisateurType from '../models/types/utilisateurType';
 
 
 const Inscription = () => {
   const { t } = useTranslation();
-
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const serviceCompte = ServiceCompteFactory.getServiceCompte();
+  const { inscription } = useUtilisateur();
 
   // États pour stocker les valeurs du formulaire
   const [email, setEmail] = useState('');
   const [prenom, setPrenom] = useState('');
   
-  const [motDePasse, setMotDePasse] = useState<string>('');
-  const [password, setPassword] = useState<Password | null>(null);
-  const passwordRules = Password.checkRules(motDePasse);
+  const [motDePasseValue, setMotDePasseValue] = useState<string>('');
+  const [motDePasse, setMotDePasse] = useState<dtMotDePasse | null>(null);
+  const passwordRules = dtMotDePasse.checkRules(motDePasseValue);
 
   useEffect(() => {
-    const rules = Password.checkRules(motDePasse);
+    const rules = dtMotDePasse.checkRules(motDePasseValue);
     if (!Object.values(rules).includes(false)) {
-      setPassword(new Password(motDePasse));
+      setMotDePasse(new dtMotDePasse(motDePasseValue));
     }
-  }, [motDePasse]);
+  }, [motDePasseValue]);
 
-  const handleInscription = () => {
-
+  const handleInscription = async () => {
     if (email && motDePasse && prenom) {
-      serviceCompte.inscription(email, motDePasse, {"prenom": prenom, "lieuxFavoris": []})
-        .then(() => {
-          navigation.navigate('Accueil');
-        })
-        .catch((error) => {
-          Dialog.show({
-            type: ALERT_TYPE.DANGER,
-            title: t("inscription.popup.title"),
-            textBody: t("inscription.popup.body"),
-            button: t("inscription.popup.btn"),
-          });
-          // console.error('Erreur de Inscription :', error);
-        })
-      ;
+      try {
+        const utilisateurData: utilisateurType = {
+          prenom: prenom,
+          email: email
+        }
+        await inscription(motDePasse.value, utilisateurData);
+      } catch (error: unknown) {
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: t("inscription.popup.title"),
+          textBody: t(`erreur.auth.${error}`),
+          button: t("inscription.popup.btn"),
+        });
+      }
     }
   };
 
@@ -72,8 +71,8 @@ const Inscription = () => {
           <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' displayValidation/>
 
           {/* Formulaire de mot de passe */}
-          <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword/>
-          <SummaryRules
+          <Field onChangeText={setMotDePasseValue} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword/>
+          <ReglesMDP
             rules={passwordRules}
           />
 

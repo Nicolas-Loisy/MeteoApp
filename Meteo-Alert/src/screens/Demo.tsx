@@ -11,8 +11,8 @@ import Button from '../components/atoms/Button';
 import Criteria from '../components/atoms/Criteria';
 import Field from '../components/molecules/Field';
 import { useTranslation } from 'react-i18next';
-import Password from '../models/datatype/dtPassword';
-import SummaryRules from '../components/atoms/SummaryRules';
+import Password from '../models/datatype/dtMotDePasse';
+import SummaryRules from '../components/atoms/ReglesMDP';
 import Croix from '../assets/icons/svg/vector.svg';
 
 const Demo = () => {
@@ -43,9 +43,6 @@ const Demo = () => {
     }
   }, [passwordValue]);
 
-  const { width } = Dimensions.get('window');
-  const croixPosition = width * 0.10;
-
   return (
     <>
     <MyStatusBar/>
@@ -53,7 +50,7 @@ const Demo = () => {
       <View style={styles.container}>
         <Text>{t('demo.test')}</Text> 
         <Text>{t('demo.testInjection', { number: '1234567890' })}</Text> 
-        <Croix onPress={() => navigation.goBack()} style={[styles.croix, { left: croixPosition }]} />
+        <Croix onPress={() => navigation.goBack()} style={[styles.croix]} />
         <ClickableText
             text="ClickableText"
             onPress={() => navigation.navigate('RechercheLieu')}
@@ -95,6 +92,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   croix: {
+    left: Dimensions.get('window').width * 0.10,
     position: 'absolute',
     top: 40,
     zIndex: 1,

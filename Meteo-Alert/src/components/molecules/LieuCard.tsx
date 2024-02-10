@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import Lieu from '../../models/valueObject/Lieu';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/core';
 import Meteo from '../../models/valueObject/Meteo';
 
@@ -13,27 +12,17 @@ import CloudsSvg from '../../assets/icons/svg/clouds.svg';
 import CloudSvg from '../../assets/icons/svg/cloudy.svg';
 import CloudMoonSvg from '../../assets/icons/svg/cloud-moon.svg';
 import MoonSvg from '../../assets/icons/svg/moon.svg';
-import { useLieu } from '../../services/context/LieuContext';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ParamListBase } from '@react-navigation/native';
 
 interface LieuCardProps {
   lieu: Readonly<Lieu>;
 }
 
-export type RootStackParamList = {
-  DetailLieu: {
-    lieuData: {
-      nom: string;
-      region: string;
-      pays: string;
-    };
-  } | undefined;
-};
-
 const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
   const [temperature, setTemperature] = useState<string | null>(null);
   const [meteo, setMeteo] = useState<Meteo | null>(null);
-  const { setLieu } = useLieu();
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   useEffect(() => {
     const fetchTemperature = async () => {
@@ -51,16 +40,8 @@ const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
   }, [lieu]);
 
   const handleCardPress = () => {
-    // Naviguer vers la page DetailLieu avec les données du lieu
-    setLieu(lieu);
-
-    navigation.navigate('DetailLieu', {
-      lieuData: {
-        nom: lieu.nom,
-        region: lieu.region,
-        pays: lieu.pays,
-      },
-    });
+    // Naviguer vers la page DetailLieu avec la key
+    navigation.navigate('DetailLieu', { key: lieu.key });
   };
 
   const PICTO_TYPES = [

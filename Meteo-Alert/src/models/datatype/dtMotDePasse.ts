@@ -1,11 +1,13 @@
-class dtPassword {
-  value: string;
+import ErreurMdp from "../enum/erreurs/ErreurMdp";
+
+class dtMotDePasse {
+  readonly value: string;
 
   constructor(value: string) {
-    const rules = dtPassword.checkRules(value);
+    const rules = dtMotDePasse.checkRules(value);
 
     if (Object.values(rules).includes(false)) {
-      throw new Error('Invalid password');
+      throw ErreurMdp.ERREUR_FORCE_INSUFFISANTE;
     }
 
     this.value = value;
@@ -24,4 +26,4 @@ class dtPassword {
   }
 }
 
-export default dtPassword;
+export default dtMotDePasse;
