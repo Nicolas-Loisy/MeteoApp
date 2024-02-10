@@ -10,6 +10,8 @@ import MyStatusBar from '../components/atoms/MyStatusBar';
 import { useTranslation } from 'react-i18next';
 import LieuxSection from '../components/organisms/LieuxSection';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
+import InputLangue from '../components/atoms/InputLangue';
+import i18n, { langues, langueActuelle} from "../services/i18n/i18n";
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -39,6 +41,13 @@ const Accueil = () => {
             onPress={() => navigation.navigate('RechercheLieu')}
             title={t('accueil.rechercheLieu')}
             styleBtn="whiteBg"
+          />
+          <InputLangue 
+            languesDispos={langues} 
+            langueDefaut={langueActuelle} 
+            onChange={(language: string) => {
+              i18n.changeLanguage(language);
+            }}
           />
         </View>
       </LayoutTemplate>
