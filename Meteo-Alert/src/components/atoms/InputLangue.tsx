@@ -58,7 +58,7 @@ const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }
         items={options}
         onValueChange={(value) => handleLangueChange(value)}
         value={langue}
-        pickerProps={{ style: { width: 125, overflow: 'hidden' } }}
+        style={pickerSelectStyles}
       />
     </View>
   );
@@ -66,7 +66,21 @@ const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }
 
 const styles = StyleSheet.create({
   lang: {
-    width: 125,
+    backgroundColor: 'white',
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: '#1E375A',
+  }
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    height: 40,
+    width: 125
+  },
+  inputAndroid: {
+      height: 40,
+      width: 125
   }
 });
 
