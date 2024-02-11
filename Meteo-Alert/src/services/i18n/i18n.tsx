@@ -1,31 +1,45 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-
+import { NativeModules, Platform } from 'react-native';
 
 // Dynamic import of different translation files
-const langueDefaut = process.env.REACT_APP_LANGUE_DEFAUT ?? "fr-FR";
+export const langueDefaut = process.env.REACT_APP_LANGUE_DEFAUT ?? "fr_FR";
 const locales = require.context('../../locales', false, /\.json$/);
 const keys: string[] = locales.keys();
-const regexToutesLettres: RegExp = /(?<=\.\/).+?(?=\.json)/;
+const regexNomLocale: RegExp = /^\.\/(.+)\.json$/;
+const regexLangue = /^(.*)_/ //Deux premières lettres
 
-// Definition of the list of available languages
-export const langues: Record<string, string> = Object.fromEntries(
-  keys
-    .reduce((acc, key) => {
-      const toutesLettres = key.match(regexToutesLettres)?.[0] ?? null;
+export const langues: string[] = keys
+  .map(key => key.match(regexNomLocale))
+  .filter(matchResult => matchResult !== null)
+  .map(matchResult => matchResult![1]); 
 
-      if (toutesLettres != null && toutesLettres) {
-        acc.push([toutesLettres, toutesLettres]);
-      }
-      return acc;
-    }, [] as [string, string][])
-    .sort(([a], [b]) => a.localeCompare(b))
-);
 
-export const langueActuelle = 
-  Object.keys(locales).includes(navigator.language) 
-  ? navigator.language 
-  : langueDefaut;
+// Définition de la langue utilisée
+let localeTelephone: string;
+if (Platform.OS === 'ios') {
+  localeTelephone = NativeModules.SettingsManager.settings.AppleLocale;
+} else if (Platform.OS === 'android') {
+  localeTelephone = NativeModules.I18nManager.localeIdentifier;
+} else {
+  localeTelephone = langueDefaut;
+}
+
+const langueTelephone: string | null = localeTelephone.match(regexLangue)?.[1] ?? null;
+
+let langueActuelle: string;
+if (Object.keys(locales).includes(localeTelephone)){
+  // La locale du téléphone existe dans la liste des locales de l'application
+  langueActuelle = localeTelephone;
+
+} else if (langueTelephone) {
+  // Les deux lettres correspondant à une langue existe dans l'une des locales de l'application
+  langueActuelle = Object.keys(locales).find(locale => locale.startsWith(langueTelephone)) ?? langueDefaut
+
+} else {
+  // Cas par défaut si aucune langue adéquate n'a été trouvée
+  langueActuelle = langueDefaut
+}
 
 // Reading loaded translation files
 const resources: Record<string, any> = {};
@@ -40,7 +54,7 @@ i18n
   .init({
     compatibilityJSON: 'v3',
     resources: resources,
-    fallbackLng: langues[navigator.language] || langueDefaut,
+    fallbackLng: langueActuelle,
     debug: false,
     defaultNS: 'react-native',
     keySeparator: '.',
