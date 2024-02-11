@@ -74,6 +74,7 @@ const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
       
       <View style={styles.cardContent}>
         <View style={styles.cardCity}>
+          <Text style={styles.citySubtitles}>{lieu.region}{lieu.region && lieu.pays ? ' - ' : ''}{lieu.pays}</Text>
           <Text style={styles.cityName}>{lieu.nom}</Text>
         </View>
 
@@ -115,6 +116,12 @@ const styles = StyleSheet.create({
   },
   cityName: {
     fontSize: 30,
+    fontFamily: 'Karla-Medium',
+    color: 'white',
+    marginRight: 16,
+  },
+  citySubtitles: {
+    fontSize: 15,
     fontFamily: 'Karla-Medium',
     color: 'white',
     marginRight: 16,
