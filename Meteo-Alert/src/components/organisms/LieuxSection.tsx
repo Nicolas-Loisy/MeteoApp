@@ -19,7 +19,8 @@ export default LieuxSection;
 
 const styles = StyleSheet.create({
   lieuxSection: {
-    marginTop: 30,
+    flex: 1,
+    marginTop: 20,
     marginBottom: 30,
     width: "100%",
     borderTopColor: 'white',
