@@ -15,8 +15,8 @@ type optionType = {
 
 const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }) => {
   const [langue, setLangue] = useState<string>(langueDefaut);
-  const regexLangue = /^(.*)-/ //Deux premières lettres
-  const regexPays = /-(.+)/  //Deux dernières lettres
+  const regexLangue = /^(.*)_/ //Deux premières lettres
+  const regexPays = /_(.+)/  //Deux dernières lettres
   const options: optionType[] = languesDispos.map(langue => creerOption(langue));
 
   function handleLangueChange (langue: string): void  {

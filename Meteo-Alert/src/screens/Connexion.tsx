@@ -144,8 +144,8 @@ const Connexion = () => {
               />
 
               <InputLangue
-                languesDispos={langues}
-                langueDefaut={ langueDefaut }
+                languesDispos={ langues }
+                langueDefaut={ i18n.language }
                 onChange={(langue: string) => i18n.changeLanguage(langue)}
               />
             </View>
