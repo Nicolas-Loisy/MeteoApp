@@ -33,6 +33,13 @@ const Accueil = () => {
         </View>
 
         <View style={styles.container}>
+          <InputLangue 
+            languesDispos={langues} 
+            langueDefaut={langueActuelle} 
+            onChange={(language: string) => {
+              i18n.changeLanguage(language);
+            }}
+          />
 
           {/* Liste scrollable avec des cartes contenants les lieux avec le nom et la temperature */}
           <LieuxSection lieux={lieuxFavoris} />
@@ -41,13 +48,6 @@ const Accueil = () => {
             onPress={() => navigation.navigate('RechercheLieu')}
             title={t('accueil.rechercheLieu')}
             styleBtn="whiteBg"
-          />
-          <InputLangue 
-            languesDispos={langues} 
-            langueDefaut={langueActuelle} 
-            onChange={(language: string) => {
-              i18n.changeLanguage(language);
-            }}
           />
         </View>
       </LayoutTemplate>

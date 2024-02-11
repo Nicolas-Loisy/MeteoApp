@@ -64,7 +64,7 @@ export default class ServiceMeteoOW extends aRestService implements iServiceMete
   
     public async getMeteo(longitude: dtUniteCoordonnee, latitude: dtUniteCoordonnee, units: SystemeMesureEnum): Promise<meteoType> {
       // Implemente la méthode a partir d'une API REST
-      const openWeatherApiKey = process.env.REACT_APP_OPEN_WEATHER_API_KEY ?? "";
+      const openWeatherApiKey = process.env.OPEN_WEATHER_API_KEY ?? "";
       const urlMeteo: string = `/weather?lat=${latitude.getValeur()}&lon=${longitude.getValeur()}&appid=${openWeatherApiKey}&units=${units}`;
       const JSONdata = await this.get(urlMeteo) as unknown as JSON_OW;
 
