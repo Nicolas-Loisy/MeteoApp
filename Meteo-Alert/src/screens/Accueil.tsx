@@ -39,8 +39,10 @@ const Accueil = () => {
             onChange={(langue: string) => setLangue(langue)}
           />
 
-          {/* Liste scrollable avec des cartes contenants les lieux avec le nom et la temperature */}
-          <LieuxSection lieux={lieuxFavoris} />
+          <View style={styles.list}>
+            {/* Liste scrollable avec des cartes contenants les lieux avec le nom et la temperature */}
+            <LieuxSection lieux={lieuxFavoris} />
+          </View>
 
           <Button
             onPress={() => navigation.navigate('RechercheLieu')}
@@ -64,6 +66,9 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingBottom: 30,
     marginTop: 20,
+  },
+  list: {
+    height: '94%'
   }
 });
 
