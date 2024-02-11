@@ -12,7 +12,7 @@ class Utilisateur {
   private lieuxFavoris: Readonly<Lieu>[];
   private reglageApp: ReglageApp;
 
-  constructor(GUID: string, dataUtilisateur: utilisateurType, lieuxFavoris?: Readonly<Lieu>[], reglageAppData?: reglageAppData) {
+  constructor(GUID: string, dataUtilisateur: utilisateurType, reglageAppData: reglageAppData, lieuxFavoris?: Readonly<Lieu>[]) {
     this.lieuxFavoris = lieuxFavoris ?? [];
     this.reglageApp = ReglageApp.getInstance(reglageAppData);
 

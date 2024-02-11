@@ -8,22 +8,24 @@ class ReglageApp {
   private systemeMesure: SystemeMesureEnum;
   private langue: langueType;
 
-  private constructor(reglageAppData?: reglageAppData) {
+  private constructor(reglageAppData: reglageAppData) {
+    const systemeMesureDefaut: SystemeMesureEnum = process.env.REACT_APP_SYSTEME_MESURE_DEFAUT as SystemeMesureEnum ?? SystemeMesureEnum.METRIQUE;
+
     // Init système mesure
-    const isSystemeMesureData = reglageAppData && reglageAppData.systemeMesure in SystemeMesureEnum;
+    const isSystemeMesureData = reglageAppData.systemeMesure in SystemeMesureEnum;
     this.systemeMesure = 
       isSystemeMesureData ? 
-      SystemeMesureEnum[reglageAppData.systemeMesure as keyof typeof SystemeMesureEnum] : 
-      SystemeMesureEnum.METRIQUE
+      reglageAppData.systemeMesure as SystemeMesureEnum : 
+      systemeMesureDefaut;
 
     // Init langue
-    const isLangueData = reglageAppData && langues.includes(reglageAppData.langue);
-    this.langue =  isLangueData ? 
+    const isLangueData = langues.includes(reglageAppData.langue);
+    this.langue = isLangueData ? 
       reglageAppData.langue : 
       langueDefaut;
   }
 
-  public static getInstance(reglageAppData?: reglageAppData): ReglageApp {
+  public static getInstance(reglageAppData: reglageAppData): ReglageApp {
     if (!ReglageApp.instance) {
       ReglageApp.instance = new ReglageApp(reglageAppData);
     }

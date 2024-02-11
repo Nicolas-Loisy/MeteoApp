@@ -11,13 +11,13 @@ import { useTranslation } from 'react-i18next';
 import LieuxSection from '../components/organisms/LieuxSection';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
 import InputLangue from '../components/atoms/InputLangue';
-import { langues, langueActuelle} from "../services/i18n/i18n";
+import { langues, langueDefaut} from "../services/i18n/i18n";
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { t } = useTranslation();
   const [isVoletOpen, setIsVoletOpen] = useState<boolean>(false);
-  const { lieuxFavoris, setLangue } = useUtilisateur();
+  const { utilisateur, lieuxFavoris, setLangue } = useUtilisateur();
 
   const handleVolet = () => {
     setIsVoletOpen(!isVoletOpen);
@@ -35,7 +35,7 @@ const Accueil = () => {
         <View style={styles.container}>
           <InputLangue 
             languesDispos={langues} 
-            langueDefaut={langueActuelle} 
+            langueDefaut={utilisateur?.getReglageApp().getLangue() ?? langueDefaut} 
             onChange={(langue: string) => setLangue(langue)}
           />
 

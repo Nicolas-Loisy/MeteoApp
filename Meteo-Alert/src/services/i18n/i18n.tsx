@@ -12,7 +12,7 @@ export const langues: string[] = keys
   .filter(matchResult => matchResult !== null)
   .map(matchResult => matchResult![1]); 
 
-export const langueActuelle = 
+const langueActuelle = 
   Object.keys(locales).includes(navigator.language) 
   ? navigator.language 
   : langueDefaut;
