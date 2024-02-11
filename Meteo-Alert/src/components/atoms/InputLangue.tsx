@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import RNPickerSelect from 'react-native-picker-select';
 
 type Props = {
-  languesDispos: Record<string, string>,
+  languesDispos: string[],
   langueDefaut: string,
   onChange: (langue: string) => void;
 };
@@ -15,9 +15,9 @@ type optionType = {
 
 const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }) => {
   const [langue, setLangue] = useState<string>(langueDefaut);
-  const regexLangue = /^(.*)-/ //Deux premières lettres
-  const regexPays = /-(.+)/  //Deux dernières lettres
-  const options: optionType[] = Object.keys(languesDispos).map(langue => creerOption(langue));
+  const regexLangue = /^(.*)_/ //Deux premières lettres
+  const regexPays = /_(.+)/  //Deux dernières lettres
+  const options: optionType[] = languesDispos.map(langue => creerOption(langue));
 
   function handleLangueChange (langue: string): void  {
     const nouvelleLangue = langue;

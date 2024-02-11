@@ -13,6 +13,11 @@ import reglageAlerteDataType from '../../models/types/pertistence/reglageAlerteD
 import EvenementEnum from '../../models/enum/EvenementEnum';
 import meteoType from '../../models/types/meteoType';
 import ErreurContextUtilisateur from '../../models/enum/erreurs/ErreurContexUtilisateur';
+import i18n, { langueDefaut } from '../i18n/i18n';
+import SystemeMesureEnum from '../../models/enum/SystemeMesureEnum';
+import langueType from '../../models/types/langueType';
+import reglageAppData from '../../models/types/pertistence/reglageAppData';
+import { changeLanguage } from 'i18next';
 
 // Définition des attributs disponibles
 type UtilisateurContextType = {
@@ -24,6 +29,8 @@ type UtilisateurContextType = {
   ajouterLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   supprimerLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   setSeuilPersonnalise: (keyLieu: string, typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number) => Promise<void>;
+  setLangue: (langue: langueType) => Promise<void>;
+  setSystemeMesure: (systemeMesure: SystemeMesureEnum) => Promise<void>;
 
   // Utilisateur privé de ses attributs devant être non accessibles par le front
   readonly utilisateur: Readonly<Omit<Utilisateur, "getLieuxFavoris" | "ajouterLieuFavori" | "supprimerLieuFavori">> | null; 
@@ -71,14 +78,20 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
       lieuxFavoris.push(lieu);
     }
 
+    // Récupération des réglages de l'application
+    const reglageAppData = utilisateurData.reglageApp ?? {
+      langue: langueDefaut,
+      systemeMesure: SystemeMesureEnum.METRIQUE
+    }
+
     // Création de l'utilisateur dans l'application
-    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, lieuxFavoris);
+    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglageAppData, lieuxFavoris);
     return utilisateur;
   }
 
   /* Enregistrement des lieux favoris dans la base de données */
   const enregistrerLieuxFavoris = async () => {
-    if (!utilisateur) throw ("[ERREUR] Enregistrement BDD impossible : utilisateur nul");
+    if (!utilisateur) throw new Error();
 
     // Création du format de données nécessaire pour la persistance
     const lieuxFavoris: ReadonlyArray<Readonly<Lieu>> = utilisateur.getLieuxFavoris();
@@ -111,21 +124,41 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     servicePersistence.updateLieuxFavoris(lieuxData, utilisateur.uid);
   }
 
+  const enregistrerReglageApp = async () => {
+    if (!utilisateur) throw new Error();
+
+    // Conversion des réglages
+    const reglageApp = utilisateur.getReglageApp();
+    const reglageAppData: reglageAppData = {
+      langue: reglageApp.getLangue(),
+      systemeMesure: reglageApp.getSystemeMesure()
+    }
+
+    // Enregistrer des modifications dans la bdd
+    servicePersistence.updateReglage(reglageAppData, utilisateur.uid);
+  }
+
   /* Méthodes */
   const inscription = async (motDePasse: string, utilisateurAttributs: utilisateurType): Promise<void> => {
     // Ajout de l'utilisateur dans le système d'authentification
     const GUID = await serviceCompte.inscription(utilisateurAttributs.email, motDePasse);
 
+    const reglageApp: reglageAppData = {
+      langue: langueDefaut,
+      systemeMesure: SystemeMesureEnum.METRIQUE
+    }
+
     // Ajout de l'utilisateur dans la base de données
     const utilisateurPersistance: utilisateurDataType = {
       lieuxFavoris: {},
+      reglageApp,
       ...utilisateurAttributs
     }
 
     await servicePersistence.inscription(GUID, utilisateurPersistance);
 
     // Création de l'utilisateur dans l'application
-    const utilisateur = new Utilisateur(GUID, utilisateurAttributs);
+    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglageApp );
     setUtilisateur(utilisateur);
   }
 
@@ -185,11 +218,32 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     // Mise à jour dans utilisateur (Application)
     lieu.setSeuilPersonnalise(typeEvenement, critere, valeur);
 
-    //  Enregistrement dans la BDD
+    // Enregistrement dans la BDD
     enregistrerLieuxFavoris();
 
     // Mise à jour du contexte
     setLieuxFavoris(utilisateur.getLieuxFavoris());
+  }
+
+  const setLangue = async (langue: langueType): Promise<void> => {
+    if (utilisateur) {
+      // Mise à jour dans utilisateur (Application)
+      utilisateur.getReglageApp().setLangue(langue);
+      i18n.changeLanguage(langue);
+
+      // Enregistrement dans la BDD
+      enregistrerReglageApp();
+    }
+  }
+
+  const setSystemeMesure = async (systemeMesure: SystemeMesureEnum): Promise<void> => {
+    if (utilisateur) {
+      // Mise à jour dans utilisateur (Application)
+      utilisateur.getReglageApp().setSystemeMesure(systemeMesure);
+
+      // Enregistrement dans la BDD
+      enregistrerReglageApp();
+    }
   }
 
   /* UseEffect */
@@ -204,7 +258,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
           setUtilisateur(null);
         }
       } catch (error) {
-        console.error('Erreur lors de la récupération des données utilisateur :', error);
+        console.error(error);
       }
     };
 
@@ -214,6 +268,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (utilisateur) {
       setLieuxFavoris(utilisateur.getLieuxFavoris());
+      changeLanguage(utilisateur.getReglageApp().getLangue());
     }
   }, [utilisateur]);
 
@@ -228,6 +283,8 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
         ajouterLieuFavori,
         supprimerLieuFavori,
         setSeuilPersonnalise,
+        setLangue,
+        setSystemeMesure,
 
         lieuxFavoris,
         utilisateur
