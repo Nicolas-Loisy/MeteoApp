@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View } from "react-native";
-import {Picker} from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 type Props = {
   languesDispos: Record<string, string>,
@@ -8,11 +8,16 @@ type Props = {
   onChange: (langue: string) => void;
 };
 
+type optionType = {
+  label: string, 
+  value: string
+}
+
 const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }) => {
   const [langue, setLangue] = useState<string>(langueDefaut);
   const regexLangue = /^(.*)-/ //Deux premières lettres
   const regexPays = /-(.+)/  //Deux dernières lettres
-  const options: React.JSX.Element[] = Object.keys(languesDispos).map(langue => creerOption(langue));
+  const options: optionType[] = Object.keys(languesDispos).map(langue => creerOption(langue));
 
   function handleLangueChange (langue: string): void  {
     const nouvelleLangue = langue;
@@ -34,25 +39,31 @@ const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }
     return String.fromCodePoint(...codePoints);
   }
 
-  function creerOption(langueCode: string): React.JSX.Element {
+  function creerOption(langueCode: string): optionType {
     const flag = getFlagEmoji(langueCode.match(regexPays)?.[1] ?? null);
     const langue = langueCode.match(regexLangue)?.[1]?.toUpperCase() ?? null;
 
     if (!langue) throw new Error();
 
-    return <Picker.Item label={flag + " " + langue} value={langueCode} key={langueCode} />;
+    return { 
+      label: flag + " " + langue, 
+      value: langueCode 
+    };
   }
 
   return (
     <View>
-      <Picker
-        selectedValue={langue}
+      <RNPickerSelect
+        placeholder={{}}
+        items={options}
         onValueChange={(value) => handleLangueChange(value)}
-      >
-        {options}
-      </Picker>
+        value={langue}
+      />
     </View>
+
   );
+
 }
+
 
 export default InputLangue;
