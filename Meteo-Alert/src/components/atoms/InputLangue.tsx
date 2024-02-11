@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import RNPickerSelect from 'react-native-picker-select';
 
 type Props = {
-  languesDispos: Record<string, string>,
+  languesDispos: string[],
   langueDefaut: string,
   onChange: (langue: string) => void;
 };
@@ -15,9 +15,9 @@ type optionType = {
 
 const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }) => {
   const [langue, setLangue] = useState<string>(langueDefaut);
-  const regexLangue = /^(.*)-/ //Deux premières lettres
-  const regexPays = /-(.+)/  //Deux dernières lettres
-  const options: optionType[] = Object.keys(languesDispos).map(langue => creerOption(langue));
+  const regexLangue = /^(.*)_/ //Deux premières lettres
+  const regexPays = /_(.+)/  //Deux dernières lettres
+  const options: optionType[] = languesDispos.map(langue => creerOption(langue));
 
   function handleLangueChange (langue: string): void  {
     const nouvelleLangue = langue;
@@ -58,7 +58,7 @@ const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }
         items={options}
         onValueChange={(value) => handleLangueChange(value)}
         value={langue}
-        pickerProps={{ style: { width: 125, overflow: 'hidden' } }}
+        style={pickerSelectStyles}
       />
     </View>
   );
@@ -66,7 +66,21 @@ const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }
 
 const styles = StyleSheet.create({
   lang: {
-    width: 125,
+    backgroundColor: 'white',
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: '#1E375A',
+  }
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    height: 40,
+    width: 125
+  },
+  inputAndroid: {
+      height: 40,
+      width: 125
   }
 });
 
