@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import RNPickerSelect from 'react-native-picker-select';
 
 type Props = {
@@ -52,18 +52,22 @@ const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }
   }
 
   return (
-    <View>
+    <View style={styles.lang}>
       <RNPickerSelect
         placeholder={{}}
         items={options}
         onValueChange={(value) => handleLangueChange(value)}
         value={langue}
+        pickerProps={{ style: { width: 125, overflow: 'hidden' } }}
       />
     </View>
-
   );
-
 }
 
+const styles = StyleSheet.create({
+  lang: {
+    width: 125,
+  }
+});
 
 export default InputLangue;
