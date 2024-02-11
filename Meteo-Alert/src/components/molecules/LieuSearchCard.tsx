@@ -12,7 +12,7 @@ interface LieuSearchCardProps {
 
 const LieuSearchCard: React.FC<LieuSearchCardProps> = ({ lieu }) => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const { UID, lieuxFavoris, ajouterLieuFavori, supprimerLieuFavori } = useUtilisateur();
+  const { utilisateur, lieuxFavoris, ajouterLieuFavori, supprimerLieuFavori } = useUtilisateur();
   const [ isFavori, setFavori ] = useState<boolean>(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const LieuSearchCard: React.FC<LieuSearchCardProps> = ({ lieu }) => {
   }, [lieu]);
   
   const handleToggleFavorite = async () => {
-    if (UID) {
+    if (utilisateur) {
       if (isFavori) {
         await supprimerLieuFavori(lieu);
       } else {

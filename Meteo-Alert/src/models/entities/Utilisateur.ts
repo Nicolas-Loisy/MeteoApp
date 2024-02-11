@@ -1,4 +1,6 @@
+import ReglageApp from '../ReglageApp';
 import ErreurUtilisateur from '../enum/erreurs/ErreurUtilisateur';
+import reglageAppData from '../types/pertistence/reglageAppData';
 import utilisateurType from '../types/utilisateurType';
 import Lieu from '../valueObject/Lieu';
 
@@ -8,25 +10,32 @@ class Utilisateur {
   private prenom: string;
   private mail: string;
   private lieuxFavoris: Readonly<Lieu>[];
+  private reglageApp: ReglageApp;
 
-  constructor(GUID: string, dataUtilisateur: utilisateurType, lieuxFavoris: Readonly<Lieu>[] = []) {
+  constructor(GUID: string, dataUtilisateur: utilisateurType, lieuxFavoris?: Readonly<Lieu>[], reglageAppData?: reglageAppData) {
+    this.lieuxFavoris = lieuxFavoris ?? [];
+    this.reglageApp = ReglageApp.getInstance(reglageAppData);
+
     this.uid = GUID;
-    this.mail = dataUtilisateur.email;
 
+    this.mail = dataUtilisateur.email;
     this.prenom = dataUtilisateur.prenom;
-    this.lieuxFavoris = lieuxFavoris;
   }
 
   public getLieuxFavoris(): ReadonlyArray<Readonly<Lieu>> {
     return this.lieuxFavoris.slice();
   }
 
-  public getPrenom() {
+  public getPrenom(): Readonly<string> {
     return this.prenom;
   }
 
-  public getMail() {
+  public getMail(): Readonly<string> {
     return this.mail;
+  }
+
+  public getReglageApp(): Readonly<ReglageApp> {
+    return this.reglageApp
   }
 
   public ajouterLieuFavori(lieu: Readonly<Lieu>): void {
@@ -47,5 +56,3 @@ class Utilisateur {
 }
 
 export default Utilisateur;
-
-// voir comment sauvegarder les reglagesApp fav dans firebase 

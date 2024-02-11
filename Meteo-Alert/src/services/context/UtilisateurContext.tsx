@@ -13,6 +13,9 @@ import reglageAlerteDataType from '../../models/types/pertistence/reglageAlerteD
 import EvenementEnum from '../../models/enum/EvenementEnum';
 import meteoType from '../../models/types/meteoType';
 import ErreurContextUtilisateur from '../../models/enum/erreurs/ErreurContexUtilisateur';
+import i18n from '../i18n/i18n';
+import SystemeMesureEnum from '../../models/enum/SystemeMesureEnum';
+import langueType from '../../models/types/langueType';
 
 // Définition des attributs disponibles
 type UtilisateurContextType = {
@@ -24,6 +27,8 @@ type UtilisateurContextType = {
   ajouterLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   supprimerLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   setSeuilPersonnalise: (keyLieu: string, typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number) => Promise<void>;
+  setLangue: (langue: langueType) => Promise<void>;
+  setSystemeMesure: (systemeMesure: SystemeMesureEnum) => Promise<void>;
 
   // Utilisateur privé de ses attributs devant être non accessibles par le front
   readonly utilisateur: Readonly<Omit<Utilisateur, "getLieuxFavoris" | "ajouterLieuFavori" | "supprimerLieuFavori">> | null; 
@@ -192,6 +197,19 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     setLieuxFavoris(utilisateur.getLieuxFavoris());
   }
 
+  const setLangue = async (langue: langueType): Promise<void> => {
+    if (utilisateur) {
+      utilisateur.getReglageApp().setLangue(langue);
+      i18n.changeLanguage(langue);
+    }
+  }
+
+  const setSystemeMesure = async (systemeMesure: SystemeMesureEnum): Promise<void> => {
+    if (utilisateur) {
+      utilisateur.getReglageApp().setSystemeMesure(systemeMesure);
+    }
+  }
+
   /* UseEffect */
   useEffect(() => {
     const fetchUserData = async () => {
@@ -228,6 +246,8 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
         ajouterLieuFavori,
         supprimerLieuFavori,
         setSeuilPersonnalise,
+        setLangue,
+        setSystemeMesure,
 
         lieuxFavoris,
         utilisateur

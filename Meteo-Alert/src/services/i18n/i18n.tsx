@@ -1,9 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-
 // Dynamic import of different translation files
-const langueDefaut = process.env.REACT_APP_LANGUE_DEFAUT ?? "fr-FR";
+export const langueDefaut = process.env.REACT_APP_LANGUE_DEFAUT ?? "fr-FR";
 const locales = require.context('../../locales', false, /\.json$/);
 const keys: string[] = locales.keys();
 const regex: RegExp = /^\.\/(.+)\.json$/;

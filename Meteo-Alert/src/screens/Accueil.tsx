@@ -11,13 +11,13 @@ import { useTranslation } from 'react-i18next';
 import LieuxSection from '../components/organisms/LieuxSection';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
 import InputLangue from '../components/atoms/InputLangue';
-import i18n, { langues, langueActuelle} from "../services/i18n/i18n";
+import { langues, langueActuelle} from "../services/i18n/i18n";
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { t } = useTranslation();
   const [isVoletOpen, setIsVoletOpen] = useState<boolean>(false);
-  const { lieuxFavoris } = useUtilisateur();
+  const { lieuxFavoris, setLangue } = useUtilisateur();
 
   const handleVolet = () => {
     setIsVoletOpen(!isVoletOpen);
@@ -36,9 +36,7 @@ const Accueil = () => {
           <InputLangue 
             languesDispos={langues} 
             langueDefaut={langueActuelle} 
-            onChange={(language: string) => {
-              i18n.changeLanguage(language);
-            }}
+            onChange={(langue: string) => setLangue(langue)}
           />
 
           {/* Liste scrollable avec des cartes contenants les lieux avec le nom et la temperature */}
