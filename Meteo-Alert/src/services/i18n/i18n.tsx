@@ -6,21 +6,12 @@ import { initReactI18next } from 'react-i18next';
 const langueDefaut = process.env.REACT_APP_LANGUE_DEFAUT ?? "fr-FR";
 const locales = require.context('../../locales', false, /\.json$/);
 const keys: string[] = locales.keys();
-const regexToutesLettres: RegExp = /(?<=\.\/).+?(?=\.json)/;
+const regex: RegExp = /^\.\/(.+)\.json$/;
 
-// Definition of the list of available languages
-export const langues: Record<string, string> = Object.fromEntries(
-  keys
-    .reduce((acc, key) => {
-      const toutesLettres = key.match(regexToutesLettres)?.[0] ?? null;
-
-      if (toutesLettres != null && toutesLettres) {
-        acc.push([toutesLettres, toutesLettres]);
-      }
-      return acc;
-    }, [] as [string, string][])
-    .sort(([a], [b]) => a.localeCompare(b))
-);
+export const langues: string[] = keys
+  .map(key => key.match(regex))
+  .filter(matchResult => matchResult !== null)
+  .map(matchResult => matchResult![1]); 
 
 export const langueActuelle = 
   Object.keys(locales).includes(navigator.language) 
@@ -40,7 +31,7 @@ i18n
   .init({
     compatibilityJSON: 'v3',
     resources: resources,
-    fallbackLng: langues[navigator.language] || langueDefaut,
+    fallbackLng: langueActuelle,
     debug: false,
     defaultNS: 'react-native',
     keySeparator: '.',
