@@ -4,6 +4,7 @@ import iServicePersistence from './iServicePersistence';
 import ErreurBDD from '../../models/enum/erreurs/ErreurBDD';
 import utilisateurDataType from '../../models/types/pertistence/utilisateurDataType';
 import lieuxFavorisDataType from '../../models/types/pertistence/lieuxFavorisDataType';
+import reglageAppData from '../../models/types/pertistence/reglageAppData';
 
 class ServicePersistenceFirebase implements iServicePersistence {
   public async inscription(GUID: string, utilisateurData: utilisateurDataType): Promise<void> {
@@ -30,6 +31,7 @@ class ServicePersistenceFirebase implements iServicePersistence {
   
       const data: utilisateurDataType = {
         lieuxFavoris: snapshot.val().lieuxFavoris ?? {},
+        reglageApp: snapshot.val().reglageApp ?? {},
         prenom: snapshot.val().prenom ?? "",
         email: snapshot.val().email ?? ""
       };
@@ -47,7 +49,19 @@ class ServicePersistenceFirebase implements iServicePersistence {
       set(userRef, lieuxData); 
       
     } catch (error: any) {
-      console.error("[ERREUR] Echec de l'ajout du lieu favori dans Firebase :", error);
+      console.error(error);
+      throw error;
+    }
+  }
+
+  public async updateReglage(reglageApp: reglageAppData, GUID: string): Promise<void> {
+    const database = FirebaseConfig.getInstance().database;
+    try {
+      const userRef = ref(database, `utilisateurs/${GUID}/reglageApp/`);
+      set(userRef, reglageApp); 
+      
+    } catch (error: any) {
+      console.error(error);
       throw error;
     }
   }
