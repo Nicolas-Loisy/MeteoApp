@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Modal, TouchableWithoutFeedback } from 'react-native';
-import * as Animatable from 'react-native-animatable';
+import { View, StyleSheet, TouchableOpacity, Text, TouchableWithoutFeedback } from 'react-native';
 import Button from '../atoms/Button';
 import { t } from 'i18next';
 import Logo from '../atoms/Logo';
@@ -18,10 +17,9 @@ interface VoletParametreProps {
 const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
   const { utilisateur, modifierMotDePasse, deconnexion } = useUtilisateur();
 
-  const [ ancienMotDePasseValue, setAncienMotDePasseValue ] = useState<string>("");
-  const [ motDePasseValue, setMotDePasseValue ] = useState<string>("");
-  const [ motDePasse, setMotDePasse ] = useState<dtMotDePasse | null>(null);
-  
+  const [ancienMotDePasseValue, setAncienMotDePasseValue] = useState<string>("");
+  const [motDePasseValue, setMotDePasseValue] = useState<string>("");
+  const [motDePasse, setMotDePasse] = useState<dtMotDePasse | null>(null);
 
   const motDePasseRegles = dtMotDePasse.checkRules(motDePasseValue);
 
@@ -31,7 +29,7 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
       setMotDePasse(new dtMotDePasse(motDePasseValue));
     }
   }, [motDePasseValue]);
-  
+
   const handleModifierMotDePasse = async () => {
     if (!motDePasse) {
       Dialog.show({
@@ -67,34 +65,28 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal
-      transparent={true}
-      animationType="none"
-      visible={isOpen}
-      onRequestClose={onClose}
-    >
+
+    <>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay} />
       </TouchableWithoutFeedback>
-      <Animatable.View
-        animation={isOpen ? 'slideInRight' : 'slideOutRight'}
-        duration={600}
-        style={styles.volet}
-      >
+
+      <View style={styles.volet}>
+        
         <TouchableOpacity onPress={onClose}>
           <View style={styles.closeButtonLogo} >
-            <Logo imageSource={require('../../assets/icons/icon-refus.png')} color='white' size={30}/>
+            <Logo imageSource={require('../../assets/icons/icon-refus.png')} color='white' size={30} />
           </View>
         </TouchableOpacity>
-        
+
         {/* Contenu du volet */}
         <View style={styles.voletContent} >
           <Text style={styles.text}>{utilisateur?.getPrenom()}</Text>
           <Text style={styles.text}>{utilisateur?.getMail()}</Text>
 
           {/* Formulaire de modification de mot de passe */}
-          <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Ancien mot de passe"} isPassword/>
-          <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Nouveau mot de passe"} isPassword/>
+          <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Ancien mot de passe"} isPassword />
+          <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Nouveau mot de passe"} isPassword />
           <ReglesMDP
             rules={motDePasseRegles}
           />
@@ -111,19 +103,19 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
             styleBtn="noBg"
           />
         </View>
-        
-      </Animatable.View>
-    </Modal>
+
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-   overlay: {
+  overlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   volet: {
-    width: 322,
+    width: '80%',
     height: '100%',
     paddingTop: 50,
     paddingLeft: 20,
@@ -147,7 +139,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 15
   }
-  // Styles pour le contenu du volet
 });
 
 export default VoletParametre;

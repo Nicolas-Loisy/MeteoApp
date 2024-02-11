@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Modal } from 'react-native';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import LieuxSection from '../components/organisms/LieuxSection';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
 import InputLangue from '../components/atoms/InputLangue';
-import { langues, langueDefaut} from "../services/i18n/i18n";
+import { langues, langueDefaut } from "../services/i18n/i18n";
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -27,15 +27,24 @@ const Accueil = () => {
     <>
       <MyStatusBar />
       <LayoutTemplate>
-        <View style={styles.containerHeader}>
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={isVoletOpen}
+          onRequestClose={handleVolet}
+        >
           <VoletParametre isOpen={isVoletOpen} onClose={handleVolet} />
+        </Modal>
+
+
+        <View style={styles.containerHeader}>
           <EngrenageParametre onOpenVolet={handleVolet} />
         </View>
 
         <View style={styles.container}>
-          <InputLangue 
-            languesDispos={langues} 
-            langueDefaut={utilisateur?.getReglageApp().getLangue() ?? langueDefaut} 
+          <InputLangue
+            languesDispos={langues}
+            langueDefaut={utilisateur?.getReglageApp().getLangue() ?? langueDefaut}
             onChange={(langue: string) => setLangue(langue)}
           />
 
@@ -58,6 +67,13 @@ const Accueil = () => {
 const styles = StyleSheet.create({
   containerHeader: {
     alignSelf: "flex-end",
+  },
+  volet: {
+    position: 'absolute',
+    top: 0,
+    zIndex: 1,
+    width: '100%',
+    height: '100%',
   },
   container: {
     flex: 1,
