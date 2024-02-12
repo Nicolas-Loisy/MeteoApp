@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
-import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import { useTranslation } from 'react-i18next';
+
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native';
+
+import Lieu from '../models/valueObject/Lieu';
 import Meteo from '../models/valueObject/Meteo';
+import meteoType from '../models/types/meteoType';
+
+import { useUtilisateur } from '../services/context/UtilisateurContext';
+
 import Title from '../components/atoms/Title';
 import TimeAgoText from '../components/atoms/TimeAgoText';
-import ListeInfoMeteo from '../components/molecules/ListInfoMeteo';
-import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native';
-import { useUtilisateur } from '../services/context/UtilisateurContext';
-import meteoType from '../models/types/meteoType';
-import Button from '../components/atoms/Button';
-import Lieu from '../models/valueObject/Lieu';
 import GoBackButton from '../components/atoms/GoBackButton';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Button from '../components/atoms/Button';
+import ListeInfoMeteo from '../components/molecules/ListInfoMeteo';
+import LayoutTemplate from '../components/organisms/LayoutTemplate';
 
 type params = {
   params: {

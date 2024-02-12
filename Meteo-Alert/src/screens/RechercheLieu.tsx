@@ -1,15 +1,18 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, Text } from 'react-native';
-import LayoutTemplate from '../components/organisms/LayoutTemplate';
-import { useTranslation } from 'react-i18next';
-import Field from '../components/molecules/Field';
-import { KeyboardAvoidingView, Platform } from 'react-native';
-import MyStatusBar from '../components/atoms/MyStatusBar';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { KeyboardAvoidingView, Platform, View, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, Text } from 'react-native';
+
 import { ParamListBase, useNavigation } from '@react-navigation/native';
-import LieuSearchCard from '../components/molecules/LieuSearchCard';
+import { useTranslation } from 'react-i18next';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { useGeographie } from '../services/context/GeographieContext';
+
 import GoBackButton from '../components/atoms/GoBackButton';
+import MyStatusBar from '../components/atoms/MyStatusBar';
+import Field from '../components/molecules/Field';
+import LayoutTemplate from '../components/organisms/LayoutTemplate';
+import LieuSearchCard from '../components/molecules/LieuSearchCard';
+
 import SadCloudLogo from '../assets/icons/svg/sad-cloud.svg';
 
 const RechercheLieu = () => {

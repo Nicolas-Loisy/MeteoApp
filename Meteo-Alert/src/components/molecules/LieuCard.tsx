@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import Lieu from '../../models/valueObject/Lieu';
 import { useNavigation } from '@react-navigation/core';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ParamListBase } from '@react-navigation/native';
+
+import Lieu from '../../models/valueObject/Lieu';
 import Meteo from '../../models/valueObject/Meteo';
 
 import SnowSvg from '../../assets/icons/svg/thermometer-snow.svg';
@@ -12,8 +15,7 @@ import CloudsSvg from '../../assets/icons/svg/clouds.svg';
 import CloudSvg from '../../assets/icons/svg/cloudy.svg';
 import CloudMoonSvg from '../../assets/icons/svg/cloud-moon.svg';
 import MoonSvg from '../../assets/icons/svg/moon.svg';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ParamListBase } from '@react-navigation/native';
+
 
 interface LieuCardProps {
   lieu: Readonly<Lieu>;

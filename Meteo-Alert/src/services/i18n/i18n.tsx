@@ -9,11 +9,10 @@ const keys: string[] = locales.keys();
 const regexNomLocale: RegExp = /^\.\/(.+)\.json$/;
 const regexLangue = /^(.*)_/ //Deux premières lettres
 
-export const langues: string[] = keys
+export const langues = keys
   .map(key => key.match(regexNomLocale))
   .filter(matchResult => matchResult !== null)
-  .map(matchResult => matchResult![1]); 
-
+  .map(matchResult => matchResult![1]);
 
 // Définition de la langue utilisée
 let localeTelephone: string;

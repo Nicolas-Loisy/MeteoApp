@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Modal, TouchableWithoutFeedback } from 'react-native';
+
 import * as Animatable from 'react-native-animatable';
-import Button from '../atoms/Button';
-import { t } from 'i18next';
-import Logo from '../atoms/Logo';
-import { useUtilisateur } from '../../services/context/UtilisateurContext';
-import Field from '../molecules/Field';
-import dtMotDePasse from '../../models/datatype/dtMotDePasse';
-import ReglesMDP from '../atoms/ReglesMDP';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import { t } from 'i18next';
+
+import { useUtilisateur } from '../../services/context/UtilisateurContext';
+
+import dtMotDePasse from '../../models/datatype/dtMotDePasse';
+
+import Button from '../atoms/Button';
+import Logo from '../atoms/Logo';
+import ReglesMDP from '../atoms/ReglesMDP';
+import Field from '../molecules/Field';
 
 interface VoletParametreProps {
   isOpen: boolean;

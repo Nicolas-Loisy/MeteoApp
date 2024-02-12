@@ -1,5 +1,5 @@
 import meteoType from "../../models/types/meteoType";
-import reglageAlerteDataType from "../../models/types/pertistence/reglageAlerteData";
+import reglageAlertePersistence from "../../models/types/pertistence/reglageAlertePersistence";
 import AlertePrecipitation from "./AlertePrecipitation";
 import iAlerte from "./iAlerte";
 
@@ -13,7 +13,7 @@ class AlerteFactory {
     return alertes;
   }
 
-  public static initAlertesFromData(alertesData: reglageAlerteDataType): iAlerte[] {
+  public static initAlertesFromData(alertesData: reglageAlertePersistence): iAlerte[] {
     // Création des alertes
     const alertes: iAlerte[] = this.initAlertes();
 

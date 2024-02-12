@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import Lieu from '../../models/valueObject/Lieu';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { useUtilisateur } from '../../services/context/UtilisateurContext';
+
+import Lieu from '../../models/valueObject/Lieu';
 import AjouterRetirerButton from '../atoms/AjouterRetirerButton';
 
 interface LieuSearchCardProps {

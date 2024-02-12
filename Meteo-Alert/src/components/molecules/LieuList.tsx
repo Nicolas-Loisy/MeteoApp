@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
+
 import Lieu from '../../models/valueObject/Lieu';
 import LieuCard from './LieuCard';
 

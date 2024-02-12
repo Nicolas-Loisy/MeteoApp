@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Title from './Title';
 import { t } from 'i18next';
+
+import Title from './Title';
 
 interface TimeAgoTextProps {
   lastUpdateDate?: Date; // Date d'actualisation dynamique

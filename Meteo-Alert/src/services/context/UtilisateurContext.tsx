@@ -1,23 +1,28 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { changeLanguage } from 'i18next';
+
+import ServiceCompteFactory from '../compteUtilisateur/ServiceCompteFactory';
+import ServicePersistenceFactory from '../persistence/ServicePersistenceFactory';
+import AlerteFactory from '../alertes/AlerteFactory';
+
 import Utilisateur from '../../models/entities/Utilisateur';
 import Lieu from '../../models/valueObject/Lieu';
-import ServiceCompteFactory from '../compteUtilisateur/ServiceCompteFactory';
-import utilisateurType from '../../models/types/utilisateurType';
-import ServicePersistenceFactory from '../persistence/ServicePersistenceFactory';
-import lieuType from '../../models/types/lieuType';
 import iAlerte from '../alertes/iAlerte';
-import AlerteFactory from '../alertes/AlerteFactory';
-import utilisateurDataType from '../../models/types/pertistence/utilisateurDataType';
-import lieuxFavorisDataType from '../../models/types/pertistence/lieuxFavorisDataType';
-import reglageAlerteDataType from '../../models/types/pertistence/reglageAlerteData';
-import EvenementEnum from '../../models/enum/EvenementEnum';
-import meteoType from '../../models/types/meteoType';
-import ErreurContextUtilisateur from '../../models/enum/erreurs/ErreurContexUtilisateur';
-import i18n, { langueDefaut } from '../i18n/i18n';
+
+import i18n, { langueDefaut, langues } from '../i18n/i18n';
+
 import SystemeMesureEnum from '../../models/enum/SystemeMesureEnum';
-import langueType from '../../models/types/langueType';
-import reglageAppData from '../../models/types/pertistence/reglageAppData';
-import { changeLanguage } from 'i18next';
+import EvenementEnum from '../../models/enum/EvenementEnum';
+import ErreurContextUtilisateur from '../../models/enum/erreurs/ErreurContexUtilisateur';
+
+import utilisateurType from '../../models/types/utilisateurType';
+import lieuType from '../../models/types/lieuType';
+import meteoType from '../../models/types/meteoType';
+
+import reglagePersistence from '../../models/types/pertistence/reglageAppPersistence';
+import utilisateurPersistence from '../../models/types/pertistence/utilisateurPersistence';
+import lieuxFavorisPersistence from '../../models/types/pertistence/lieuxFavorisPersistence';
+import reglageAlertePersistence from '../../models/types/pertistence/reglageAlertePersistence';
 
 // Définition des attributs disponibles
 type UtilisateurContextType = {
@@ -29,7 +34,7 @@ type UtilisateurContextType = {
   ajouterLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   supprimerLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   setSeuilPersonnalise: (keyLieu: string, typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number) => Promise<void>;
-  setLangue: (langue: langueType) => Promise<void>;
+  setLangue: (langue: string) => Promise<void>;
   setSystemeMesure: (systemeMesure: SystemeMesureEnum) => Promise<void>;
 
   // Utilisateur privé de ses attributs devant être non accessibles par le front
@@ -54,7 +59,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   /* Récupération de l'ensemble des données d'un utilisateur et création de l'objet Utilisateur */
   const getUtilisateur = async (GUID: string): Promise<Utilisateur> => {
     // Récupération depuis la base de données
-    const utilisateurData: utilisateurDataType = await servicePersistence.getUtilisateurData(GUID);
+    const utilisateurData: utilisateurPersistence = await servicePersistence.getUtilisateurData(GUID);
     const utilisateurAttributs: utilisateurType = {
       ...utilisateurData
     };
@@ -79,13 +84,13 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     }
 
     // Récupération des réglages de l'application
-    const reglageAppData = utilisateurData.reglageApp ?? {
+    const reglagePersistence = utilisateurData.reglageApp ?? {
       langue: langueDefaut,
       systemeMesure: SystemeMesureEnum.METRIQUE
     }
 
     // Création de l'utilisateur dans l'application
-    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglageAppData, lieuxFavoris);
+    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglagePersistence, lieuxFavoris);
     return utilisateur;
   }
 
@@ -95,12 +100,12 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
 
     // Création du format de données nécessaire pour la persistance
     const lieuxFavoris: ReadonlyArray<Readonly<Lieu>> = utilisateur.getLieuxFavoris();
-    const lieuxData: lieuxFavorisDataType = {};
+    const lieuxData: lieuxFavorisPersistence = {};
 
     lieuxFavoris.forEach((lieu: Readonly<Lieu>) => {
       // Conversion des reglages alertes
       const reglageAlerte: ReadonlyArray<Readonly<iAlerte>> = lieu.getReglageAlerte();
-      const reglageAlerteData: reglageAlerteDataType = {};
+      const reglageAlerteData: reglageAlertePersistence = {};
 
       reglageAlerte.forEach((alerte: iAlerte) => {
         reglageAlerteData[alerte.typeEvenement] = {
@@ -129,13 +134,13 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
 
     // Conversion des réglages
     const reglageApp = utilisateur.getReglageApp();
-    const reglageAppData: reglageAppData = {
+    const reglagePersistence: reglagePersistence = {
       langue: reglageApp.getLangue(),
       systemeMesure: reglageApp.getSystemeMesure()
     }
 
     // Enregistrer des modifications dans la bdd
-    servicePersistence.updateReglage(reglageAppData, utilisateur.uid);
+    servicePersistence.updateReglage(reglagePersistence, utilisateur.uid);
   }
 
   /* Méthodes */
@@ -143,13 +148,13 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     // Ajout de l'utilisateur dans le système d'authentification
     const GUID = await serviceCompte.inscription(utilisateurAttributs.email, motDePasse);
 
-    const reglageApp: reglageAppData = {
+    const reglageApp: reglagePersistence = {
       langue: langueDefaut,
       systemeMesure: SystemeMesureEnum.METRIQUE
     }
 
     // Ajout de l'utilisateur dans la base de données
-    const utilisateurPersistance: utilisateurDataType = {
+    const utilisateurPersistance: utilisateurPersistence = {
       lieuxFavoris: {},
       reglageApp,
       ...utilisateurAttributs
@@ -225,7 +230,9 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     setLieuxFavoris(utilisateur.getLieuxFavoris());
   }
 
-  const setLangue = async (langue: langueType): Promise<void> => {
+  const setLangue = async (langue: string): Promise<void> => {
+    if (!langues.find(l => l === langue)) throw new Error();
+
     if (utilisateur) {
       // Mise à jour dans utilisateur (Application)
       utilisateur.getReglageApp().setLangue(langue);
