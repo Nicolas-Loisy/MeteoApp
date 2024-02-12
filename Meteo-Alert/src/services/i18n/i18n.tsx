@@ -16,7 +16,15 @@ export const langues: string[] = keys
 
 
 // Définition de la langue utilisée
-const localeTelephone: string = NativeModules.SettingsManager.settings.AppleLocale ?? NativeModules.I18nManager.localeIdentifier ?? langueDefaut;
+let localeTelephone: string;
+if (Platform.OS === 'ios') {
+  localeTelephone = NativeModules.SettingsManager.settings.AppleLocale;
+} else if (Platform.OS === 'android') {
+  localeTelephone = NativeModules.I18nManager.localeIdentifier;
+} else {
+  localeTelephone = langueDefaut;
+}
+
 const langueTelephone: string | null = localeTelephone.match(regexLangue)?.[1] ?? null;
 
 let langueActuelle: string;
