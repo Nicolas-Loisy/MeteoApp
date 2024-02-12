@@ -27,6 +27,7 @@ type params = {
 const DetailLieu = () => {
   const { t } = useTranslation();
   const { lieuxFavoris, setSeuilPersonnalise } = useUtilisateur();
+  const { utilisateur } = useUtilisateur();
 
   const params = useRoute() as params;
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -41,14 +42,14 @@ const DetailLieu = () => {
 
   useEffect(() => {
     const fetchMeteo = async () => {
-      if (lieu) {
-        const meteoData = await lieu.getMeteo();
+      if (lieu && utilisateur) {
+        const meteoData = await lieu.getMeteo(utilisateur.getReglageApp().getSystemeMesure());
         setMeteo(meteoData);
       }
     };
 
     fetchMeteo();
-  }, [lieu]);
+  }, [lieu, utilisateur]);
 
   return (
     <LayoutTemplate>

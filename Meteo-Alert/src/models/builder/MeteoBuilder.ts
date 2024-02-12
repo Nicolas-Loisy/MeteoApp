@@ -9,7 +9,7 @@ class MeteoBuilder {
 
     private static serviceMeteo: ServiceMeteo = new ServiceMeteo(process.env.OPEN_WEATHER_API_URL!);
 
-    public static async getMeteo(longitude: dtUniteCoordonnee, latitude: dtUniteCoordonnee, units: SystemeMesureEnum = SystemeMesureEnum.METRIQUE): Promise<Meteo> {
+    public static async getMeteo(longitude: dtUniteCoordonnee, latitude: dtUniteCoordonnee, units: SystemeMesureEnum): Promise<Meteo> {
         const jsonMeteoData: meteoType = await MeteoBuilder.serviceMeteo.getMeteo(longitude, latitude, units);
 
         const meteo: Meteo = new Meteo(
