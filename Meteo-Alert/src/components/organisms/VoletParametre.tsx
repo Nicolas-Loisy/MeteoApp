@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Modal, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, TouchableWithoutFeedback } from 'react-native';
 
-import * as Animatable from 'react-native-animatable';
-import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import { t } from 'i18next';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 
 import { useUtilisateur } from '../../services/context/UtilisateurContext';
+import { langues, langueDefaut } from "../../services/i18n/i18n";
 
 import dtMotDePasse from '../../models/datatype/dtMotDePasse';
 
 import Button from '../atoms/Button';
 import Logo from '../atoms/Logo';
-import ReglesMDP from '../atoms/ReglesMDP';
 import Field from '../molecules/Field';
+import ReglesMDP from '../atoms/ReglesMDP';
+import InputLangue from '../atoms/InputLangue';
+import ClickableText from '../atoms/ClickableText';
 
 interface VoletParametreProps {
   isOpen: boolean;
@@ -20,12 +22,11 @@ interface VoletParametreProps {
 }
 
 const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
-  const { utilisateur, modifierMotDePasse, deconnexion } = useUtilisateur();
+  const { utilisateur, modifierMotDePasse, deconnexion, setLangue } = useUtilisateur();
 
-  const [ ancienMotDePasseValue, setAncienMotDePasseValue ] = useState<string>("");
-  const [ motDePasseValue, setMotDePasseValue ] = useState<string>("");
-  const [ motDePasse, setMotDePasse ] = useState<dtMotDePasse | null>(null);
-  
+  const [ancienMotDePasseValue, setAncienMotDePasseValue] = useState<string>("");
+  const [motDePasseValue, setMotDePasseValue] = useState<string>("");
+  const [motDePasse, setMotDePasse] = useState<dtMotDePasse | null>(null);
 
   const motDePasseRegles = dtMotDePasse.checkRules(motDePasseValue);
 
@@ -35,7 +36,7 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
       setMotDePasse(new dtMotDePasse(motDePasseValue));
     }
   }, [motDePasseValue]);
-  
+
   const handleModifierMotDePasse = async () => {
     if (!motDePasse) {
       Dialog.show({
@@ -71,65 +72,74 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal
-      transparent={true}
-      animationType="none"
-      visible={isOpen}
-      onRequestClose={onClose}
-    >
+
+    <>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay} />
       </TouchableWithoutFeedback>
-      <Animatable.View
-        animation={isOpen ? 'slideInRight' : 'slideOutRight'}
-        duration={600}
-        style={styles.volet}
-      >
+
+      <View style={styles.volet}>
+
         <TouchableOpacity onPress={onClose}>
           <View style={styles.closeButtonLogo} >
-            <Logo imageSource={require('../../assets/icons/icon-refus.png')} color='white' size={30}/>
+            <Logo imageSource={require('../../assets/icons/icon-refus.png')} color='white' size={30} />
           </View>
         </TouchableOpacity>
-        
+
         {/* Contenu du volet */}
         <View style={styles.voletContent} >
           <Text style={styles.text}>{utilisateur?.prenom}</Text>
           <Text style={styles.text}>{utilisateur?.mail}</Text>
 
           {/* Formulaire de modification de mot de passe */}
-          <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Ancien mot de passe"} isPassword/>
-          <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Nouveau mot de passe"} isPassword/>
+          <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Ancien mot de passe"} isPassword />
+          <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Nouveau mot de passe"} isPassword />
           <ReglesMDP
             rules={motDePasseRegles}
+            whiteMode
           />
 
-          <Button
-            onPress={handleModifierMotDePasse}
-            title={"Modifier votre mot de passe"}
-            styleBtn="noBg"
-          />
-          {/* Bouton de connexion */}
-          <Button
-            onPress={handleDeconnexion}
-            title={t('voletParametre.deconnexion')}
-            styleBtn="noBg"
-          />
+          <View style={styles.button} >
+            <Button
+              onPress={handleModifierMotDePasse}
+              title={t('voletParametre.changePwd')}
+              styleBtn="noBg"
+              tinyBtn
+            />
+          </View>
+
+          <View style={styles.footerVolet} >
+            <View style={styles.button} >
+              <InputLangue
+                languesDispos={langues}
+                langueDefaut={utilisateur?.reglageApp.langue ?? langueDefaut}
+                onChange={(langue: string) => setLangue(langue)}
+              />
+            </View>
+
+            <View style={styles.button} >
+              {/* Bouton de connexion */}
+              <ClickableText
+                onPress={handleDeconnexion}
+                text={t('voletParametre.deconnexion')}
+              />
+            </View>
+          </View>
         </View>
-        
-      </Animatable.View>
-    </Modal>
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-   overlay: {
+  overlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   volet: {
-    width: 322,
+    width: '80%',
     height: '100%',
-    paddingTop: 50,
+    paddingTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
     backgroundColor: '#1E375A',
@@ -138,7 +148,8 @@ const styles = StyleSheet.create({
     right: 0,
   },
   voletContent: {
-    marginTop: 50,
+    alignItems: 'center',
+    marginTop: 0,
     height: "90%",
   },
   closeButtonLogo: {
@@ -149,9 +160,18 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     marginLeft: 20,
-    fontSize: 15
+    marginBottom: 5,
+    fontSize: 15,
+    fontFamily: "Karla-Medium"
+  },
+  button: {
+    marginBottom: 15
+  },
+  footerVolet: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   }
-  // Styles pour le contenu du volet
 });
 
 export default VoletParametre;

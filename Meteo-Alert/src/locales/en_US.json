@@ -83,7 +83,8 @@
             "special": "1 special character"
         },
         "voletParametre": {
-            "deconnexion": "Logout"
+            "deconnexion": "Logout",
+            "changePwd": "Change your password"
         },
         "aUnite": {
             "mesure-undefined": "Unavailable" 
