@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, Animated, Dimensions } from 'react-native';
+
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import { useTranslation } from 'react-i18next';
+
+import { useUtilisateur } from '../services/context/UtilisateurContext';
+import i18n, { langues } from '../services/i18n/i18n';
+
+import Field from '../components/molecules/Field';
 import Button from '../components/atoms/Button';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import ClickableText from '../components/atoms/ClickableText';
-import Field from '../components/molecules/Field';
-import { useTranslation } from 'react-i18next';
-import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
-import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
-import { useUtilisateur } from '../services/context/UtilisateurContext';
 import MyStatusBar from '../components/atoms/MyStatusBar';
 import InputLangue from '../components/atoms/InputLangue';
-import i18n, { langues } from '../services/i18n/i18n';
+
+import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
+
 
 // Paramètrer la taille du logo météo pour son animation
 const window = Dimensions.get('window');

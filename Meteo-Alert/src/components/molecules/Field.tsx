@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
+
 import Logo from '../atoms/Logo';
 
 interface FieldProps {

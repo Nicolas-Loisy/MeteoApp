@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+
 import Meteo from '../../models/valueObject/Meteo';
 import InfoMeteo from '../atoms/InfoMeteo';
-import { useTranslation } from 'react-i18next';
 
 interface ListeInfoMeteoProps {
   meteo?: Meteo;

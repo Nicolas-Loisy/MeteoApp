@@ -1,23 +1,29 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { changeLanguage } from 'i18next';
+
+import ServiceCompteFactory from '../compteUtilisateur/ServiceCompteFactory';
+import ServicePersistenceFactory from '../persistence/ServicePersistenceFactory';
+import AlerteFactory from '../alertes/AlerteFactory';
+
 import Utilisateur from '../../models/entities/Utilisateur';
 import Lieu from '../../models/valueObject/Lieu';
-import ServiceCompteFactory from '../compteUtilisateur/ServiceCompteFactory';
-import utilisateurType from '../../models/types/utilisateurType';
-import ServicePersistenceFactory from '../persistence/ServicePersistenceFactory';
-import lieuType from '../../models/types/lieuType';
 import iAlerte from '../alertes/iAlerte';
-import AlerteFactory from '../alertes/AlerteFactory';
-import utilisateurDataType from '../../models/types/pertistence/utilisateurDataType';
-import lieuxFavorisDataType from '../../models/types/pertistence/lieuxFavorisDataType';
-import reglageAlerteDataType from '../../models/types/pertistence/reglageAlerteData';
-import EvenementEnum from '../../models/enum/EvenementEnum';
-import meteoType from '../../models/types/meteoType';
-import ErreurContextUtilisateur from '../../models/enum/erreurs/ErreurContexUtilisateur';
-import i18n, { langueDefaut } from '../i18n/i18n';
+
+import i18n, { langueDefaut, langues } from '../i18n/i18n';
+
 import SystemeMesureEnum from '../../models/enum/SystemeMesureEnum';
-import langueType from '../../models/types/langueType';
-import reglageAppData from '../../models/types/pertistence/reglageAppData';
-import { changeLanguage } from 'i18next';
+import EvenementEnum from '../../models/enum/EvenementEnum';
+import ErreurContextUtilisateur from '../../models/enum/erreurs/ErreurContexUtilisateur';
+
+import utilisateurType from '../../models/types/utilisateurType';
+import lieuType from '../../models/types/lieuType';
+import meteoType from '../../models/types/meteoType';
+
+import reglagePersistence from '../../models/types/pertistence/reglageAppPersistence';
+import utilisateurPersistence from '../../models/types/pertistence/utilisateurPersistence';
+import lieuxFavorisPersistence from '../../models/types/pertistence/lieuxFavorisPersistence';
+import reglageAlertePersistence from '../../models/types/pertistence/reglageAlertePersistence';
+import utilisateurFront from '../../models/types/front/utilisateurFront';
 
 // Définition des attributs disponibles
 type UtilisateurContextType = {
@@ -29,11 +35,11 @@ type UtilisateurContextType = {
   ajouterLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   supprimerLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   setSeuilPersonnalise: (keyLieu: string, typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number) => Promise<void>;
-  setLangue: (langue: langueType) => Promise<void>;
+  setLangue: (langue: string) => Promise<void>;
   setSystemeMesure: (systemeMesure: SystemeMesureEnum) => Promise<void>;
 
   // Utilisateur privé de ses attributs devant être non accessibles par le front
-  readonly utilisateur: Readonly<Omit<Utilisateur, "getLieuxFavoris" | "ajouterLieuFavori" | "supprimerLieuFavori">> | null; 
+  readonly utilisateur: utilisateurFront | null;
   readonly lieuxFavoris: ReadonlyArray<Readonly<Lieu>>;
 };
 
@@ -43,7 +49,9 @@ const UtilisateurContext = createContext<UtilisateurContextType | null>(null);
 // Création du composant
 export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   /* Attributs */
-  const [utilisateur, setUtilisateur] = useState<Utilisateur | null>(null);
+  const [utilisateurModele, setUtilisateurModele] = useState<Utilisateur | null>(null);
+  const [utilisateur, setUtilisateur] = useState<utilisateurFront | null>(null);
+
   const [lieuxFavoris, setLieuxFavoris] = useState<ReadonlyArray<Readonly<Lieu>>>([]);
 
   const serviceCompte = ServiceCompteFactory.getServiceCompte();
@@ -54,7 +62,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   /* Récupération de l'ensemble des données d'un utilisateur et création de l'objet Utilisateur */
   const getUtilisateur = async (GUID: string): Promise<Utilisateur> => {
     // Récupération depuis la base de données
-    const utilisateurData: utilisateurDataType = await servicePersistence.getUtilisateurData(GUID);
+    const utilisateurData: utilisateurPersistence = await servicePersistence.getUtilisateurData(GUID);
     const utilisateurAttributs: utilisateurType = {
       ...utilisateurData
     };
@@ -79,28 +87,28 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     }
 
     // Récupération des réglages de l'application
-    const reglageAppData = utilisateurData.reglageApp ?? {
+    const reglagePersistence = utilisateurData.reglageApp ?? {
       langue: langueDefaut,
       systemeMesure: SystemeMesureEnum.METRIQUE
     }
 
     // Création de l'utilisateur dans l'application
-    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglageAppData, lieuxFavoris);
+    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglagePersistence, lieuxFavoris);
     return utilisateur;
   }
 
   /* Enregistrement des lieux favoris dans la base de données */
   const enregistrerLieuxFavoris = async () => {
-    if (!utilisateur) throw new Error();
+    if (!utilisateurModele) throw new Error();
 
     // Création du format de données nécessaire pour la persistance
-    const lieuxFavoris: ReadonlyArray<Readonly<Lieu>> = utilisateur.getLieuxFavoris();
-    const lieuxData: lieuxFavorisDataType = {};
+    const lieuxFavoris: ReadonlyArray<Readonly<Lieu>> = utilisateurModele.getLieuxFavoris();
+    const lieuxData: lieuxFavorisPersistence = {};
 
     lieuxFavoris.forEach((lieu: Readonly<Lieu>) => {
       // Conversion des reglages alertes
       const reglageAlerte: ReadonlyArray<Readonly<iAlerte>> = lieu.getReglageAlerte();
-      const reglageAlerteData: reglageAlerteDataType = {};
+      const reglageAlerteData: reglageAlertePersistence = {};
 
       reglageAlerte.forEach((alerte: iAlerte) => {
         reglageAlerteData[alerte.typeEvenement] = {
@@ -121,21 +129,21 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     });
 
     // Enregistrement des modifications dans la bdd
-    servicePersistence.updateLieuxFavoris(lieuxData, utilisateur.uid);
+    servicePersistence.updateLieuxFavoris(lieuxData, utilisateurModele.uid);
   }
 
   const enregistrerReglageApp = async () => {
-    if (!utilisateur) throw new Error();
+    if (!utilisateurModele) throw new Error();
 
     // Conversion des réglages
-    const reglageApp = utilisateur.getReglageApp();
-    const reglageAppData: reglageAppData = {
+    const reglageApp = utilisateurModele.getReglageApp();
+    const reglagePersistence: reglagePersistence = {
       langue: reglageApp.getLangue(),
       systemeMesure: reglageApp.getSystemeMesure()
     }
 
     // Enregistrer des modifications dans la bdd
-    servicePersistence.updateReglage(reglageAppData, utilisateur.uid);
+    servicePersistence.updateReglage(reglagePersistence, utilisateurModele.uid);
   }
 
   /* Méthodes */
@@ -143,13 +151,13 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     // Ajout de l'utilisateur dans le système d'authentification
     const GUID = await serviceCompte.inscription(utilisateurAttributs.email, motDePasse);
 
-    const reglageApp: reglageAppData = {
+    const reglageApp: reglagePersistence = {
       langue: langueDefaut,
       systemeMesure: SystemeMesureEnum.METRIQUE
     }
 
     // Ajout de l'utilisateur dans la base de données
-    const utilisateurPersistance: utilisateurDataType = {
+    const utilisateurPersistance: utilisateurPersistence = {
       lieuxFavoris: {},
       reglageApp,
       ...utilisateurAttributs
@@ -158,20 +166,20 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     await servicePersistence.inscription(GUID, utilisateurPersistance);
 
     // Création de l'utilisateur dans l'application
-    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglageApp );
-    setUtilisateur(utilisateur);
+    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglageApp);
+    setUtilisateurModele(utilisateur);
   }
 
   const connexion = async (email: string, motDePasse: string): Promise<void> => {
     // Ajout dans le système d'authentification
     const GUID = await serviceCompte.connexion(email, motDePasse);
     const utilisateur = await getUtilisateur(GUID);
-    setUtilisateur(utilisateur);
+    setUtilisateurModele(utilisateur);
   }
 
   const deconnexion = async (): Promise<void> => {
     await serviceCompte.deconnexion();
-    setUtilisateur(null);
+    setUtilisateurModele(null);
   }
 
   const reinitialiserMotDePasse = async (email: string): Promise<void> => {
@@ -183,34 +191,34 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const ajouterLieuFavori = async (lieu: Readonly<Lieu>) => {
-    if (!utilisateur) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
+    if (!utilisateurModele) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
 
     // Ajout du lieu dans utilisateur (Application)
-    utilisateur.ajouterLieuFavori(lieu);
+    utilisateurModele.ajouterLieuFavori(lieu);
 
     // Enregistrement dans la BDD
     await enregistrerLieuxFavoris();
 
     // Mise à jour du context
-    setLieuxFavoris(utilisateur.getLieuxFavoris());
-    
+    setLieuxFavoris(utilisateurModele.getLieuxFavoris());
+
   }
 
   const supprimerLieuFavori = async (lieu: Readonly<Lieu>) => {
-    if (!utilisateur) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
+    if (!utilisateurModele) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
 
     // Suppression du lieu dans utilisateur (Application)
-    utilisateur.supprimerLieuFavori(lieu);
+    utilisateurModele.supprimerLieuFavori(lieu);
 
     // Enregistrement dans la BDD
     await enregistrerLieuxFavoris();
 
     // Mise à jour du context
-    setLieuxFavoris(utilisateur.getLieuxFavoris()); 
+    setLieuxFavoris(utilisateurModele.getLieuxFavoris());
   }
 
   const setSeuilPersonnalise = async (keyLieu: string, typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number) => {
-    if (!utilisateur) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
+    if (!utilisateurModele) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
 
     const lieu = lieuxFavoris.find(lieuFav => lieuFav.key === keyLieu);
     if (!lieu) throw ErreurContextUtilisateur.ERREUR_LIEU_FAV_NON_TROUVE;
@@ -222,13 +230,15 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     enregistrerLieuxFavoris();
 
     // Mise à jour du contexte
-    setLieuxFavoris(utilisateur.getLieuxFavoris());
+    setLieuxFavoris(utilisateurModele.getLieuxFavoris());
   }
 
-  const setLangue = async (langue: langueType): Promise<void> => {
-    if (utilisateur) {
+  const setLangue = async (langue: string): Promise<void> => {
+    if (!langues.find(l => l === langue)) throw new Error();
+
+    if (utilisateurModele) {
       // Mise à jour dans utilisateur (Application)
-      utilisateur.getReglageApp().setLangue(langue);
+      utilisateurModele.getReglageApp().setLangue(langue);
       i18n.changeLanguage(langue);
 
       // Enregistrement dans la BDD
@@ -237,9 +247,9 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const setSystemeMesure = async (systemeMesure: SystemeMesureEnum): Promise<void> => {
-    if (utilisateur) {
+    if (utilisateurModele) {
       // Mise à jour dans utilisateur (Application)
-      utilisateur.getReglageApp().setSystemeMesure(systemeMesure);
+      utilisateurModele.getReglageApp().setSystemeMesure(systemeMesure);
 
       // Enregistrement dans la BDD
       enregistrerReglageApp();
@@ -253,9 +263,9 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
         const GUID = await ServiceCompteFactory.getServiceCompte().fetchConnexion();
         if (GUID) {
           const utilisateur = await getUtilisateur(GUID);
-          setUtilisateur(utilisateur);
+          setUtilisateurModele(utilisateur);
         } else {
-          setUtilisateur(null);
+          setUtilisateurModele(null);
         }
       } catch (error) {
         console.error(error);
@@ -266,11 +276,24 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    if (utilisateur) {
-      setLieuxFavoris(utilisateur.getLieuxFavoris());
-      changeLanguage(utilisateur.getReglageApp().getLangue());
+    const utilisateurFront: utilisateurFront | null =
+      utilisateurModele ? {
+        GUID: utilisateurModele.uid,
+        prenom: utilisateurModele.getPrenom(),
+        mail: utilisateurModele.getMail(),
+        reglageApp: {
+          langue: utilisateurModele.getReglageApp().getLangue(),
+          systemeMesure: utilisateurModele.getReglageApp().getSystemeMesure()
+        }
+      } : null;
+
+    setUtilisateur(utilisateurFront);
+
+    if (utilisateurModele) {
+      setLieuxFavoris(utilisateurModele.getLieuxFavoris());
+      changeLanguage(utilisateurModele.getReglageApp().getLangue());
     }
-  }, [utilisateur]);
+  }, [utilisateurModele]);
 
   return (
     <UtilisateurContext.Provider

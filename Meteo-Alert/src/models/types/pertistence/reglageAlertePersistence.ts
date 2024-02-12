@@ -1,11 +1,11 @@
 import EvenementEnum from "../../enum/EvenementEnum";
 import meteoType from "../meteoType";
 
-type reglageAlerteDataType = {
+type reglageAlertePersistence = {
   [evenement in EvenementEnum]?: {
     isActiver: boolean;
     criteres: Partial<meteoType>;
   };
 };
 
-export default reglageAlerteDataType;
+export default reglageAlertePersistence;

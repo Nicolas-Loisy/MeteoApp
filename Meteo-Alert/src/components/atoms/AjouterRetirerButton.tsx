@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
+
 import PlusAjouter from '../../assets/icons/svg/plus-ajouter.svg';
 import MoinsRetirer from '../../assets/icons/svg/moins-retirer.svg';
 

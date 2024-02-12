@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
-import LayoutTemplate from '../components/organisms/LayoutTemplate';
+
 import { useTranslation } from 'react-i18next';
-import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
-import ArrowReturn from '../assets/icons/svg/arrow-left-short.svg';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import Field from '../components/molecules/Field';
-import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
-import Button from '../components/atoms/Button';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
 
+import Button from '../components/atoms/Button';
+import LayoutTemplate from '../components/organisms/LayoutTemplate';
+
+import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
+import ArrowReturn from '../assets/icons/svg/arrow-left-short.svg';
 
 const MdpOublie = () => {
   const { t } = useTranslation();

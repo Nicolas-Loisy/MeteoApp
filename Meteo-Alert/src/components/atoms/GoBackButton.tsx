@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
+
 import Croix from '../../assets/icons/svg/vector.svg';
 import ArrowReturn from '../../assets/icons/svg/arrow-left-short.svg';
 

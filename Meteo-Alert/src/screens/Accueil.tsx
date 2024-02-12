@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Modal } from 'react-native';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import LayoutTemplate from '../components/organisms/LayoutTemplate';
-import Button from '../components/atoms/Button';
-import EngrenageParametre from '../components/atoms/EngrenageParametre';
-import VoletParametre from '../components/organisms/VoletParametre';
-import MyStatusBar from '../components/atoms/MyStatusBar';
 import { useTranslation } from 'react-i18next';
-import LieuxSection from '../components/organisms/LieuxSection';
+
 import { useUtilisateur } from '../services/context/UtilisateurContext';
+import { langues, langueDefaut } from "../services/i18n/i18n";
+
+import Button from '../components/atoms/Button';
+import InputLangue from '../components/atoms/InputLangue';
+import MyStatusBar from '../components/atoms/MyStatusBar';
+import EngrenageParametre from '../components/atoms/EngrenageParametre';
+import LayoutTemplate from '../components/organisms/LayoutTemplate';
+import VoletParametre from '../components/organisms/VoletParametre';
+import LieuxSection from '../components/organisms/LieuxSection';
 
 const Accueil = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();

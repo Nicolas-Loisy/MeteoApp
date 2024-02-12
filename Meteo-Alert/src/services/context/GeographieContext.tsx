@@ -1,9 +1,12 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import Lieu from '../../models/valueObject/Lieu';
-import lieuType from '../../models/types/lieuType';
+
 import iServiceGeographie from '../api/geographieAPI/iServiceGeographie';
 import ServiceGeographieFactory from '../api/geographieAPI/ServiceGeographieFactory';
+
 import AlerteFactory from '../alertes/AlerteFactory';
+
+import Lieu from '../../models/valueObject/Lieu';
+import lieuType from '../../models/types/lieuType';
 import ErreurContextGeographie from '../../models/enum/erreurs/ErreurContextGeographie';
 
 type GeographieContextProps = {

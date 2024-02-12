@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, TouchableWithoutFeedback } from 'react-native';
-import Button from '../atoms/Button';
+
 import { t } from 'i18next';
-import Logo from '../atoms/Logo';
-import { useUtilisateur } from '../../services/context/UtilisateurContext';
-import Field from '../molecules/Field';
-import dtMotDePasse from '../../models/datatype/dtMotDePasse';
-import ReglesMDP from '../atoms/ReglesMDP';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
-import InputLangue from '../atoms/InputLangue';
+
+import { useUtilisateur } from '../../services/context/UtilisateurContext';
 import { langues, langueDefaut } from "../../services/i18n/i18n";
+
+import dtMotDePasse from '../../models/datatype/dtMotDePasse';
+
+import Button from '../atoms/Button';
+import Logo from '../atoms/Logo';
+import Field from '../molecules/Field';
+import ReglesMDP from '../atoms/ReglesMDP';
+import InputLangue from '../atoms/InputLangue';
 import ClickableText from '../atoms/ClickableText';
 
 interface VoletParametreProps {
@@ -84,8 +88,8 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
 
         {/* Contenu du volet */}
         <View style={styles.voletContent} >
-          <Text style={styles.text}>{utilisateur?.getPrenom()}</Text>
-          <Text style={styles.text}>{utilisateur?.getMail()}</Text>
+          <Text style={styles.text}>{utilisateur?.prenom}</Text>
+          <Text style={styles.text}>{utilisateur?.mail}</Text>
 
           {/* Formulaire de modification de mot de passe */}
           <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Ancien mot de passe"} isPassword />
@@ -108,7 +112,7 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
             <View style={styles.button} >
               <InputLangue
                 languesDispos={langues}
-                langueDefaut={utilisateur?.getReglageApp().getLangue() ?? langueDefaut}
+                langueDefaut={utilisateur?.reglageApp.langue ?? langueDefaut}
                 onChange={(langue: string) => setLangue(langue)}
               />
             </View>

@@ -1,6 +1,5 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
 import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
-import meteoType from "../../models/types/meteoType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 

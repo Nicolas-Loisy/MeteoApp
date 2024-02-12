@@ -1,33 +1,33 @@
 import { langueDefaut, langues } from "../services/i18n/i18n";
 import SystemeMesureEnum from "./enum/SystemeMesureEnum";
-import langueType from "./types/langueType";
-import reglageAppData from "./types/pertistence/reglageAppData";
+import reglagePersistence from "./types/pertistence/reglageAppPersistence";
+
 class ReglageApp {
   private static instance: ReglageApp | null;
 
   private systemeMesure: SystemeMesureEnum;
-  private langue: langueType;
+  private langue: string;
 
-  private constructor(reglageAppData: reglageAppData) {
+  private constructor(reglagePersistence: reglagePersistence) {
     const systemeMesureDefaut: SystemeMesureEnum = process.env.REACT_APP_SYSTEME_MESURE_DEFAUT as SystemeMesureEnum ?? SystemeMesureEnum.METRIQUE;
 
     // Init système mesure
-    const isSystemeMesureData = reglageAppData.systemeMesure in SystemeMesureEnum;
+    const isSystemeMesureData = reglagePersistence.systemeMesure in SystemeMesureEnum;
     this.systemeMesure = 
       isSystemeMesureData ? 
-      reglageAppData.systemeMesure as SystemeMesureEnum : 
+      reglagePersistence.systemeMesure as SystemeMesureEnum : 
       systemeMesureDefaut;
 
     // Init langue
-    const isLangueData = langues.includes(reglageAppData.langue);
+    const isLangueData = langues.includes(reglagePersistence.langue);
     this.langue = isLangueData ? 
-      reglageAppData.langue : 
+      reglagePersistence.langue : 
       langueDefaut;
   }
 
-  public static getInstance(reglageAppData: reglageAppData): ReglageApp {
+  public static getInstance(reglagePersistence: reglagePersistence): ReglageApp {
     if (!ReglageApp.instance) {
-      ReglageApp.instance = new ReglageApp(reglageAppData);
+      ReglageApp.instance = new ReglageApp(reglagePersistence);
     }
     return ReglageApp.instance;
   }
@@ -44,7 +44,7 @@ class ReglageApp {
     return this.langue;
   }
 
-  public setLangue(langue: langueType): void {
+  public setLangue(langue: string): void {
     this.langue = langue;
   }
 }

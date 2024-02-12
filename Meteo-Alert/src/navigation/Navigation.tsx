@@ -13,7 +13,7 @@ import { useUtilisateur } from "../services/context/UtilisateurContext";
 const Stack = createStackNavigator();
 
 export default function Navigation() {
-  const statutConnecte = !!useUtilisateur().utilisateur?.uid;
+  const statutConnecte = !!useUtilisateur().utilisateur?.GUID;
   
   return (
     <NavigationContainer>

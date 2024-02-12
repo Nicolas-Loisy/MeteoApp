@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
-import LayoutTemplate from '../components/organisms/LayoutTemplate';
+
 import { useTranslation } from 'react-i18next';
-import Meteo from '../models/valueObject/Meteo';
-import Title from '../components/atoms/Title';
-import TimeAgoText from '../components/atoms/TimeAgoText';
-import ListeInfoMeteo from '../components/molecules/ListInfoMeteo';
-import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native';
-import { useUtilisateur } from '../services/context/UtilisateurContext';
-import meteoType from '../models/types/meteoType';
-import Button from '../components/atoms/Button';
-import Lieu from '../models/valueObject/Lieu';
-import GoBackButton from '../components/atoms/GoBackButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native';
+
+import Lieu from '../models/valueObject/Lieu';
+import Meteo from '../models/valueObject/Meteo';
+import meteoType from '../models/types/meteoType';
+
+import { useUtilisateur } from '../services/context/UtilisateurContext';
+
+import Title from '../components/atoms/Title';
 import TrashButton from '../components/atoms/TrashButton';
+import TimeAgoText from '../components/atoms/TimeAgoText';
+import GoBackButton from '../components/atoms/GoBackButton';
+import Button from '../components/atoms/Button';
+import ListeInfoMeteo from '../components/molecules/ListInfoMeteo';
+import LayoutTemplate from '../components/organisms/LayoutTemplate';
 
 type params = {
   params: {
@@ -38,14 +42,14 @@ const DetailLieu = () => {
 
   useEffect(() => {
     const fetchMeteo = async () => {
-      if (lieu) {
-        const meteoData = await lieu.getMeteo();
+      if (lieu && utilisateur) {
+        const meteoData = await lieu.getMeteo(utilisateur.reglageApp.systemeMesure);
         setMeteo(meteoData);
       }
     };
 
     fetchMeteo();
-  }, [lieu]);
+  }, [lieu, utilisateur]);
 
   const handleSupprimerLieuFavori = async () => {
     if (utilisateur && lieu) {
