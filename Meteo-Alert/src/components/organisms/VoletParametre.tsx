@@ -8,6 +8,9 @@ import Field from '../molecules/Field';
 import dtMotDePasse from '../../models/datatype/dtMotDePasse';
 import ReglesMDP from '../atoms/ReglesMDP';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import InputLangue from '../atoms/InputLangue';
+import { langues, langueDefaut } from "../../services/i18n/i18n";
+import ClickableText from '../atoms/ClickableText';
 
 interface VoletParametreProps {
   isOpen: boolean;
@@ -15,7 +18,7 @@ interface VoletParametreProps {
 }
 
 const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
-  const { utilisateur, modifierMotDePasse, deconnexion } = useUtilisateur();
+  const { utilisateur, modifierMotDePasse, deconnexion, setLangue } = useUtilisateur();
 
   const [ancienMotDePasseValue, setAncienMotDePasseValue] = useState<string>("");
   const [motDePasseValue, setMotDePasseValue] = useState<string>("");
@@ -72,7 +75,7 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
       </TouchableWithoutFeedback>
 
       <View style={styles.volet}>
-        
+
         <TouchableOpacity onPress={onClose}>
           <View style={styles.closeButtonLogo} >
             <Logo imageSource={require('../../assets/icons/icon-refus.png')} color='white' size={30} />
@@ -89,18 +92,29 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
           <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Nouveau mot de passe"} isPassword />
           <ReglesMDP
             rules={motDePasseRegles}
+            whiteMode
           />
 
-          <Button
-            onPress={handleModifierMotDePasse}
-            title={"Modifier votre mot de passe"}
-            styleBtn="noBg"
-          />
-          {/* Bouton de connexion */}
-          <Button
-            onPress={handleDeconnexion}
-            title={t('voletParametre.deconnexion')}
-            styleBtn="noBg"
+          <View style={styles.button} >
+            <Button
+              onPress={handleModifierMotDePasse}
+              title={"Modifier votre mot de passe"}
+              styleBtn="noBg"
+            />
+          </View>
+
+          <View style={styles.button} >
+            {/* Bouton de connexion */}
+            <ClickableText
+              onPress={handleDeconnexion}
+              text={t('voletParametre.deconnexion')}
+            />
+          </View>
+          
+          <InputLangue
+            languesDispos={langues}
+            langueDefaut={utilisateur?.getReglageApp().getLangue() ?? langueDefaut}
+            onChange={(langue: string) => setLangue(langue)}
           />
         </View>
 
@@ -117,7 +131,7 @@ const styles = StyleSheet.create({
   volet: {
     width: '80%',
     height: '100%',
-    paddingTop: 50,
+    paddingTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
     backgroundColor: '#1E375A',
@@ -126,7 +140,8 @@ const styles = StyleSheet.create({
     right: 0,
   },
   voletContent: {
-    marginTop: 50,
+    alignItems: 'center',
+    marginTop: 0,
     height: "90%",
   },
   closeButtonLogo: {
@@ -137,7 +152,12 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     marginLeft: 20,
-    fontSize: 15
+    marginBottom: 5,
+    fontSize: 15,
+    fontFamily: "Karla-Medium"
+  },
+  button: {
+    marginBottom: 15
   }
 });
 
