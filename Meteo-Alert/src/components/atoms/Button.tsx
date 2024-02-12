@@ -5,9 +5,10 @@ interface ButtonProps {
   onPress: () => void;
   title: string;
   styleBtn?: 'whiteBg' | 'noBg';
+  tinyBtn?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ onPress, title, styleBtn = 'whiteBg' }) => {
+const Button: React.FC<ButtonProps> = ({ onPress, title, styleBtn = 'whiteBg', tinyBtn = false }) => {
   // Styles conditionnels
   // View
   const conditionalStyles: { [key: string]: StyleProp<ViewStyle> } = {
@@ -37,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({ onPress, title, styleBtn = 'whiteBg' })
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={[styles.button, conditionalStyles[styleBtn]]}>
+      <View style={[tinyBtn ? styles.tinyButton : styles.bigButton, conditionalStyles[styleBtn]]}>
         <Text style={[styles.buttonText, conditionalStylesText[styleBtn]]}>{title}</Text>
       </View>
     </TouchableOpacity>
@@ -46,9 +47,22 @@ const Button: React.FC<ButtonProps> = ({ onPress, title, styleBtn = 'whiteBg' })
 
 // Styles communs
 const styles = StyleSheet.create({
-  button: {
+  bigButton: {
     width: 303,
     height: 53,
+    flexShrink: 0,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#FFF',
+    backgroundColor: '#FFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tinyButton: {
+    width: 'auto',
+    paddingHorizontal: 10,
+    height: 'auto',
+    paddingVertical: 5,
     flexShrink: 0,
     borderRadius: 8,
     borderWidth: 1,

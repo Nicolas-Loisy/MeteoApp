@@ -12,7 +12,7 @@ import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
 import MyStatusBar from '../components/atoms/MyStatusBar';
 import InputLangue from '../components/atoms/InputLangue';
-import i18n, { langues, langueDefaut } from '../services/i18n/i18n';
+import i18n, { langues } from '../services/i18n/i18n';
 
 // Paramètrer la taille du logo météo pour son animation
 const window = Dimensions.get('window');
@@ -136,12 +136,14 @@ const Connexion = () => {
                 />
               </View>
 
-              {/* Bouton pour aller à la page d'inscription */}
-              <Button
-                onPress={() => navigation.navigate('Inscription')}
-                title={t('connexion.redirect_inscription')}
-                styleBtn="noBg"
-              />
+              <View style={styles.button}>
+                {/* Bouton pour aller à la page d'inscription */}
+                <Button
+                  onPress={() => navigation.navigate('Inscription')}
+                  title={t('connexion.redirect_inscription')}
+                  styleBtn="noBg"
+                />
+              </View>
 
               <InputLangue
                 languesDispos={ langues }

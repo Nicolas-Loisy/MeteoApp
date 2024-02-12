@@ -13,6 +13,7 @@ import Button from '../components/atoms/Button';
 import Lieu from '../models/valueObject/Lieu';
 import GoBackButton from '../components/atoms/GoBackButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import TrashButton from '../components/atoms/TrashButton';
 
 type params = {
   params: {
@@ -22,7 +23,7 @@ type params = {
 
 const DetailLieu = () => {
   const { t } = useTranslation();
-  const { lieuxFavoris, setSeuilPersonnalise } = useUtilisateur();
+  const { utilisateur, lieuxFavoris, setSeuilPersonnalise, supprimerLieuFavori } = useUtilisateur();
 
   const params = useRoute() as params;
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -46,9 +47,19 @@ const DetailLieu = () => {
     fetchMeteo();
   }, [lieu]);
 
+  const handleSupprimerLieuFavori = async () => {
+    if (utilisateur && lieu) {
+      await supprimerLieuFavori(lieu);
+      navigation.navigate('Accueil');
+    }
+  };
+
   return (
     <LayoutTemplate>
-      <GoBackButton onPress={navigation.goBack} iconType='arrowReturn'/>
+      <View style={styles.actionButton}>
+        <GoBackButton onPress={navigation.goBack} iconType='arrowReturn'/>
+        <TrashButton onPress={handleSupprimerLieuFavori} />
+      </View>
 
       <View style={styles.container}>
         <Title text={lieu?.nom} fontSize={50} />
@@ -102,6 +113,10 @@ const styles = StyleSheet.create({
   details: {
     marginTop: 20,
     marginBottom: 120
+  },
+  actionButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   }
 });
 

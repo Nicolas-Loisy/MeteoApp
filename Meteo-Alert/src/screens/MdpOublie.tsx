@@ -45,13 +45,13 @@ const MdpOublie = () => {
 
       <View style={styles.containerHeader}>
         <LogoMeteo {...styles.logoMeteo}/>
-        <Text style={styles.text}>{t('mdp_oublie.logo')}</Text>
+        <Text style={styles.textTitle}>{t('mdp_oublie.logo')}</Text>
       </View>
 
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
             {/* Titre */}
-            <Text>{t("mdp_oublie.titre")}</Text>
+            <Text style={styles.text}>{t("mdp_oublie.titre")}</Text>
 
             {/* Formulaire d'adresse e-mail */}
             <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('mdp_oublie.email')}/>
@@ -81,10 +81,15 @@ const styles = StyleSheet.create({
     height: 'auto',
     alignItems: 'center',
   },
-  text: {
+  textTitle: {
     color: 'white',
     fontSize: 50,
     fontFamily: 'Jomhuria-Regular',
+  },
+  text: {
+    color: '#1E375A',
+    fontSize: 16,
+    fontFamily: 'Karla-Medium',
   },
   logoMeteo: {
     width: 100,
