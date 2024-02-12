@@ -5,7 +5,7 @@ import Logo from './Logo';
 
 type Props = {
   rules: Record<string, boolean>;
-  whiteMode: boolean
+  whiteMode?: boolean
 };
 
 const ReglesMDP: React.FC<Props> = ({ rules, whiteMode=false }) => {

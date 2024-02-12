@@ -98,26 +98,30 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
           <View style={styles.button} >
             <Button
               onPress={handleModifierMotDePasse}
-              title={"Modifier votre mot de passe"}
+              title={t('voletParametre.changePwd')}
               styleBtn="noBg"
+              tinyBtn
             />
           </View>
 
-          <View style={styles.button} >
-            {/* Bouton de connexion */}
-            <ClickableText
-              onPress={handleDeconnexion}
-              text={t('voletParametre.deconnexion')}
-            />
+          <View style={styles.footerVolet} >
+            <View style={styles.button} >
+              <InputLangue
+                languesDispos={langues}
+                langueDefaut={utilisateur?.getReglageApp().getLangue() ?? langueDefaut}
+                onChange={(langue: string) => setLangue(langue)}
+              />
+            </View>
+
+            <View style={styles.button} >
+              {/* Bouton de connexion */}
+              <ClickableText
+                onPress={handleDeconnexion}
+                text={t('voletParametre.deconnexion')}
+              />
+            </View>
           </View>
-          
-          <InputLangue
-            languesDispos={langues}
-            langueDefaut={utilisateur?.getReglageApp().getLangue() ?? langueDefaut}
-            onChange={(langue: string) => setLangue(langue)}
-          />
         </View>
-
       </View>
     </>
   );
@@ -158,6 +162,11 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 15
+  },
+  footerVolet: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   }
 });
 

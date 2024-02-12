@@ -92,7 +92,8 @@
             "special": "1 caractère spécial"
         },
         "voletParametre": {
-            "deconnexion": "Déconnexion"
+            "deconnexion": "Déconnexion",
+            "changePwd": "Modifier votre mot de passe"
         },
         "aUnite": {
             "mesure-undefined": "Indisponible"
