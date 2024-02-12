@@ -13,7 +13,7 @@ const Title: React.FC<TitleProps> = ({ text, fontSize }) => {
       fontFamily: 'Karla-Medium',
       fontWeight: '400',
       fontSize: fontSize,
-      lineHeight: fontSize, // Fixe la hauteur du texte pour une seule ligne
+      lineHeight: fontSize + 10, // Fixe la hauteur du texte pour une seule ligne, +10 pour les accents
     },
   });
 

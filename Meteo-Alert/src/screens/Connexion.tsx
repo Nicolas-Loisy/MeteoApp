@@ -136,12 +136,14 @@ const Connexion = () => {
                 />
               </View>
 
-              {/* Bouton pour aller à la page d'inscription */}
-              <Button
-                onPress={() => navigation.navigate('Inscription')}
-                title={t('connexion.redirect_inscription')}
-                styleBtn="noBg"
-              />
+              <View style={styles.button}>
+                {/* Bouton pour aller à la page d'inscription */}
+                <Button
+                  onPress={() => navigation.navigate('Inscription')}
+                  title={t('connexion.redirect_inscription')}
+                  styleBtn="noBg"
+                />
+              </View>
 
               <InputLangue
                 languesDispos={ langues }
