@@ -8,12 +8,11 @@ import TimeAgoText from '../components/atoms/TimeAgoText';
 import ListeInfoMeteo from '../components/molecules/ListInfoMeteo';
 import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
-import meteoType from '../models/types/meteoType';
-import Button from '../components/atoms/Button';
 import Lieu from '../models/valueObject/Lieu';
 import GoBackButton from '../components/atoms/GoBackButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import TrashButton from '../components/atoms/TrashButton';
+import ReglageAlerte from '../components/molecules/ReglageAlerte';
 
 type params = {
   params: {
@@ -69,33 +68,11 @@ const DetailLieu = () => {
         <View style={styles.details}>
           <Title text={t("detailLieu.releveDirect")} fontSize={22} />
           <ScrollView showsVerticalScrollIndicator={false}>
+            
             <ListeInfoMeteo meteo={meteo} blacklist={['heureActualisation']} />
-            {
-              lieu?.getReglageAlerte().map((alerte) => {
-                return (
-                  <View key={alerte.typeEvenement}>
-                    <Title text={alerte.typeEvenement} fontSize={20}/>
-                    <Text>{alerte.isActiver}</Text>
-                    <View>
-                    {
-                      Object.entries(alerte.getCritere()).map(([key, value]) => {
-                        return (
-                          <View key={key}>
-                            <Text>{key} = {value}</Text>
-                            <Button
-                                onPress={() => setSeuilPersonnalise(lieu.key, alerte.typeEvenement, key as keyof meteoType, ++value)}
-                                title="++ Valeur"
-                                styleBtn="whiteBg"
-                            />
-                          </View>
-                        );
-                      })
-                    }
-                    </View>
-                  </View>
-                );
-              })
-            }
+            
+            <ReglageAlerte lieu={lieu} />
+            
           </ScrollView>
         </View>
       </View>
@@ -107,12 +84,14 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: 'center',
-    paddingBottom: 40,
-    marginTop: 35,
+    marginTop: 15,
+    height: '97%',
+    // borderBottomColor: 'white',
+    // borderBottomWidth: 1
   },
   details: {
     marginTop: 20,
-    marginBottom: 120
+    flex: 1,
   },
   actionButton: {
     flexDirection: 'row',
