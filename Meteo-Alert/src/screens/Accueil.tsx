@@ -38,7 +38,7 @@ const Accueil = () => {
         <View style={styles.container}>
           <InputLangue 
             languesDispos={langues} 
-            langueDefaut={utilisateur?.getReglageApp().getLangue() ?? langueDefaut} 
+            langueDefaut={utilisateur?.reglageApp.langue ?? langueDefaut} 
             onChange={(langue: string) => setLangue(langue)}
           />
 

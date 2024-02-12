@@ -33,7 +33,7 @@ const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
     const fetchTemperature = async () => {
       if (utilisateur) {
         try {
-          const meteo = await lieu.getMeteo(utilisateur.getReglageApp().getSystemeMesure());
+          const meteo = await lieu.getMeteo(utilisateur.reglageApp.systemeMesure);
           setTemperature(meteo?.temperature.toString() || 'N/A');
           setMeteo(meteo);
         } catch (error) {

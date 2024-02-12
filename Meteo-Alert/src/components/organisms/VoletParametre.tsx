@@ -93,8 +93,8 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
         
         {/* Contenu du volet */}
         <View style={styles.voletContent} >
-          <Text style={styles.text}>{utilisateur?.getPrenom()}</Text>
-          <Text style={styles.text}>{utilisateur?.getMail()}</Text>
+          <Text style={styles.text}>{utilisateur?.prenom}</Text>
+          <Text style={styles.text}>{utilisateur?.mail}</Text>
 
           {/* Formulaire de modification de mot de passe */}
           <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Ancien mot de passe"} isPassword/>

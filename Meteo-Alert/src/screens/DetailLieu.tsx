@@ -43,7 +43,7 @@ const DetailLieu = () => {
   useEffect(() => {
     const fetchMeteo = async () => {
       if (lieu && utilisateur) {
-        const meteoData = await lieu.getMeteo(utilisateur.getReglageApp().getSystemeMesure());
+        const meteoData = await lieu.getMeteo(utilisateur.reglageApp.systemeMesure);
         setMeteo(meteoData);
       }
     };
