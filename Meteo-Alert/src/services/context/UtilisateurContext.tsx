@@ -63,30 +63,35 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   const getUtilisateur = async (GUID: string): Promise<Utilisateur> => {
     // Récupération depuis la base de données
     const utilisateurData: utilisateurPersistence = await servicePersistence.getUtilisateurData(GUID);
-    const utilisateurAttributs: utilisateurType = {
-      ...utilisateurData.utilisateurInfos
-    };
 
-    // Récupération de la liste de lieux favoris
+    // Initialisation des données personnelles
+    if (!utilisateurData.utilisateurInfos) throw new Error("Impossible de récupérer les informations de l'utilisateur");
+    const utilisateurAttributs: utilisateurType = utilisateurData.utilisateurInfos;
+
+
+    // Initialisation de la liste de lieux favoris
     const lieuxFavoris: Readonly<Lieu>[] = [];
-    for (const [key, value] of Object.entries(utilisateurData.lieuxFavoris)) {
-      const reglageAlerte: readonly iAlerte[] = AlerteFactory.initAlertesFromData(value.reglageAlerte);
 
-      const lieuType: lieuType = {
-        key: key,
-        nom: value.nom,
-        lat: value.lat,
-        lon: value.lon,
-        pays: value.pays,
-        region: value.region,
-        reglageAlerte: reglageAlerte
+    if (utilisateurData.lieuxFavoris) {
+      for (const [key, value] of Object.entries(utilisateurData.lieuxFavoris)) {
+        const reglageAlerte: readonly iAlerte[] = AlerteFactory.initAlertesFromData(value.reglageAlerte);
+
+        const lieuType: lieuType = {
+          key: key,
+          nom: value.nom,
+          lat: value.lat,
+          lon: value.lon,
+          pays: value.pays,
+          region: value.region,
+          reglageAlerte: reglageAlerte
+        }
+
+        const lieu = new Lieu(lieuType);
+        lieuxFavoris.push(lieu);
       }
-
-      const lieu = new Lieu(lieuType);
-      lieuxFavoris.push(lieu);
     }
 
-    // Récupération des réglages de l'application
+    // Initialisation des réglages de l'application
     const reglagePersistence = utilisateurData.reglageApp ?? {
       langue: langueDefaut,
       systemeMesure: SystemeMesureEnum.METRIQUE
