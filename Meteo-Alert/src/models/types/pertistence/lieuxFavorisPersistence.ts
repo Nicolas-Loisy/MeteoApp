@@ -2,12 +2,12 @@ import reglageAlertePersistence from "./reglageAlertePersistence";
 
 type lieuxFavorisPersistence = {
   [key: string]: {
-    lat: number;
-    lon: number;
-    nom: string;
-    pays: string;
-    region: string;
-    reglageAlerte: reglageAlertePersistence;
+    readonly lat: number;
+    readonly lon: number;
+    readonly nom: string;
+    readonly pays: string;
+    readonly region: string;
+    readonly reglageAlerte: reglageAlertePersistence;
   };
 };
 

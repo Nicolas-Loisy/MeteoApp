@@ -3,8 +3,8 @@ import meteoType from "../meteoType";
 
 type reglageAlertePersistence = {
   [evenement in EvenementEnum]?: {
-    isActiver: boolean;
-    criteres: Partial<meteoType>;
+    readonly isActiver: boolean;
+    readonly criteres: Partial<meteoType>;
   };
 };
 

@@ -1,7 +1,7 @@
 enum UniteVitesseEnum {
-    metric = "m/s",
-    imperial = "mph",
-    standard = "ft/s"
+    METRIQUE = "m/s",
+    IMPERIAL = "mph",
+    STANDARD = "ft/s"
 }
 
 export default UniteVitesseEnum;

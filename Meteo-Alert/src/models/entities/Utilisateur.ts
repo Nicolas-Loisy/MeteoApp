@@ -2,7 +2,7 @@ import ReglageApp from '../ReglageApp';
 import ErreurUtilisateur from '../enum/erreurs/ErreurUtilisateur';
 import Lieu from '../valueObject/Lieu';
 import reglagePersistence from '../types/pertistence/reglageAppPersistence';
-import utilisateurType from '../types/utilisateurType';
+import utilisateurType from '../types/utilisateurInfosType';
 
 class Utilisateur {
   public readonly uid: string;
@@ -44,6 +44,7 @@ class Utilisateur {
     if (isLieuExistant) throw ErreurUtilisateur.ERREUR_LIEU_FAVORI_EXISTANT;
 
     this.lieuxFavoris = [...this.lieuxFavoris, lieu];
+    this.lieuxFavoris = this.lieuxFavoris.sort();
   }
 
   public supprimerLieuFavori(lieu: Readonly<Lieu>): void {

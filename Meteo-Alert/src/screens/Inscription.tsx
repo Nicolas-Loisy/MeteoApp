@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useUtilisateur } from '../services/context/UtilisateurContext';
 
 import dtMotDePasse from '../models/datatype/dtMotDePasse';
-import utilisateurType from '../models/types/utilisateurType';
+import utilisateurType from '../models/types/utilisateurInfosType';
 
 import Button from '../components/atoms/Button';
 import ClickableText from '../components/atoms/ClickableText';

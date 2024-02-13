@@ -32,10 +32,9 @@ class ServicePersistenceFirebase implements iServicePersistence {
       }
   
       const data: utilisateurPersistence = {
-        lieuxFavoris: snapshot.val().lieuxFavoris ?? {},
-        reglageApp: snapshot.val().reglageApp ?? {},
-        prenom: snapshot.val().prenom ?? "",
-        email: snapshot.val().email ?? ""
+        lieuxFavoris: snapshot.val().lieuxFavoris,
+        reglageApp: snapshot.val().reglageApp,
+        utilisateurInfos: snapshot.val().utilisateurInfos,
       };
 
       return data;

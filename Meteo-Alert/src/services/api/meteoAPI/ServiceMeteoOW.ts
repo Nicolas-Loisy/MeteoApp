@@ -58,34 +58,51 @@ type JSON_OW = {
 };
 
 export default class ServiceMeteoOW extends aRestService implements iServiceMeteo {
-    constructor(baseUrl: string) {
-      super(baseUrl);
-    }
-  
-    public async getMeteo(longitude: dtUniteCoordonnee, latitude: dtUniteCoordonnee, units: SystemeMesureEnum): Promise<meteoType> {
-      // Implemente la méthode a partir d'une API REST
-      const openWeatherApiKey = process.env.OPEN_WEATHER_API_KEY ?? "";
-      const urlMeteo: string = `/weather?lat=${latitude.getValeur()}&lon=${longitude.getValeur()}&appid=${openWeatherApiKey}&units=${units}`;
-      const JSONdata = await this.get(urlMeteo) as unknown as JSON_OW;
+  constructor(baseUrl: string) {
+    super(baseUrl);
+  }
 
-      const meteo: meteoType = {
-        neige: JSONdata.snow && JSONdata.snow["1h"] ? JSONdata.snow["1h"] : 0,
-        pluie: JSONdata.rain && JSONdata.rain["1h"] ? JSONdata.rain["1h"] : 0,
-        humidite: JSONdata.main.humidity,
-        visibilite: JSONdata.visibility,
-        ressenti: JSONdata.main.feels_like,
-        temperature: JSONdata.main.temp,
-        tempMin: JSONdata.main.temp_min,
-        tempMax: JSONdata.main.temp_max,
-        ventRafale: JSONdata.wind.gust,
-        ventVitesse: JSONdata.wind.speed,
-        ventDirection: JSONdata.wind.deg,
-        pression: JSONdata.main.pressure,
-        pressionTerre: JSONdata.main.grnd_level,
-        pressionMer: JSONdata.main.sea_level,
-        nuage: JSONdata.clouds.all
-      }
+  public async getMeteo(longitude: dtUniteCoordonnee, latitude: dtUniteCoordonnee, _unite: SystemeMesureEnum): Promise<meteoType> {
+    // Implemente la méthode a partir d'une API REST
+    const openWeatherApiKey = process.env.OPEN_WEATHER_API_KEY ?? "";
+    const unite = this.getUnite(_unite);
+    const urlMeteo: string = `/weather?lat=${latitude.getValeur()}&lon=${longitude.getValeur()}&appid=${openWeatherApiKey}&units=${unite}`;
+    const JSONdata = await this.get(urlMeteo) as unknown as JSON_OW;
 
-      return meteo;
+    const meteo: meteoType = {
+      neige: JSONdata.snow && JSONdata.snow["1h"] ? JSONdata.snow["1h"] : 0,
+      pluie: JSONdata.rain && JSONdata.rain["1h"] ? JSONdata.rain["1h"] : 0,
+      humidite: JSONdata.main.humidity,
+      visibilite: JSONdata.visibility,
+      ressenti: JSONdata.main.feels_like,
+      temperature: JSONdata.main.temp,
+      tempMin: JSONdata.main.temp_min,
+      tempMax: JSONdata.main.temp_max,
+      ventRafale: JSONdata.wind.gust,
+      ventVitesse: JSONdata.wind.speed,
+      ventDirection: JSONdata.wind.deg,
+      pression: JSONdata.main.pressure,
+      pressionTerre: JSONdata.main.grnd_level,
+      pressionMer: JSONdata.main.sea_level,
+      nuage: JSONdata.clouds.all
     }
+
+    return meteo;
+  }
+
+  private getUnite(unitEnum: SystemeMesureEnum): string {
+    switch (unitEnum) {
+      case SystemeMesureEnum.METRIQUE:
+        return "metric";
+
+      case SystemeMesureEnum.IMPERIAL:
+        return "imperial";
+
+      case SystemeMesureEnum.STANDARD:
+        return "standard";
+
+      default:
+        throw new Error("Impossible de déterminer l'unité de mesure indiquée");
+    }
+  }
 }

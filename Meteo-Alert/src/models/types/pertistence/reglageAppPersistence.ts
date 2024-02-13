@@ -1,6 +1,6 @@
 type reglageAppPersistence = {
-  langue: string;
-  systemeMesure: string;
+  readonly langue: string;
+  readonly systemeMesure: string;
 }
 
 export default reglageAppPersistence;
