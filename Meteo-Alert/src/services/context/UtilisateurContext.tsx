@@ -15,7 +15,7 @@ import SystemeMesureEnum from '../../models/enum/SystemeMesureEnum';
 import EvenementEnum from '../../models/enum/EvenementEnum';
 import ErreurContextUtilisateur from '../../models/enum/erreurs/ErreurContexUtilisateur';
 
-import utilisateurType from '../../models/types/utilisateurType';
+import utilisateurType from '../../models/types/utilisateurInfosType';
 import lieuType from '../../models/types/lieuType';
 import meteoType from '../../models/types/meteoType';
 
@@ -64,7 +64,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     // Récupération depuis la base de données
     const utilisateurData: utilisateurPersistence = await servicePersistence.getUtilisateurData(GUID);
     const utilisateurAttributs: utilisateurType = {
-      ...utilisateurData
+      ...utilisateurData.utilisateurInfos
     };
 
     // Récupération de la liste de lieux favoris
@@ -160,7 +160,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     const utilisateurPersistance: utilisateurPersistence = {
       lieuxFavoris: {},
       reglageApp,
-      ...utilisateurAttributs
+      utilisateurInfos: utilisateurAttributs
     }
 
     await servicePersistence.inscription(GUID, utilisateurPersistance);
