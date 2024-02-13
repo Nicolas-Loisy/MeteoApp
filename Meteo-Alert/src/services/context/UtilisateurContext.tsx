@@ -1,7 +1,7 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { changeLanguage } from 'i18next';
 
-import ServiceCompteFactory from '../compteUtilisateur/ServiceCompteFactory';
+import ServiceCompteFactory from '../auth/ServiceCompteFactory';
 import ServicePersistenceFactory from '../persistence/ServicePersistenceFactory';
 import AlerteFactory from '../alertes/AlerteFactory';
 
