@@ -1,5 +1,5 @@
-import ServiceMeteoFactory from "../../services/api/meteoAPI/ServiceMeteoFactory";
-import iServiceMeteo from "../../services/api/meteoAPI/iServiceMeteo";
+import ServiceMeteoFactory from "../../services/meteoAPI/ServiceMeteoFactory";
+import iServiceMeteo from "../../services/meteoAPI/iServiceMeteo";
 import dtUniteCoordonnee from "../datatype/unite/dtUniteCoordonnee";
 import SystemeMesureEnum from "../enum/SystemeMesureEnum";
 import meteoType from "../types/meteoType";

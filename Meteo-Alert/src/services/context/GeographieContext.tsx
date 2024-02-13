@@ -1,7 +1,7 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
 
-import iServiceGeographie from '../api/geographieAPI/iServiceGeographie';
-import ServiceGeographieFactory from '../api/geographieAPI/ServiceGeographieFactory';
+import iServiceGeographie from '../geographie/iServiceGeographie';
+import ServiceGeographieFactory from '../geographie/ServiceGeographieFactory';
 
 import AlerteFactory from '../alertes/AlerteFactory';
 

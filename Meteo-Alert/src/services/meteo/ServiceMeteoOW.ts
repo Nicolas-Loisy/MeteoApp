@@ -1,7 +1,7 @@
-import dtUniteCoordonnee from "../../../models/datatype/unite/dtUniteCoordonnee";
-import SystemeMesureEnum from "../../../models/enum/SystemeMesureEnum";
+import dtUniteCoordonnee from "../../models/datatype/unite/dtUniteCoordonnee";
+import SystemeMesureEnum from "../../models/enum/SystemeMesureEnum";
 import iServiceMeteo from "./iServiceMeteo";
-import meteoType from "../../../models/types/meteoType";
+import meteoType from "../../models/types/meteoType";
 import aRestService from "../aRestService";
 
 type JSON_OW = {
