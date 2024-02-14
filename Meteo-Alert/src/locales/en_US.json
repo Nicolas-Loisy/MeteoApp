@@ -38,7 +38,7 @@
             "testInjection": "The test with the number: {{number}} !!!"
         },
         "detailLieu": {
-            "releveDirect": "Live statement :",
+            "releveDirect": "Live statement",
             "label": {
                 "heureActualisation": "Last Update Time: ",
                 "neige": "Snow: ",

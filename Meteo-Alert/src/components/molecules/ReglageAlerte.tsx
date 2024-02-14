@@ -16,7 +16,6 @@ interface Props {
 const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
 
   const { setSeuilPersonnalise } = useUtilisateur();
-  const label = t("reglageAlerte.label", { returnObjects: true }) as Record<string, string>;
 
   const handleChangeCritere = async (typeEvenement: EvenementEnum, critere: keyof meteoType, nouvelleValeur: number) => {
     if (!lieu) throw new Error("Lieu ne peut pas être null");
@@ -44,7 +43,7 @@ const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
             />
           </View>
 
-          <View>
+          <View style={styles.criteres}>
             {Object.entries(alerte.getCritere()).map(([nomCritere, critere]) => {
               return (
                 <View key={nomCritere}>
@@ -70,7 +69,7 @@ const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
 
 const styles = StyleSheet.create({
   title: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 10
   },
   alertTitle: {
@@ -78,6 +77,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     justifyContent: 'space-between', 
     alignItems: 'center'
+  },
+  criteres: {
+    marginBottom: 10
   }
 });
 
