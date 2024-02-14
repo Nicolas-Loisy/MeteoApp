@@ -36,6 +36,7 @@ class AlerteFactory {
         Object.keys(criteres).forEach((key) => {
           const keyTyped = key as keyof meteoType;
           const critereData = alerteData.criteres[keyTyped];
+
           if(critereData) {
             alerte.setSeuilPersonnalise(keyTyped, critereData);
           }

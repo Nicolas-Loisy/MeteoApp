@@ -1,19 +1,32 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
 import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
+import operateurComparaisonType from "../../models/types/operateurComparaisonType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 
 class AlerteVentViolent extends aAlerte {
   protected criteres: {
-    ventRafale: number,
-    ventVitesse: number
+    ventRafale: {
+      valeur: number,
+      operateurComparaison: operateurComparaisonType
+    },
+    ventVitesse: {
+      valeur: number,
+      operateurComparaison: operateurComparaisonType
+    },
   };
 
   public constructor() {
     super(EvenementEnum.VENT_VIOLENT);
     this.criteres = {
-      ventRafale: 100,
-      ventVitesse: 100
+      ventRafale: {
+        valeur: 100,
+        operateurComparaison: '>'
+      },
+      ventVitesse: {
+        valeur: 100,
+        operateurComparaison: '>'
+      },
     };
   }
 
@@ -23,8 +36,8 @@ class AlerteVentViolent extends aAlerte {
     }
 
     return (
-      mesureMeteo.ventRafale.getValeur() > this.criteres.ventRafale || 
-      mesureMeteo.ventVitesse.getValeur() > this.criteres.ventVitesse
+      mesureMeteo.ventRafale.getValeur() > this.criteres.ventRafale.valeur || 
+      mesureMeteo.ventVitesse.getValeur() > this.criteres.ventVitesse.valeur
     );
   }
 }

@@ -1,23 +1,48 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
 import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
+import operateurComparaisonType from "../../models/types/operateurComparaisonType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 
 class AlerteTemperatureExtremeBasse extends aAlerte {
   protected criteres: {
-    tempMax: number,
-    tempMin: number,
-    temperature: number,
-    ressenti: number
+    tempMax: {
+      valeur: number,
+      operateurComparaison: operateurComparaisonType
+    },
+    tempMin: {
+      valeur: number,
+      operateurComparaison: operateurComparaisonType
+    },
+    temperature: {
+      valeur: number,
+      operateurComparaison: operateurComparaisonType
+    },
+    ressenti: {
+      valeur: number,
+      operateurComparaison: operateurComparaisonType
+    },
   };
 
   public constructor() {
     super(EvenementEnum.TEMPERATURE_EXTREME_BASSE);
     this.criteres = {
-      tempMax: 0,
-      tempMin: 0,
-      temperature: 0,
-      ressenti: 0
+      tempMax: {
+        valeur: 0,
+        operateurComparaison: '<'
+      },
+      tempMin: {
+        valeur: 0,
+        operateurComparaison: '<'
+      },
+      temperature: {
+        valeur: 0,
+        operateurComparaison: '<'
+      },
+      ressenti: {
+        valeur: 0,
+        operateurComparaison: '<'
+      },
     };
   }
 
@@ -27,10 +52,10 @@ class AlerteTemperatureExtremeBasse extends aAlerte {
     }
 
     return (
-      mesureMeteo.tempMax.getValeur() < this.criteres.tempMax || 
-      mesureMeteo.tempMin.getValeur() < this.criteres.tempMin || 
-      mesureMeteo.temperature.getValeur() < this.criteres.temperature ||
-      mesureMeteo.ressenti.getValeur() < this.criteres.ressenti
+      mesureMeteo.tempMax.getValeur() < this.criteres.tempMax.valeur || 
+      mesureMeteo.tempMin.getValeur() < this.criteres.tempMin.valeur || 
+      mesureMeteo.temperature.getValeur() < this.criteres.temperature.valeur ||
+      mesureMeteo.ressenti.getValeur() < this.criteres.ressenti.valeur
     );
   }
 }

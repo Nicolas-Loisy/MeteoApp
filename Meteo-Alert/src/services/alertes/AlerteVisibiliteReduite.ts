@@ -1,17 +1,24 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
 import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
+import operateurComparaisonType from "../../models/types/operateurComparaisonType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 
 class AlerteVisibiliteReduite extends aAlerte {
   protected criteres: {
-    visibilite: number
+    visibilite: {
+      valeur: number,
+      operateurComparaison: operateurComparaisonType
+    },
   };
 
   public constructor() {
     super(EvenementEnum.VISIBILITE_REDUITE);
     this.criteres = {
-      visibilite: 10
+      visibilite: {
+        valeur: 10,
+        operateurComparaison: '>'
+      },
     };
   }
 
@@ -21,7 +28,7 @@ class AlerteVisibiliteReduite extends aAlerte {
     }
 
     return (
-      mesureMeteo.visibilite.getValeur() > this.criteres.visibilite
+      mesureMeteo.visibilite.getValeur() > this.criteres.visibilite.valeur
     );
   }
 }

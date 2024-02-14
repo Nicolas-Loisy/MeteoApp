@@ -1,20 +1,32 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
 import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
-import meteoType from "../../models/types/meteoType";
+import operateurComparaisonType from "../../models/types/operateurComparaisonType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 
 class AlertePrecipitation extends aAlerte {
   protected criteres: {
-    pluie: number,
-    neige: number
+    pluie: {
+      valeur: number,
+      operateurComparaison: operateurComparaisonType
+    },
+    neige: {
+      valeur: number,
+      operateurComparaison: operateurComparaisonType
+    },
   };
 
   public constructor() {
     super(EvenementEnum.PRECIPITATION);
     this.criteres = {
-      pluie: 10,
-      neige: 10
+      pluie: {
+        valeur: 10,
+        operateurComparaison: '>'
+      },
+      neige: {
+        valeur: 10,
+        operateurComparaison: '>'
+      }
     };
   }
 
@@ -24,8 +36,8 @@ class AlertePrecipitation extends aAlerte {
     }
 
     return (
-      mesureMeteo.neige.getValeur() > this.criteres.neige || 
-      mesureMeteo.pluie.getValeur() > this.criteres.pluie
+      mesureMeteo.neige.getValeur() > this.criteres.neige.valeur || 
+      mesureMeteo.pluie.getValeur() > this.criteres.pluie.valeur
     );
   }
 }

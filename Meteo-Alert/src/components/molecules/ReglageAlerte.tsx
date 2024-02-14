@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Switch, TextInput } from 'react-native';
-import Button from '../../components/atoms/Button';
-import meteoType from '../../models/types/meteoType';
+import { View, Text, StyleSheet, Switch } from 'react-native';
 import Title from '../atoms/Title';
 import Lieu from '../../models/valueObject/Lieu';
 import { useUtilisateur } from '../../services/context/UtilisateurContext';
 import { t } from 'i18next';
+import EvenementEnum from '../../models/enum/EvenementEnum';
+import meteoType from '../../models/types/meteoType';
+import Critere from '../atoms/Critere';
 
 interface Props {
   lieu: Readonly<Lieu> | null;
@@ -15,12 +16,12 @@ const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
 
   const { setSeuilPersonnalise } = useUtilisateur();
   const label = t("reglageAlerte.label", { returnObjects: true }) as Record<string, string>;
-  
 
-  const [critere, setSeuilPersonnalise] = useState(false);
-
-
-
+  const handleChangeCritere = async (typeEvenement: EvenementEnum, critere: keyof meteoType, nouvelleValeur: number) => {
+    if (!lieu) throw new Error("Lieu ne peut pas être null");
+    
+    await setSeuilPersonnalise(lieu.key, typeEvenement, critere, nouvelleValeur);
+  }
 
   return (
     <>
@@ -43,31 +44,21 @@ const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
           </View>
 
           <View>
-            {Object.entries(alerte.getCritere()).map(([key, value]) => (
-              <View key={key}>
-                <Text style={styles.alertText}>
-                  {label[key]} {/* < ou > */} {value} {/* unité */}
-                </Text>
-                
+            {Object.entries(alerte.getCritere()).map(([nomCritere, critere]) => {
+              // console.log(nomCritere);
 
-                {/* TODO Faire un composant CritereInput props => critere / val / ... */}
-                <TextInput
-                  keyboardType='numeric'
-                  onChangeText={(value) => setSeuilPersonnalise(lieu.key, alerte.typeEvenement, key as keyof meteoType, Number(value))}
-                  // value={String(2)}
-                  style={null}
-                  placeholder='Number'
-                  maxLength={10}
-                />
-
-                {/* <Button
-                  onPress={() => setSeuilPersonnalise(lieu.key, alerte.typeEvenement, key as keyof meteoType, ++value)}
-                  title="++ Valeur"
-                  styleBtn="whiteBg"
-                /> */}
-
-              </View>
-            ))}
+              return (
+                <View key={nomCritere}>
+                  <Critere 
+                    label={nomCritere} 
+                    valeurDefaut={critere.valeur} 
+                    onChange={(nouvelleValeur: number) => {
+                      handleChangeCritere(alerte.typeEvenement, nomCritere as keyof meteoType, nouvelleValeur);
+                    }}
+                  />
+                </View>
+              )
+            })}
           </View>
 
         </View>
@@ -86,11 +77,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     justifyContent: 'space-between', 
     alignItems: 'center'
-  },
-  alertText: {
-    color: '#1E375A',
-    fontSize: 16,
-    fontFamily: 'Karla-Medium'
   }
 });
 
