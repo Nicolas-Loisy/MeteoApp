@@ -1,17 +1,24 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
+import SystemeMesureEnum from "../../models/enum/SystemeMesureEnum";
 import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
+import UniteVitesseEnum from "../../models/enum/unite/UniteVitesseEnum";
+import critereUniqueType from "../../models/types/critereUniqueType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 
 class AlerteVisibiliteReduite extends aAlerte {
   protected criteres: {
-    visibilite: number
+    visibilite: critereUniqueType
   };
 
-  public constructor() {
+  public constructor(systemMesure: SystemeMesureEnum) {
     super(EvenementEnum.VISIBILITE_REDUITE);
     this.criteres = {
-      visibilite: 10
+      visibilite: {
+        valeur: 10,
+        operateurComparaison: '>',
+        uniteMesure: UniteVitesseEnum[systemMesure],
+      },
     };
   }
 
@@ -21,7 +28,7 @@ class AlerteVisibiliteReduite extends aAlerte {
     }
 
     return (
-      mesureMeteo.visibilite.getValeur() > this.criteres.visibilite
+      mesureMeteo.visibilite.getValeur() > this.criteres.visibilite.valeur
     );
   }
 }

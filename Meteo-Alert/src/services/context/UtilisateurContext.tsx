@@ -11,6 +11,8 @@ import iAlerte from '../alertes/iAlerte';
 
 import i18n, { langueDefaut, langues } from '../i18n/i18n';
 
+import ReglageApp from '../../models/ReglageApp';
+
 import SystemeMesureEnum from '../../models/enum/SystemeMesureEnum';
 import EvenementEnum from '../../models/enum/EvenementEnum';
 import ErreurContextUtilisateur from '../../models/enum/erreurs/ErreurContexUtilisateur';
@@ -64,41 +66,36 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     // Récupération depuis la base de données
     const utilisateurData: utilisateurPersistence = await servicePersistence.getUtilisateurData(GUID);
 
+    // Récupération des réglages de l'application
+    const reglageAppData = utilisateurData.reglageApp ?? {
+      langue: langueDefaut,
+      systemeMesure: SystemeMesureEnum.METRIQUE
+    }
+    const reglageApp: ReglageApp = ReglageApp.getInstance(reglageAppData);
+
+    // Récupération de la liste de lieux favoris
+    const lieuxFavoris: Readonly<Lieu>[] = [];
+    for (const [key, value] of Object.entries(utilisateurData.lieuxFavoris)) {
+      const reglageAlerte: readonly iAlerte[] = AlerteFactory.initAlertesFromData(value.reglageAlerte, reglageApp.getSystemeMesure());
+      const lieuType: lieuType = {
+        key: key,
+        nom: value.nom,
+        lat: value.lat,
+        lon: value.lon,
+        pays: value.pays,
+        region: value.region,
+        reglageAlerte: reglageAlerte
+      }
+
+      const lieu = new Lieu(lieuType);
+      lieuxFavoris.push(lieu);
+    }
+
     // Initialisation des données personnelles
     if (!utilisateurData.utilisateurInfos) throw new Error("Impossible de récupérer les informations de l'utilisateur");
     const utilisateurAttributs: utilisateurType = utilisateurData.utilisateurInfos;
 
-
-    // Initialisation de la liste de lieux favoris
-    const lieuxFavoris: Readonly<Lieu>[] = [];
-
-    if (utilisateurData.lieuxFavoris) {
-      for (const [key, value] of Object.entries(utilisateurData.lieuxFavoris)) {
-        const reglageAlerte: readonly iAlerte[] = AlerteFactory.initAlertesFromData(value.reglageAlerte);
-
-        const lieuType: lieuType = {
-          key: key,
-          nom: value.nom,
-          lat: value.lat,
-          lon: value.lon,
-          pays: value.pays,
-          region: value.region,
-          reglageAlerte: reglageAlerte
-        }
-
-        const lieu = new Lieu(lieuType);
-        lieuxFavoris.push(lieu);
-      }
-    }
-
-    // Initialisation des réglages de l'application
-    const reglagePersistence = utilisateurData.reglageApp ?? {
-      langue: langueDefaut,
-      systemeMesure: SystemeMesureEnum.METRIQUE
-    }
-
-    // Création de l'utilisateur dans l'application
-    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglagePersistence, lieuxFavoris);
+    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglageApp, lieuxFavoris);
     return utilisateur;
   }
 
@@ -116,9 +113,15 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
       const reglageAlerteData: reglageAlertePersistence = {};
 
       reglageAlerte.forEach((alerte: iAlerte) => {
+        const criteres = alerte.getCritere();
+        const criteresPersistence: Partial<meteoType> = Object.entries(criteres)
+          .reduce((acc, [nomCrit, crit]) => {
+            return {...acc, [nomCrit]: crit.valeur};
+          }, {} as Partial<meteoType>);
+
         reglageAlerteData[alerte.typeEvenement] = {
           isActiver: alerte.isActiver,
-          criteres: alerte.getCritere()
+          criteres: criteresPersistence
         }
       });
 
@@ -156,15 +159,16 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     // Ajout de l'utilisateur dans le système d'authentification
     const GUID = await serviceCompte.inscription(utilisateurAttributs.email, motDePasse);
 
-    const reglageApp: reglagePersistence = {
+    const reglageAppPersistence: reglagePersistence = {
       langue: langueDefaut,
       systemeMesure: SystemeMesureEnum.METRIQUE
     }
+    const reglageApp: ReglageApp = ReglageApp.getInstance(reglageAppPersistence);
 
     // Ajout de l'utilisateur dans la base de données
     const utilisateurPersistance: utilisateurPersistence = {
       lieuxFavoris: {},
-      reglageApp,
+      reglageApp: reglageAppPersistence,
       utilisateurInfos: utilisateurAttributs
     }
 
@@ -206,7 +210,6 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
 
     // Mise à jour du context
     setLieuxFavoris(utilisateurModele.getLieuxFavoris());
-
   }
 
   const supprimerLieuFavori = async (lieu: Readonly<Lieu>) => {
