@@ -1,6 +1,6 @@
 import SystemeMesureEnum from "../../models/enum/SystemeMesureEnum";
 import meteoType from "../../models/types/meteoType";
-import reglageAlerteDataType from "../../models/types/pertistence/reglageAlerteData";
+import reglageAlertePersistence from "../../models/types/pertistence/reglageAlertePersistence";
 import AlertePrecipitation from "./AlertePrecipitation";
 import AlerteTemperatureExtremeBasse from "./AlerteTemperatureExtremeBasse";
 import AlerteTemperatureExtremeHaute from "./AlerteTemperatureExtremeHaute";
@@ -22,7 +22,7 @@ class AlerteFactory {
     return alertes;
   }
 
-  public static initAlertesFromData(alertesData: reglageAlerteDataType, systemeMesure: SystemeMesureEnum): iAlerte[] {
+  public static initAlertesFromData(alertesData: reglageAlertePersistence, systemeMesure: SystemeMesureEnum): iAlerte[] {
     // Création des alertes
     const alertes: iAlerte[] = this.initAlertes(systemeMesure);
 

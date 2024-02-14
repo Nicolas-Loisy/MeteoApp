@@ -1,4 +1,4 @@
-class aRestService {
+abstract class aRestService {
   private baseUrl: string;
 
   constructor(baseUrl: string) {

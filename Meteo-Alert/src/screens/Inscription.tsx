@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import { useTranslation } from 'react-i18next';
+
+import { useUtilisateur } from '../services/context/UtilisateurContext';
+
+import dtMotDePasse from '../models/datatype/dtMotDePasse';
+import utilisateurType from '../models/types/utilisateurInfosType';
+
 import Button from '../components/atoms/Button';
 import ClickableText from '../components/atoms/ClickableText';
-import LayoutTemplate from '../components/organisms/LayoutTemplate';
-import { useTranslation } from 'react-i18next';
-import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
-import Field from '../components/molecules/Field';
 import ReglesMDP from '../components/atoms/ReglesMDP';
-import dtMotDePasse from '../models/datatype/dtMotDePasse';
-import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
-import { useUtilisateur } from '../services/context/UtilisateurContext';
-import utilisateurType from '../models/types/utilisateurType';
+import LayoutTemplate from '../components/organisms/LayoutTemplate';
+import Field from '../components/molecules/Field';
+
+import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
 
 
 const Inscription = () => {

@@ -1,5 +1,3 @@
-import utilisateurDataType from "../../models/types/utilisateurType";
-
 export default interface iServiceCompte {
   inscription(email: string, motDePasse: string): Promise<string>;
   connexion(email: string, motDePasse: string): Promise<string>;
