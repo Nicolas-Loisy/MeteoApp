@@ -15,12 +15,18 @@ interface Props {
 
 const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
 
-  const { setSeuilPersonnalise } = useUtilisateur();
+  const { setSeuilPersonnalise, setActiverAlerte } = useUtilisateur();
 
   const handleChangeCritere = async (typeEvenement: EvenementEnum, critere: keyof meteoType, nouvelleValeur: number) => {
     if (!lieu) throw new Error("Lieu ne peut pas être null");
     
     await setSeuilPersonnalise(lieu.key, typeEvenement, critere, nouvelleValeur);
+  }
+
+  const handleChangeActive = async (typeEvenement: EvenementEnum, bool: boolean) => {
+    if (!lieu) throw new Error("Lieu ne peut pas être null");
+
+    await setActiverAlerte(lieu.key, typeEvenement, bool);
   }
 
   return (
@@ -36,10 +42,10 @@ const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
             <Title text={t('reglageAlerte.' + alerte.typeEvenement)} fontSize={20} />
             <Switch
               trackColor={{false: '#767577', true: '#C7E9FF'}}
-              thumbColor={alerte.isActiver ? '#1E375A' : '#f4f3f4'}
+              thumbColor={alerte.getActiver() ? '#1E375A' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={null}
-              value={alerte.isActiver}
+              onValueChange={(bool) => handleChangeActive(alerte.typeEvenement, bool)}
+              value={alerte.getActiver()}
             />
           </View>
 
