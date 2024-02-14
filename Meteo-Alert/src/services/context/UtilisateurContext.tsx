@@ -17,6 +17,7 @@ import i18n, { langueDefaut } from '../i18n/i18n';
 import SystemeMesureEnum from '../../models/enum/SystemeMesureEnum';
 import reglageAppData from '../../models/types/pertistence/reglageAppData';
 import { changeLanguage } from 'i18next';
+import ReglageApp from '../../models/ReglageApp';
 
 // Définition des attributs disponibles
 type UtilisateurContextType = {
@@ -58,10 +59,17 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
       ...utilisateurData
     };
 
+    // Récupération des réglages de l'application
+    const reglageAppData = utilisateurData.reglageApp ?? {
+      langue: langueDefaut,
+      systemeMesure: SystemeMesureEnum.METRIQUE
+    }
+    const reglageApp: ReglageApp = ReglageApp.getInstance(reglageAppData);
+
     // Récupération de la liste de lieux favoris
     const lieuxFavoris: Readonly<Lieu>[] = [];
     for (const [key, value] of Object.entries(utilisateurData.lieuxFavoris)) {
-      const reglageAlerte: readonly iAlerte[] = AlerteFactory.initAlertesFromData(value.reglageAlerte);
+      const reglageAlerte: readonly iAlerte[] = AlerteFactory.initAlertesFromData(value.reglageAlerte, reglageApp.getSystemeMesure());
 
       const lieuType: lieuType = {
         key: key,
@@ -77,14 +85,8 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
       lieuxFavoris.push(lieu);
     }
 
-    // Récupération des réglages de l'application
-    const reglageAppData = utilisateurData.reglageApp ?? {
-      langue: langueDefaut,
-      systemeMesure: SystemeMesureEnum.METRIQUE
-    }
-
     // Création de l'utilisateur dans l'application
-    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglageAppData, lieuxFavoris);
+    const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglageApp, lieuxFavoris);
     return utilisateur;
   }
 
@@ -108,7 +110,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
             acc[nomCrit as keyof meteoType] = crit.valeur;
             return acc;
           }, {} as Partial<meteoType>);
-      
+
         reglageAlerteData[alerte.typeEvenement] = {
           isActiver: alerte.isActiver,
           criteres: criteresPersistence
@@ -149,15 +151,16 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     // Ajout de l'utilisateur dans le système d'authentification
     const GUID = await serviceCompte.inscription(utilisateurAttributs.email, motDePasse);
 
-    const reglageApp: reglageAppData = {
+    const reglageAppData: reglageAppData = {
       langue: langueDefaut,
       systemeMesure: SystemeMesureEnum.METRIQUE
     }
+    const reglageApp: ReglageApp = ReglageApp.getInstance(reglageAppData)
 
     // Ajout de l'utilisateur dans la base de données
     const utilisateurPersistance: utilisateurDataType = {
       lieuxFavoris: {},
-      reglageApp,
+      reglageApp: reglageAppData,
       ...utilisateurAttributs
     }
 

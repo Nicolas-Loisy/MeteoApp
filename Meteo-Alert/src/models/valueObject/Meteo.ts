@@ -28,7 +28,7 @@ class Meteo {
   public readonly nuage: dtUniteNuage;
 
   constructor(
-    units: SystemeMesureEnum,
+    systemeMesure: SystemeMesureEnum,
     data: meteoType
   ) {
     this.heureActualisation = new Date();
@@ -36,12 +36,12 @@ class Meteo {
     this.pluie = new dtUnitePrecipitation(data.pluie);
     this.humidite = new dtUniteHumidite(data.humidite);
     this.visibilite = new dtUniteVisibilite(data.visibilite);
-    this.ressenti = new dtUniteTemperature(data.ressenti, units);
-    this.temperature = new dtUniteTemperature(data.temperature, units);
-    this.tempMin = new dtUniteTemperature(data.tempMin, units);
-    this.tempMax = new dtUniteTemperature(data.tempMax, units);
-    this.ventRafale = new dtUniteVentVitesse(data.ventRafale, units);
-    this.ventVitesse = new dtUniteVentVitesse(data.ventVitesse, units);
+    this.ressenti = new dtUniteTemperature(data.ressenti, systemeMesure);
+    this.temperature = new dtUniteTemperature(data.temperature, systemeMesure);
+    this.tempMin = new dtUniteTemperature(data.tempMin, systemeMesure);
+    this.tempMax = new dtUniteTemperature(data.tempMax, systemeMesure);
+    this.ventRafale = new dtUniteVentVitesse(data.ventRafale, systemeMesure);
+    this.ventVitesse = new dtUniteVentVitesse(data.ventVitesse, systemeMesure);
     this.ventDirection = new dtUniteVentDirection(data.ventDirection);
     this.pression = new dtUnitePression(data.pression);
     this.pressionTerre = new dtUnitePression(data.pressionTerre);

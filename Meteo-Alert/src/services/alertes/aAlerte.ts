@@ -1,6 +1,6 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
 import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
-import critereType from "../../models/types/critereType";
+import criteresType from "../../models/types/criteresType";
 import meteoType from "../../models/types/meteoType";
 import Meteo from "../../models/valueObject/Meteo";
 import iAlerte from "./iAlerte";
@@ -8,14 +8,14 @@ import iAlerte from "./iAlerte";
 abstract class aAlerte implements iAlerte {
   public readonly typeEvenement: EvenementEnum;
   public isActiver: boolean;
-  protected abstract criteres: critereType;
+  protected abstract criteres: criteresType
 
   public constructor(typeEvenement: EvenementEnum) {
     this.typeEvenement = typeEvenement;
     this.isActiver = true;
   }
 
-  public getCritere(): Readonly<critereType> {
+  public getCritere(): Readonly<criteresType> {
     return this.criteres;
   }
 

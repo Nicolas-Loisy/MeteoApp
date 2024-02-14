@@ -7,6 +7,7 @@ import { t } from 'i18next';
 import EvenementEnum from '../../models/enum/EvenementEnum';
 import meteoType from '../../models/types/meteoType';
 import Critere from '../atoms/Critere';
+import Meteo from '../../models/valueObject/Meteo';
 
 interface Props {
   lieu: Readonly<Lieu> | null;
@@ -45,13 +46,13 @@ const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
 
           <View>
             {Object.entries(alerte.getCritere()).map(([nomCritere, critere]) => {
-              // console.log(nomCritere);
-
               return (
                 <View key={nomCritere}>
                   <Critere 
                     label={nomCritere} 
                     valeurDefaut={critere.valeur} 
+                    operateurComparaison={critere.operateurComparaison}
+                    unite={critere.uniteMesure}
                     onChange={(nouvelleValeur: number) => {
                       handleChangeCritere(alerte.typeEvenement, nomCritere as keyof meteoType, nouvelleValeur);
                     }}

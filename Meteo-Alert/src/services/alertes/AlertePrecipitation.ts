@@ -1,19 +1,15 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
 import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
+import UniteTailleEnum from "../../models/enum/unite/UniteTailleEnum";
+import critereUniqueType from "../../models/types/critereUniqueType";
 import operateurComparaisonType from "../../models/types/operateurComparaisonType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 
 class AlertePrecipitation extends aAlerte {
   protected criteres: {
-    pluie: {
-      valeur: number,
-      operateurComparaison: operateurComparaisonType
-    },
-    neige: {
-      valeur: number,
-      operateurComparaison: operateurComparaisonType
-    },
+    pluie: critereUniqueType
+    neige: critereUniqueType
   };
 
   public constructor() {
@@ -21,11 +17,13 @@ class AlertePrecipitation extends aAlerte {
     this.criteres = {
       pluie: {
         valeur: 10,
-        operateurComparaison: '>'
+        operateurComparaison: '>',
+        uniteMesure: UniteTailleEnum["mm/h"],
       },
       neige: {
         valeur: 10,
-        operateurComparaison: '>'
+        operateurComparaison: '>',
+        uniteMesure: UniteTailleEnum["mm/h"],
       }
     };
   }

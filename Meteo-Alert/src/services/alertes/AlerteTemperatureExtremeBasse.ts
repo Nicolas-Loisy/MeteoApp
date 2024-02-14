@@ -1,47 +1,42 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
+import SystemeMesureEnum from "../../models/enum/SystemeMesureEnum";
 import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
-import operateurComparaisonType from "../../models/types/operateurComparaisonType";
+import UniteTempEnum from "../../models/enum/unite/UniteTempEnum";
+import critereUniqueType from "../../models/types/critereUniqueType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 
 class AlerteTemperatureExtremeBasse extends aAlerte {
   protected criteres: {
-    tempMax: {
-      valeur: number,
-      operateurComparaison: operateurComparaisonType
-    },
-    tempMin: {
-      valeur: number,
-      operateurComparaison: operateurComparaisonType
-    },
-    temperature: {
-      valeur: number,
-      operateurComparaison: operateurComparaisonType
-    },
-    ressenti: {
-      valeur: number,
-      operateurComparaison: operateurComparaisonType
-    },
+    tempMax: critereUniqueType,
+    tempMin: critereUniqueType,
+    temperature: critereUniqueType,
+    ressenti: critereUniqueType,
   };
 
-  public constructor() {
+  public constructor(systemeMesure: SystemeMesureEnum) {
     super(EvenementEnum.TEMPERATURE_EXTREME_BASSE);
+
     this.criteres = {
       tempMax: {
         valeur: 0,
-        operateurComparaison: '<'
+        operateurComparaison: '<',
+        uniteMesure: UniteTempEnum[systemeMesure],
       },
       tempMin: {
         valeur: 0,
-        operateurComparaison: '<'
+        operateurComparaison: '<',
+        uniteMesure: UniteTempEnum[systemeMesure],
       },
       temperature: {
         valeur: 0,
-        operateurComparaison: '<'
+        operateurComparaison: '<',
+        uniteMesure: UniteTempEnum[systemeMesure],
       },
       ressenti: {
         valeur: 0,
-        operateurComparaison: '<'
+        operateurComparaison: '<',
+        uniteMesure: UniteTempEnum[systemeMesure],
       },
     };
   }

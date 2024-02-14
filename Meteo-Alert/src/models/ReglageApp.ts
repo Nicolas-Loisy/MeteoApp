@@ -1,12 +1,11 @@
 import { langueDefaut, langues } from "../services/i18n/i18n";
 import SystemeMesureEnum from "./enum/SystemeMesureEnum";
-import langueType from "./types/langueType";
 import reglageAppData from "./types/pertistence/reglageAppData";
 class ReglageApp {
   private static instance: ReglageApp | null;
 
   private systemeMesure: SystemeMesureEnum;
-  private langue: langueType;
+  private langue: string;
 
   private constructor(reglageAppData: reglageAppData) {
     const systemeMesureDefaut: SystemeMesureEnum = process.env.REACT_APP_SYSTEME_MESURE_DEFAUT as SystemeMesureEnum ?? SystemeMesureEnum.METRIQUE;
@@ -44,7 +43,7 @@ class ReglageApp {
     return this.langue;
   }
 
-  public setLangue(langue: langueType): void {
+  public setLangue(langue: string): void {
     this.langue = langue;
   }
 }

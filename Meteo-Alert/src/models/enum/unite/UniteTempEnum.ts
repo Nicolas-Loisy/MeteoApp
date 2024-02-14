@@ -1,7 +1,7 @@
 enum UniteTempEnum {
-    metric = "°C",
-    imperial = "°F",
-    standard = "K"
+    METRIQUE = "°C",
+    IMPERIAL = "°F",
+    STANDARD = "K"
 }
 
 export default UniteTempEnum;
