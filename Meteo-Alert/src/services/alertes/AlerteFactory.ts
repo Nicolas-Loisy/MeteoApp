@@ -1,6 +1,10 @@
 import meteoType from "../../models/types/meteoType";
 import reglageAlerteDataType from "../../models/types/pertistence/reglageAlerteData";
 import AlertePrecipitation from "./AlertePrecipitation";
+import AlerteTemperatureExtremeBasse from "./AlerteTemperatureExtremeBasse";
+import AlerteTemperatureExtremeHaute from "./AlerteTemperatureExtremeHaute";
+import AlerteVentViolent from "./AlerteVentViolent";
+import AlerteVisibiliteReduite from "./AlerteVisibiliteReduite";
 import iAlerte from "./iAlerte";
 
 class AlerteFactory {
@@ -9,6 +13,10 @@ class AlerteFactory {
   public static initAlertes(): iAlerte[] {
     const alertes: iAlerte[] = [];
     alertes.push(new AlertePrecipitation());
+    alertes.push(new AlerteTemperatureExtremeBasse());
+    alertes.push(new AlerteTemperatureExtremeHaute());
+    alertes.push(new AlerteVentViolent());
+    alertes.push(new AlerteVisibiliteReduite());
 
     return alertes;
   }
