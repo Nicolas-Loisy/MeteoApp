@@ -65,13 +65,15 @@ const MdpOublie = () => {
 
             {/* Formulaire d'adresse e-mail */}
             <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('mdp_oublie.email')}/>
-
+          
+          <View style={styles.resetButton}>
             {/* Bouton de resetPwd */}
             <Button
-                onPress={handleResetPassword}
-                title={t('mdp_oublie.button')}
-                styleBtn="whiteBg"
+              onPress={handleResetPassword}
+              title={t('mdp_oublie.button')}
+              styleBtn="whiteBg"
             />
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </LayoutTemplate>
@@ -113,6 +115,9 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     marginLeft: -25
+  },
+  resetButton: {
+    marginTop: 25
   }
 });
 
