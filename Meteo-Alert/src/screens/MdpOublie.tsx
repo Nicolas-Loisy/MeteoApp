@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
+import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, Dimensions, TouchableOpacity } from 'react-native';
 
 import { useTranslation } from 'react-i18next';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
@@ -44,8 +44,15 @@ const MdpOublie = () => {
 
   return (
     <LayoutTemplate>
-      <ArrowReturn onPress={() => navigation.goBack()} style={styles.arrowReturn} />
-
+      <View style={styles.goBack}>     
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+        >
+          <ArrowReturn onPress={() => null} />
+        </TouchableOpacity>
+      </View>
+      
       <View style={styles.containerHeader}>
         <LogoMeteo {...styles.logoMeteo}/>
         <Text style={styles.textTitle}>{t('mdp_oublie.logo')}</Text>
@@ -98,15 +105,15 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
-  arrowReturn: {
+  goBack: {
     left: Dimensions.get('window').width * 0.10,
     position: 'absolute',
     top: 30,
     zIndex: 1,
     width: 60,
     height: 60,
-    marginLeft: -25,
-  },
+    marginLeft: -25
+  }
 });
 
 export default MdpOublie;
