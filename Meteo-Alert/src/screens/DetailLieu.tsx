@@ -76,8 +76,7 @@ const DetailLieu = () => {
             <Title text={t("detailLieu.releveDirect")} fontSize={22} />
             <ListeInfoMeteo meteo={meteo} blacklist={['heureActualisation']} />
             
-            <ReglageAlerte lieu={lieu} />
-            
+            <ReglageAlerte lieu={lieu} />  
           </ScrollView>
         </View>
       </View>
