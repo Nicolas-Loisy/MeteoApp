@@ -49,7 +49,7 @@ const MdpOublie = () => {
           onPress={() => navigation.goBack()}
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
         >
-          <ArrowReturn onPress={() => null} />
+          <ArrowReturn onPress={() => navigation.goBack()} />
         </TouchableOpacity>
       </View>
       
@@ -108,12 +108,10 @@ const styles = StyleSheet.create({
     height: 100,
   },
   goBack: {
-    left: Dimensions.get('window').width * 0.10,
     position: 'absolute',
-    top: 30,
     zIndex: 1,
-    width: 60,
-    height: 60,
+    left: Dimensions.get('window').width * 0.10,
+    top: 30,
     marginLeft: -25
   },
   resetButton: {
