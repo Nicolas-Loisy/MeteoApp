@@ -5,9 +5,10 @@ import Meteo from "../../models/valueObject/Meteo";
 
 interface iAlerte {
   readonly typeEvenement: EvenementEnum;
-  isActiver: boolean;
 
   checkEvenement(mesureMeteo: Meteo): boolean;
+  getActiver(): boolean;
+  setActiver(bool: boolean): void;
   getCritere(): Readonly<criteresType>;
   setSeuilPersonnalise(attribute: keyof meteoType, value: number): void;
 }

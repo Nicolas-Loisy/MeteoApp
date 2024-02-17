@@ -47,7 +47,7 @@
             "testInjection": "Le test avec le numero : {{number}} !!!"
         },
         "detailLieu": {
-            "releveDirect": "Relevé en direct :",
+            "releveDirect": "Relevé en direct",
             "label": {
                 "heureActualisation": "Dernière mise à jour : ",
                 "neige": "Neige : ",

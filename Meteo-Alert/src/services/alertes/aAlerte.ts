@@ -7,7 +7,7 @@ import iAlerte from "./iAlerte";
 
 abstract class aAlerte implements iAlerte {
   public readonly typeEvenement: EvenementEnum;
-  public isActiver: boolean;
+  protected isActiver: boolean;
   protected abstract criteres: criteresType
 
   public constructor(typeEvenement: EvenementEnum) {
@@ -17,6 +17,14 @@ abstract class aAlerte implements iAlerte {
 
   public getCritere(): Readonly<criteresType> {
     return this.criteres;
+  }
+
+  public getActiver(): boolean {
+    return this.isActiver;
+  }
+
+  public setActiver(bool: boolean): void {
+    this.isActiver = bool
   }
 
   public setSeuilPersonnalise(attribute: keyof meteoType, value: number): void  {

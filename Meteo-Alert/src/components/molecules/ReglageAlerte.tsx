@@ -7,7 +7,6 @@ import { t } from 'i18next';
 import EvenementEnum from '../../models/enum/EvenementEnum';
 import meteoType from '../../models/types/meteoType';
 import Critere from '../atoms/Critere';
-import Meteo from '../../models/valueObject/Meteo';
 
 interface Props {
   lieu: Readonly<Lieu> | null;
@@ -15,13 +14,18 @@ interface Props {
 
 const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
 
-  const { setSeuilPersonnalise } = useUtilisateur();
-  const label = t("reglageAlerte.label", { returnObjects: true }) as Record<string, string>;
+  const { setSeuilPersonnalise, setActiverAlerte } = useUtilisateur();
 
   const handleChangeCritere = async (typeEvenement: EvenementEnum, critere: keyof meteoType, nouvelleValeur: number) => {
     if (!lieu) throw new Error("Lieu ne peut pas être null");
     
     await setSeuilPersonnalise(lieu.key, typeEvenement, critere, nouvelleValeur);
+  }
+
+  const handleChangeActive = async (typeEvenement: EvenementEnum, bool: boolean) => {
+    if (!lieu) throw new Error("Lieu ne peut pas être null");
+
+    await setActiverAlerte(lieu.key, typeEvenement, bool);
   }
 
   return (
@@ -37,14 +41,14 @@ const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
             <Title text={t('reglageAlerte.' + alerte.typeEvenement)} fontSize={20} />
             <Switch
               trackColor={{false: '#767577', true: '#C7E9FF'}}
-              thumbColor={alerte.isActiver ? '#1E375A' : '#f4f3f4'}
+              thumbColor={alerte.getActiver() ? '#1E375A' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={null}
-              value={alerte.isActiver}
+              onValueChange={(bool) => handleChangeActive(alerte.typeEvenement, bool)}
+              value={alerte.getActiver()}
             />
           </View>
 
-          <View>
+          <View style={styles.criteres}>
             {Object.entries(alerte.getCritere()).map(([nomCritere, critere]) => {
               return (
                 <View key={nomCritere}>
@@ -70,14 +74,18 @@ const ReglageAlerte: React.FC<Props> = ({ lieu }) => {
 
 const styles = StyleSheet.create({
   title: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 10
   },
   alertTitle: {
     flex: 1,
     flexDirection: 'row', 
     justifyContent: 'space-between', 
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  criteres: {
+    marginBottom: 10
   }
 });
 

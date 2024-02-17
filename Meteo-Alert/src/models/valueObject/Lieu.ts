@@ -65,6 +65,13 @@ class Lieu {
 
     alerte.setSeuilPersonnalise(critere, valeur);
   }
+
+  public setActiverAlerte(typeEvenement: EvenementEnum, bool: boolean): void {
+    const alerte = this.reglageAlerte.find(alerte => alerte.typeEvenement === typeEvenement);
+    if (!alerte) throw ErreurLieu.EVENEMENT_MANQUANT;
+
+    alerte.setActiver(bool);
+  }
 }
 
 export default Lieu;

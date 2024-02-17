@@ -17,7 +17,7 @@ import SystemeMesureEnum from '../../models/enum/SystemeMesureEnum';
 import EvenementEnum from '../../models/enum/EvenementEnum';
 import ErreurContextUtilisateur from '../../models/enum/erreurs/ErreurContexUtilisateur';
 
-import utilisateurType from '../../models/types/utilisateurInfosType';
+import utilisateurInfosType from '../../models/types/utilisateurInfosType';
 import lieuType from '../../models/types/lieuType';
 import meteoType from '../../models/types/meteoType';
 
@@ -29,14 +29,20 @@ import utilisateurFront from '../../models/types/front/utilisateurFront';
 
 // Définition des attributs disponibles
 type UtilisateurContextType = {
-  inscription: (motDePasse: string, utilisateurData: utilisateurType) => Promise<void>
+  // Gestion du compte
+  inscription: (motDePasse: string, utilisateurData: utilisateurInfosType) => Promise<void>
   connexion: (email: string, motDePasse: string) => Promise<void>;
   deconnexion: () => Promise<void>;
   reinitialiserMotDePasse: (email: string) => Promise<void>;
   modifierMotDePasse: (ancienMotDePasse: string, nouveauMotDePasse: string) => Promise<void>;
+
+  // Gestion des lieux
   ajouterLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   supprimerLieuFavori: (lieu: Readonly<Lieu>) => Promise<void>;
   setSeuilPersonnalise: (keyLieu: string, typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number) => Promise<void>;
+  setActiverAlerte: (keyLieu: string, typeEvenement: EvenementEnum, bool: boolean) => Promise<void>;
+  
+  // Gestion des réglages
   setLangue: (langue: string) => Promise<void>;
   setSystemeMesure: (systemeMesure: SystemeMesureEnum) => Promise<void>;
 
@@ -93,7 +99,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
 
     // Initialisation des données personnelles
     if (!utilisateurData.utilisateurInfos) throw new Error("Impossible de récupérer les informations de l'utilisateur");
-    const utilisateurAttributs: utilisateurType = utilisateurData.utilisateurInfos;
+    const utilisateurAttributs: utilisateurInfosType = utilisateurData.utilisateurInfos;
 
     const utilisateur = new Utilisateur(GUID, utilisateurAttributs, reglageApp, lieuxFavoris);
     return utilisateur;
@@ -120,7 +126,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
           }, {} as Partial<meteoType>);
 
         reglageAlerteData[alerte.typeEvenement] = {
-          isActiver: alerte.isActiver,
+          isActiver: alerte.getActiver(),
           criteres: criteresPersistence
         }
       });
@@ -155,7 +161,7 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
   }
 
   /* Méthodes */
-  const inscription = async (motDePasse: string, utilisateurAttributs: utilisateurType): Promise<void> => {
+  const inscription = async (motDePasse: string, utilisateurAttributs: utilisateurInfosType): Promise<void> => {
     // Ajout de l'utilisateur dans le système d'authentification
     const GUID = await serviceCompte.inscription(utilisateurAttributs.email, motDePasse);
 
@@ -241,6 +247,22 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     setLieuxFavoris(utilisateurModele.getLieuxFavoris());
   }
 
+  const setActiverAlerte = async (keyLieu: string, typeEvenement: EvenementEnum, bool: boolean) => {
+    if (!utilisateurModele) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
+
+    const lieu = lieuxFavoris.find(lieuFav => lieuFav.key === keyLieu);
+    if (!lieu) throw ErreurContextUtilisateur.ERREUR_LIEU_FAV_NON_TROUVE;
+
+    // Mise à jour dans utilisateur (Application)
+    lieu.setActiverAlerte(typeEvenement, bool);
+
+    // Enregistrement dans la BDD
+    enregistrerLieuxFavoris();
+
+    // Mise à jour du contexte
+    setLieuxFavoris(utilisateurModele.getLieuxFavoris());
+  }
+
   const setLangue = async (langue: string): Promise<void> => {
     if (!langues.find(l => l === langue)) throw new Error();
 
@@ -311,9 +333,12 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
         deconnexion,
         reinitialiserMotDePasse,
         modifierMotDePasse,
+
         ajouterLieuFavori,
         supprimerLieuFavori,
         setSeuilPersonnalise,
+        setActiverAlerte,
+
         setLangue,
         setSystemeMesure,
 

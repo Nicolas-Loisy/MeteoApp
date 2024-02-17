@@ -1,8 +1,8 @@
 import ReglageApp from '../ReglageApp';
 import ErreurUtilisateur from '../enum/erreurs/ErreurUtilisateur';
+import utilisateurInfosType from '../types/utilisateurInfosType';
 import Lieu from '../valueObject/Lieu';
-import reglagePersistence from '../types/pertistence/reglageAppPersistence';
-import utilisateurType from '../types/utilisateurInfosType';
+
 
 class Utilisateur {
   public readonly uid: string;
@@ -12,7 +12,7 @@ class Utilisateur {
   private lieuxFavoris: Readonly<Lieu>[];
   private reglageApp: ReglageApp;
 
-  constructor(GUID: string, dataUtilisateur: utilisateurType, reglageApp: ReglageApp, lieuxFavoris?: Readonly<Lieu>[]) {
+  constructor(GUID: string, dataUtilisateur: utilisateurInfosType, reglageApp: ReglageApp, lieuxFavoris?: Readonly<Lieu>[]) {
     this.lieuxFavoris = lieuxFavoris ?? [];
     this.reglageApp = reglageApp;
 

@@ -72,13 +72,11 @@ const DetailLieu = () => {
         <TimeAgoText lastUpdateDate={meteo?.heureActualisation} fontSize={15} />
 
         <View style={styles.details}>
-          <Title text={t("detailLieu.releveDirect")} fontSize={22} />
-          <ScrollView showsVerticalScrollIndicator={false}>
-            
+          <ScrollView showsVerticalScrollIndicator={false}>          
+            <Title text={t("detailLieu.releveDirect")} fontSize={22} />
             <ListeInfoMeteo meteo={meteo} blacklist={['heureActualisation']} />
             
-            <ReglageAlerte lieu={lieu} />
-            
+            <ReglageAlerte lieu={lieu} />  
           </ScrollView>
         </View>
       </View>

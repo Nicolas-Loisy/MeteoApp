@@ -73,7 +73,7 @@ const Inscription = () => {
           <Field onChangeText={setPrenom} iconSource={require('../assets/icons/logo-utilisateur.png')} fieldName={t('inscription.prenom')} displayValidation/>
           
           {/* Formulaire adresse e-mail */}
-          <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' displayValidation/>
+          <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' keyboardType='email-address' displayValidation/>
 
           {/* Formulaire de mot de passe */}
           <Field onChangeText={setMotDePasseValue} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword/>
@@ -88,11 +88,13 @@ const Inscription = () => {
             styleBtn="whiteBg"
           />
 
-          {/* Bouton pour aller à la page d'inscription */}
-          <ClickableText
-            text={t('inscription.deja_inscrit')}
-            onPress={() => navigation.navigate('Connexion')}
-          />
+          <View style={styles.textDejaInscrit} >
+            {/* Bouton pour aller à la page d'inscription */}
+            <ClickableText
+              text={t('inscription.deja_inscrit')}
+              onPress={() => navigation.navigate('Connexion')}
+            />
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </LayoutTemplate>
@@ -133,6 +135,9 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontFamily: 'Jomhuria-Regular',
   },
+  textDejaInscrit: {
+    marginTop: 15
+  }
 });
 
 export default Inscription;

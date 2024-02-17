@@ -73,6 +73,7 @@ const Field: React.FC<FieldProps> = ({
         autoCorrect={autoCorrect}
         returnKeyType='go'
         onSubmitEditing={onSubmitEditing}
+        autoCapitalize={keyboardType === 'email-address' ? 'none' : 'sentences'}
       />
       {isPassword && (
         <TouchableOpacity onPress={togglePassword}>
