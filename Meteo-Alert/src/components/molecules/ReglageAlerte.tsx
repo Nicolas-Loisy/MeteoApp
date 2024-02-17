@@ -7,7 +7,6 @@ import { t } from 'i18next';
 import EvenementEnum from '../../models/enum/EvenementEnum';
 import meteoType from '../../models/types/meteoType';
 import Critere from '../atoms/Critere';
-import Meteo from '../../models/valueObject/Meteo';
 
 interface Props {
   lieu: Readonly<Lieu> | null;

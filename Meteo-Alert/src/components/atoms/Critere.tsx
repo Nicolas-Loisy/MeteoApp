@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
     borderColor: '#1E375A',
     paddingHorizontal: 3,
     borderRadius: 8,
-    marginHorizontal: 5
+    marginHorizontal: 5,
+    width: 60
   }
 });
 
