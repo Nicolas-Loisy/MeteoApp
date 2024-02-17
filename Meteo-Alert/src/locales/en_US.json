@@ -38,7 +38,7 @@
             "testInjection": "The test with the number: {{number}} !!!"
         },
         "detailLieu": {
-            "releveDirect": "Live statement :",
+            "releveDirect": "Live statement",
             "label": {
                 "heureActualisation": "Last Update Time: ",
                 "neige": "Snow: ",
@@ -83,7 +83,8 @@
             "special": "1 special character"
         },
         "voletParametre": {
-            "deconnexion": "Logout"
+            "deconnexion": "Logout",
+            "changePwd": "Change your password"
         },
         "aUnite": {
             "mesure-undefined": "Unavailable" 
@@ -91,6 +92,32 @@
         "TimeAgoText": {
             "timeAgo": "{{elapsedMinutes}} minutes ago",
             "timeAgo_plurial": "{{elapsedMinutes}} minute ago"
+        },
+        "reglageAlerte": {
+            "title": "Alert configuration",
+            "PRECIPITATION" : "Precipitation",
+            "TEMPERATURE_EXTREME_BASSE" : "Extreme low temperature",
+            "TEMPERATURE_EXTREME_HAUTE" : "Extreme high temperature",
+            "VENT_VIOLENT" : "Violent wind",
+            "VISIBILITE_REDUITE" : "Reduced visibility",
+            "label": {
+                "heureActualisation": "Last Update Time",
+                "neige": "Snow",
+                "pluie": "Rain",
+                "humidite": "Humidity",
+                "visibilite": "Visibility",
+                "ressenti": "Feels Like",
+                "temperature": "Temperature",
+                "tempMin": "Min Temperature",
+                "tempMax": "Max Temperature",
+                "ventRafale": "Wind Gusts",
+                "ventVitesse": "Wind Speed",
+                "ventDirection": "Wind Direction",
+                "pression": "Pressure",
+                "pressionTerre": "Pressure (Land)",
+                "pressionMer": "Pressure (Sea)",
+                "nuage": "Clouds"
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ import iAlerte from "../../services/alertes/iAlerte";
 import MeteoBuilder from "../builder/MeteoBuilder";
 import dtUniteCoordonnee from "../datatype/unite/dtUniteCoordonnee";
 import EvenementEnum from "../enum/EvenementEnum";
+import SystemeMesureEnum from "../enum/SystemeMesureEnum";
 import ErreurLieu from "../enum/erreurs/ErreurLieu";
 import lieuType from "../types/lieuType";
 import meteoType from "../types/meteoType";
@@ -25,17 +26,16 @@ class Lieu {
     this.longitude = new dtUniteCoordonnee(data.lon);
     this.latitude = new dtUniteCoordonnee(data.lat);
     this.meteo = null;
-    this.updateMeteo();
     this.reglageAlerte = data.reglageAlerte;
   }
 
-  public async updateMeteo() {
-    this.meteo = await MeteoBuilder.getMeteo(this.longitude, this.latitude);
+  public async updateMeteo(systemeMesure: SystemeMesureEnum) {
+    this.meteo = await MeteoBuilder.getMeteo(this.longitude, this.latitude, systemeMesure);
   }
 
-  public async getMeteo(actualiser: boolean = true): Promise<Meteo> {
+  public async getMeteo(systemeMesure: SystemeMesureEnum, actualiser: boolean = true): Promise<Meteo> {
     if (!this.meteo || actualiser) {
-      this.meteo = await MeteoBuilder.getMeteo(this.longitude, this.latitude);
+      this.meteo = await MeteoBuilder.getMeteo(this.longitude, this.latitude, systemeMesure);
     }
 
     return this.meteo;
@@ -64,6 +64,13 @@ class Lieu {
     if (!alerte) throw ErreurLieu.EVENEMENT_MANQUANT;
 
     alerte.setSeuilPersonnalise(critere, valeur);
+  }
+
+  public setActiverAlerte(typeEvenement: EvenementEnum, bool: boolean): void {
+    const alerte = this.reglageAlerte.find(alerte => alerte.typeEvenement === typeEvenement);
+    if (!alerte) throw ErreurLieu.EVENEMENT_MANQUANT;
+
+    alerte.setActiver(bool);
   }
 }
 

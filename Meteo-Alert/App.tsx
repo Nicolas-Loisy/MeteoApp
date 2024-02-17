@@ -25,6 +25,7 @@ const App = () => {
         'Inter-Thin': require('./src/assets/fonts/Inter-Thin.ttf'),
         'Jomhuria-Regular': require('./src/assets/fonts/Jomhuria-Regular.ttf'),
         'Karla-Medium': require('./src/assets/fonts/Karla-Medium.ttf'),
+        'Karla-Bold': require('./src/assets/fonts/Karla-Bold.ttf'),
       });
       setFontLoaded(true);
     }

@@ -1,13 +1,15 @@
-import { t } from 'i18next';
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import { t } from 'i18next';
+
 import Logo from './Logo';
 
 type Props = {
   rules: Record<string, boolean>;
+  whiteMode?: boolean
 };
 
-const ReglesMDP: React.FC<Props> = ({ rules }) => {
+const ReglesMDP: React.FC<Props> = ({ rules, whiteMode=false }) => {
   return (
     <View>
       {/* <Text style={styles.title}>Summary Rules:</Text> */}
@@ -19,7 +21,7 @@ const ReglesMDP: React.FC<Props> = ({ rules }) => {
               size={18} 
               color= {value ? '#1E375A' : '#C83434'}
             />
-            <Text>{t("summaryRules." + key) }</Text>
+            <Text style={whiteMode ? { color: 'white' } : null} >{t("summaryRules." + key) }</Text>
           </View>
         ))}
       </View>

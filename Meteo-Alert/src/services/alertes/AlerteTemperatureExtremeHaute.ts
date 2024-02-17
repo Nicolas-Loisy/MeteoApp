@@ -1,23 +1,43 @@
 import EvenementEnum from "../../models/enum/EvenementEnum";
+import SystemeMesureEnum from "../../models/enum/SystemeMesureEnum";
 import ErreurAlerte from "../../models/enum/erreurs/ErreurAlerte";
+import UniteTempEnum from "../../models/enum/unite/UniteTempEnum";
+import critereUniqueType from "../../models/types/critereUniqueType";
+import operateurComparaisonType from "../../models/types/operateurComparaisonType";
 import Meteo from "../../models/valueObject/Meteo";
 import aAlerte from "./aAlerte";
 
 class AlerteTemperatureExtremeHaute extends aAlerte {
   protected criteres: {
-    tempMax: number,
-    tempMin: number
-    temperature: number,
-    ressenti: number
+    tempMax: critereUniqueType,
+    tempMin: critereUniqueType,
+    temperature: critereUniqueType,
+    ressenti: critereUniqueType,
   };
 
-  public constructor() {
+  public constructor(systemeMesure: SystemeMesureEnum) {
     super(EvenementEnum.TEMPERATURE_EXTREME_HAUTE);
     this.criteres = {
-      tempMax: 30,
-      tempMin: 30,
-      temperature: 30,
-      ressenti: 30
+      tempMax: {
+        valeur: 30,
+        operateurComparaison: '>',
+        uniteMesure: UniteTempEnum[systemeMesure],
+      },
+      tempMin: {
+        valeur: 30,
+        operateurComparaison: '>',
+        uniteMesure: UniteTempEnum[systemeMesure],
+      },
+      temperature: {
+        valeur: 30,
+        operateurComparaison: '>',
+        uniteMesure: UniteTempEnum[systemeMesure],
+      },
+      ressenti: {
+        valeur: 30,
+        operateurComparaison: '>',
+        uniteMesure: UniteTempEnum[systemeMesure],
+      },
     };
   }
 
@@ -27,10 +47,10 @@ class AlerteTemperatureExtremeHaute extends aAlerte {
     }
 
     return (
-      mesureMeteo.tempMax.getValeur() > this.criteres.tempMax || 
-      mesureMeteo.tempMin.getValeur() > this.criteres.tempMin || 
-      mesureMeteo.temperature.getValeur() > this.criteres.temperature ||
-      mesureMeteo.ressenti.getValeur() > this.criteres.ressenti
+      mesureMeteo.tempMax.getValeur() > this.criteres.tempMax.valeur || 
+      mesureMeteo.tempMin.getValeur() > this.criteres.tempMin.valeur || 
+      mesureMeteo.temperature.getValeur() > this.criteres.temperature.valeur ||
+      mesureMeteo.ressenti.getValeur() > this.criteres.ressenti.valeur
     );
   }
 }

@@ -1,8 +1,8 @@
 import ReglageApp from '../ReglageApp';
 import ErreurUtilisateur from '../enum/erreurs/ErreurUtilisateur';
-import reglageAppData from '../types/pertistence/reglageAppData';
-import utilisateurType from '../types/utilisateurType';
+import utilisateurInfosType from '../types/utilisateurInfosType';
 import Lieu from '../valueObject/Lieu';
+
 
 class Utilisateur {
   public readonly uid: string;
@@ -12,9 +12,9 @@ class Utilisateur {
   private lieuxFavoris: Readonly<Lieu>[];
   private reglageApp: ReglageApp;
 
-  constructor(GUID: string, dataUtilisateur: utilisateurType, reglageAppData: reglageAppData, lieuxFavoris?: Readonly<Lieu>[]) {
+  constructor(GUID: string, dataUtilisateur: utilisateurInfosType, reglageApp: ReglageApp, lieuxFavoris?: Readonly<Lieu>[]) {
     this.lieuxFavoris = lieuxFavoris ?? [];
-    this.reglageApp = ReglageApp.getInstance(reglageAppData);
+    this.reglageApp = reglageApp;
 
     this.uid = GUID;
 
@@ -44,6 +44,7 @@ class Utilisateur {
     if (isLieuExistant) throw ErreurUtilisateur.ERREUR_LIEU_FAVORI_EXISTANT;
 
     this.lieuxFavoris = [...this.lieuxFavoris, lieu];
+    this.lieuxFavoris = this.lieuxFavoris.sort();
   }
 
   public supprimerLieuFavori(lieu: Readonly<Lieu>): void {

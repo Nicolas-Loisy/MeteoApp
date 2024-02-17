@@ -1,13 +1,15 @@
 import { ref, get, set } from 'firebase/database';
+
 import FirebaseConfig from '../../config/FirebaseConfig';
 import iServicePersistence from './iServicePersistence';
+
 import ErreurBDD from '../../models/enum/erreurs/ErreurBDD';
-import utilisateurDataType from '../../models/types/pertistence/utilisateurDataType';
-import lieuxFavorisDataType from '../../models/types/pertistence/lieuxFavorisDataType';
-import reglageAppData from '../../models/types/pertistence/reglageAppData';
+import utilisateurPersistence from '../../models/types/pertistence/utilisateurPersistence';
+import lieuxFavorisPersistence from '../../models/types/pertistence/lieuxFavorisPersistence';
+import reglageAppData from '../../models/types/pertistence/reglageAppPersistence';
 
 class ServicePersistenceFirebase implements iServicePersistence {
-  public async inscription(GUID: string, utilisateurData: utilisateurDataType): Promise<void> {
+  public async inscription(GUID: string, utilisateurData: utilisateurPersistence): Promise<void> {
     try {
       const database = FirebaseConfig.getInstance().database;
       const userRef = ref(database, `utilisateurs/${GUID}`);
@@ -17,7 +19,7 @@ class ServicePersistenceFirebase implements iServicePersistence {
     }
   }
 
-  public async getUtilisateurData(GUID: string): Promise<utilisateurDataType> {
+  public async getUtilisateurData(GUID: string): Promise<utilisateurPersistence> {
     const database = FirebaseConfig.getInstance().database;
     
     try {
@@ -29,11 +31,10 @@ class ServicePersistenceFirebase implements iServicePersistence {
         throw ErreurBDD.ERREUR_DATABASE;
       }
   
-      const data: utilisateurDataType = {
-        lieuxFavoris: snapshot.val().lieuxFavoris ?? {},
-        reglageApp: snapshot.val().reglageApp ?? {},
-        prenom: snapshot.val().prenom ?? "",
-        email: snapshot.val().email ?? ""
+      const data: utilisateurPersistence = {
+        lieuxFavoris: snapshot.val().lieuxFavoris,
+        reglageApp: snapshot.val().reglageApp,
+        utilisateurInfos: snapshot.val().utilisateurInfos,
       };
 
       return data;
@@ -42,7 +43,7 @@ class ServicePersistenceFirebase implements iServicePersistence {
     }
   }
 
-  public async updateLieuxFavoris(lieuxData: lieuxFavorisDataType, GUID: string): Promise<void> {
+  public async updateLieuxFavoris(lieuxData: lieuxFavorisPersistence, GUID: string): Promise<void> {
     const database = FirebaseConfig.getInstance().database;
     try {
       const userRef = ref(database, `utilisateurs/${GUID}/lieuxFavoris/`);

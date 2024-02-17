@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
+import { Color } from 'react-native-alert-notification/lib/typescript/service';
 import RNPickerSelect from 'react-native-picker-select';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 type Props = {
   languesDispos: string[],
@@ -52,35 +54,49 @@ const InputLangue : React.FC<Props> = ({ languesDispos, onChange, langueDefaut }
   }
 
   return (
-    <View style={styles.lang}>
+    <View style={pickerSelectStyles.buttonContainer}>
       <RNPickerSelect
         placeholder={{}}
         items={options}
         onValueChange={(value) => handleLangueChange(value)}
         value={langue}
         style={pickerSelectStyles}
+        Icon={() => {
+          return (
+            <Icon size={15} name="caret-down-outline" style={pickerSelectStyles.arrowIconIOS}/>
+          );
+        }}
+        useNativeAndroidPickerStyle={false} 
       />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  lang: {
+const pickerSelectStyles = StyleSheet.create({
+  buttonContainer: {
     backgroundColor: 'white',
-    borderRadius: 30,
+    borderRadius: 250,
     borderWidth: 1,
     borderColor: '#1E375A',
-  }
-});
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
     height: 40,
-    width: 125
+    width: 80,
+    fontSize: 14,
   },
+  //text
+  inputIOS: {
+    top: 12,
+    paddingLeft: 10,
+  },
+  //text
   inputAndroid: {
-      height: 40,
-      width: 125
+    top: 6,
+    left: 12,
+    color: 'black',
+  },
+  arrowIconIOS:{
+    position: "absolute",
+    bottom: -28,
+    right: 6,
   }
 });
 

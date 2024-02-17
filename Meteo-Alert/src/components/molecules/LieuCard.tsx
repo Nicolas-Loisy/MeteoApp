@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import Lieu from '../../models/valueObject/Lieu';
 import { useNavigation } from '@react-navigation/core';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ParamListBase } from '@react-navigation/native';
+
+import Lieu from '../../models/valueObject/Lieu';
 import Meteo from '../../models/valueObject/Meteo';
 
 import SnowSvg from '../../assets/icons/svg/thermometer-snow.svg';
@@ -12,8 +15,8 @@ import CloudsSvg from '../../assets/icons/svg/clouds.svg';
 import CloudSvg from '../../assets/icons/svg/cloudy.svg';
 import CloudMoonSvg from '../../assets/icons/svg/cloud-moon.svg';
 import MoonSvg from '../../assets/icons/svg/moon.svg';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ParamListBase } from '@react-navigation/native';
+import { useUtilisateur } from '../../services/context/UtilisateurContext';
+
 
 interface LieuCardProps {
   lieu: Readonly<Lieu>;
@@ -22,22 +25,26 @@ interface LieuCardProps {
 const LieuCard: React.FC<LieuCardProps> = ({ lieu }) => {
   const [temperature, setTemperature] = useState<string | null>(null);
   const [meteo, setMeteo] = useState<Meteo | null>(null);
+
+  const { utilisateur } = useUtilisateur();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   useEffect(() => {
     const fetchTemperature = async () => {
-      try {
-        const meteo = await lieu.getMeteo();
-        setTemperature(meteo?.temperature.toString() || 'N/A');
-        setMeteo(meteo);
-      } catch (error) {
-        console.error('Error fetching temperature:', error);
-        setTemperature('N/A');
-      }
+      if (utilisateur) {
+        try {
+          const meteo = await lieu.getMeteo(utilisateur.reglageApp.systemeMesure);
+          setTemperature(meteo?.temperature.toString() || 'N/A');
+          setMeteo(meteo);
+        } catch (error) {
+          console.error('Error fetching temperature:', error);
+          setTemperature('N/A');
+        }
+      }      
     };
 
     fetchTemperature();
-  }, [lieu]);
+  }, [lieu, utilisateur]);
 
   const handleCardPress = () => {
     // Naviguer vers la page DetailLieu avec la key

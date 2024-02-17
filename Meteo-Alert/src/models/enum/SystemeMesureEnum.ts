@@ -1,7 +1,7 @@
 enum SystemeMesureEnum {
-    METRIQUE = "metric",
-    IMPERIAL = "imperial",
-    STANDARD = "standard"
+    METRIQUE = "METRIQUE",
+    IMPERIAL = "IMPERIAL",
+    STANDARD = "STANDARD"
 }
 
 export default SystemeMesureEnum;

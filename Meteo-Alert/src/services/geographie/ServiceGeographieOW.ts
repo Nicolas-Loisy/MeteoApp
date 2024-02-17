@@ -1,5 +1,5 @@
-import lieuType from "../../../models/types/lieuType";
-import { creerKey } from "../../../utils/LieuUtils";
+import lieuType from "../../models/types/lieuType";
+import { creerKey } from "../../utils/LieuUtils";
 import aRestService from "../aRestService";
 import iServiceGeographie from "./iServiceGeographie";
 

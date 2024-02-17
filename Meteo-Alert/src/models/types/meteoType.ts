@@ -1,19 +1,19 @@
 type meteoType = {
-    neige: number;
-    pluie: number;
-    humidite: number;
-    visibilite: number;
-    ressenti: number;
-    temperature: number;
-    tempMin: number;
-    tempMax: number;
-    ventRafale: number;
-    ventVitesse: number;
-    ventDirection: number;
-    pression: number;
-    pressionTerre: number;
-    pressionMer: number;
-    nuage: number
+    readonly neige: number;
+    readonly pluie: number;
+    readonly humidite: number;
+    readonly visibilite: number;
+    readonly ressenti: number;
+    readonly temperature: number;
+    readonly tempMin: number;
+    readonly tempMax: number;
+    readonly ventRafale: number;
+    readonly ventVitesse: number;
+    readonly ventDirection: number;
+    readonly pression: number;
+    readonly pressionTerre: number;
+    readonly pressionMer: number;
+    readonly nuage: number
 }
 
 export default meteoType;
