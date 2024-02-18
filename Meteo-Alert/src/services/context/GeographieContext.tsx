@@ -30,7 +30,6 @@ export const GeographieProvider = ({ children }: { children: ReactNode }) => {
     // Tri des résultats
     const resultLieuxRecherche: Readonly<Lieu>[] = [];
     lieuxData.forEach(lieuData => {
-      lieuData.reglageAlerte = AlerteFactory.initAlertes();
       const lieu = new Lieu(lieuData);
       resultLieuxRecherche.push(lieu);
     });

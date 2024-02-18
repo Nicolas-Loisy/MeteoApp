@@ -16,7 +16,7 @@ class Lieu {
   public readonly longitude: dtUniteCoordonnee;
   public readonly latitude: dtUniteCoordonnee;
   private meteo: Meteo | null;
-  private reglageAlerte: ReadonlyArray<Readonly<iAlerte>>;
+  private reglageAlerte: ReadonlyArray<Readonly<iAlerte>> | null;
 
   constructor(data: lieuType) {
     this.key = data.key;
@@ -26,7 +26,7 @@ class Lieu {
     this.longitude = new dtUniteCoordonnee(data.lon);
     this.latitude = new dtUniteCoordonnee(data.lat);
     this.meteo = null;
-    this.reglageAlerte = data.reglageAlerte;
+    this.reglageAlerte = null;
   }
 
   public async updateMeteo(systemeMesure: SystemeMesureEnum) {
@@ -42,10 +42,14 @@ class Lieu {
   }
 
   public getReglageAlerte(): ReadonlyArray<Readonly<iAlerte>> {
+    if (!this.reglageAlerte) throw new Error("Reglage alerte non initialisée");
+
     return this.reglageAlerte.slice();
   }
 
   public checkEvenements(): Record<EvenementEnum, boolean> | null {
+    if (!this.reglageAlerte) throw new Error("Reglage alerte non initialisée");
+
     if (this.meteo) {
       const resultatsEvenements: Record<EvenementEnum, boolean> = this.reglageAlerte.reduce((acc, alerte) => {
         acc[alerte.typeEvenement] = alerte.checkEvenement(this.meteo!);
@@ -59,7 +63,13 @@ class Lieu {
     return null;
   }
 
+  public initReglageAlerte(reglageAlerte: ReadonlyArray<Readonly<iAlerte>>): void {
+    this.reglageAlerte = reglageAlerte;
+  }
+
   public setSeuilPersonnalise(typeEvenement: EvenementEnum, critere: keyof meteoType, valeur: number): void {
+    if (!this.reglageAlerte) throw new Error("Reglage alerte non initialisée");
+
     const alerte = this.reglageAlerte.find(alerte => alerte.typeEvenement === typeEvenement);
     if (!alerte) throw ErreurLieu.EVENEMENT_MANQUANT;
 
@@ -67,6 +77,8 @@ class Lieu {
   }
 
   public setActiverAlerte(typeEvenement: EvenementEnum, bool: boolean): void {
+    if (!this.reglageAlerte) throw new Error("Reglage alerte non initialisée");
+
     const alerte = this.reglageAlerte.find(alerte => alerte.typeEvenement === typeEvenement);
     if (!alerte) throw ErreurLieu.EVENEMENT_MANQUANT;
 

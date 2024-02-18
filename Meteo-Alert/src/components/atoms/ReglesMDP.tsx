@@ -12,7 +12,6 @@ type Props = {
 const ReglesMDP: React.FC<Props> = ({ rules, whiteMode=false }) => {
   return (
     <View>
-      {/* <Text style={styles.title}>Summary Rules:</Text> */}
       <View style={styles.listContainer}>
         {Object.entries(rules).map(([key, value]) => (
           <View key={key} style={styles.listItem}>

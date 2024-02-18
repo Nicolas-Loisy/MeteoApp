@@ -7,7 +7,6 @@ type lieuType = {
     readonly lon: number,
     readonly pays: string,
     readonly region: string,
-    reglageAlerte: Readonly<iAlerte[]>;
 }
 
 export default lieuType;

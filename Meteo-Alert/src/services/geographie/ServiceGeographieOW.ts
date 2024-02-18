@@ -45,7 +45,6 @@ export default class ServiceGeographieOW extends aRestService implements iServic
           region: lieu.state,
           pays: lieu.country,
           key: key,
-          reglageAlerte: []
         });
       }
     });
