@@ -31,7 +31,7 @@ class AlerteFactory {
       const alerteData = alertesData[alerte.typeEvenement];
 
       if (alerteData) {
-        alerte.isActiver = alerteData.isActiver;
+        alerte.setActiver(alerteData.isActiver);
         const criteres = alerte.getCritere();
 
         Object.keys(criteres).forEach((key) => {
