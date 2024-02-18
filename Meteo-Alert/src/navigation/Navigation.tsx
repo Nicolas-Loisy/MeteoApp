@@ -18,8 +18,6 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Connexion" screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="Demo" component={Demo} options={{ headerShown: false }} /> */}
-
         {/* Espace non-connecte */}
         {!statutConnecte && (
           <>

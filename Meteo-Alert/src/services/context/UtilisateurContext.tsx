@@ -11,7 +11,7 @@ import iAlerte from '../alertes/iAlerte';
 
 import i18n, { langueDefaut, langues } from '../i18n/i18n';
 
-import ReglageApp from '../../models/ReglageApp';
+import ReglageApp from '../../config/ReglageApp';
 
 import SystemeMesureEnum from '../../models/enum/SystemeMesureEnum';
 import EvenementEnum from '../../models/enum/EvenementEnum';
@@ -83,7 +83,8 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
     // Récupération de la liste de lieux favoris
     const lieuxFavoris: Readonly<Lieu>[] = [];
     for (const [key, value] of Object.entries(utilisateurData.lieuxFavoris)) {
-      const reglageAlerte: readonly iAlerte[] = AlerteFactory.initAlertesFromData(value.reglageAlerte, reglageApp.getSystemeMesure());
+      
+      // Création du lieu
       const lieuType: lieuType = {
         key: key,
         nom: value.nom,
@@ -91,10 +92,15 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
         lon: value.lon,
         pays: value.pays,
         region: value.region,
-        reglageAlerte: reglageAlerte
       }
 
       const lieu = new Lieu(lieuType);
+
+      // Configuration des alertes
+      const reglageAlerte: readonly iAlerte[] = AlerteFactory.initAlertesFromData(value.reglageAlerte, reglageApp.getSystemeMesure());
+      lieu.initReglageAlerte(reglageAlerte);
+      
+      // Ajout du lieu
       lieuxFavoris.push(lieu);
     }
 
@@ -208,6 +214,10 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
 
   const ajouterLieuFavori = async (lieu: Readonly<Lieu>) => {
     if (!utilisateurModele) throw ErreurContextUtilisateur.ERREUR_UTILISATEUR_NON_CONNECTE;
+
+    // Configuration des alertes
+    const reglageAlerte: readonly iAlerte[] = AlerteFactory.initAlertes(utilisateurModele.getReglageApp().getSystemeMesure());
+    lieu.initReglageAlerte(reglageAlerte);
 
     // Ajout du lieu dans utilisateur (Application)
     utilisateurModele.ajouterLieuFavori(lieu);
