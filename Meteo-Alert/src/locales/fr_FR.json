@@ -127,6 +127,18 @@
                 "pressionMer": "Pression (Mer)",
                 "nuage": "Nuages"
             }
+        },
+        "NotificationService": {
+            "notif": {
+                "title": "Méteo Alertes",
+                "body": {
+                    "PRECIPITATION": "Attention, des précipitations sont prévues. ☔️",
+                    "TEMPERATURE_EXTREME_BASSE": "Attention, des températures extrêmement basses sont prévues. ❄️",
+                    "TEMPERATURE_EXTREME_HAUTE": "Attention, des températures extrêmement élevées sont prévues. ☀️",
+                    "VENT_VIOLENT": "Attention, des vents violents sont prévus. 💨",
+                    "VISIBILITE_REDUITE": "Attention, une visibilité réduite est prévue. 🌫️"
+                }
+            }
         }
     }
 }

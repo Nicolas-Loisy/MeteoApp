@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { Text } from 'react-native';
 import Navigation from './src/navigation/Navigation';
+
 import * as NavigationBar from 'expo-navigation-bar';
 import * as Font from 'expo-font';
-import { Text } from 'react-native';
+
 import './src/services/i18n/i18n';
+
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { UtilisateurProvider } from './src/services/context/UtilisateurContext';
 import { GeographieProvider } from './src/services/context/GeographieContext';
 
 const App = () => {
-
   const [fontLoaded, setFontLoaded] = useState(false);
+
   useEffect(() => {
     async function loadFont() {
       await Font.loadAsync({
@@ -48,13 +51,13 @@ const App = () => {
 
   return (
     <UtilisateurProvider>
-    <GeographieProvider>
+      <GeographieProvider>
 
-      <AlertNotificationRoot>
-        <Navigation />
-      </AlertNotificationRoot>
+        <AlertNotificationRoot>
+          <Navigation />
+        </AlertNotificationRoot>
 
-    </GeographieProvider>
+      </GeographieProvider>
     </UtilisateurProvider>
   );
 };
