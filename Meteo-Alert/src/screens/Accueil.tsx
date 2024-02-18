@@ -8,7 +8,6 @@ import { useUtilisateur } from '../services/context/UtilisateurContext';
 import { langues, langueDefaut } from "../services/i18n/i18n";
 
 import Button from '../components/atoms/Button';
-import InputLangue from '../components/atoms/InputLangue';
 import MyStatusBar from '../components/atoms/MyStatusBar';
 import EngrenageParametre from '../components/atoms/EngrenageParametre';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';

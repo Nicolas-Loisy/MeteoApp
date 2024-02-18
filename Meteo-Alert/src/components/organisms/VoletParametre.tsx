@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, TouchableWithoutFeedback, Platform } from 'react-native';
 
-import { t } from 'i18next';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 
 import { useUtilisateur } from '../../services/context/UtilisateurContext';
 import { langues, langueDefaut } from "../../services/i18n/i18n";
+import { useTranslation } from 'react-i18next';
 
 import dtMotDePasse from '../../models/datatype/dtMotDePasse';
 
 import Button from '../atoms/Button';
-import Logo from '../atoms/Logo';
 import Field from '../molecules/Field';
 import ReglesMDP from '../atoms/ReglesMDP';
 import InputLangue from '../atoms/InputLangue';
 import ClickableText from '../atoms/ClickableText';
+
+import Croix from '../../assets/icons/svg/icon-refus.svg';
 
 interface VoletParametreProps {
   isOpen: boolean;
@@ -22,6 +23,8 @@ interface VoletParametreProps {
 }
 
 const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
+  
   const { utilisateur, modifierMotDePasse, deconnexion, setLangue } = useUtilisateur();
 
   const [ancienMotDePasseValue, setAncienMotDePasseValue] = useState<string>("");
@@ -41,11 +44,10 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
     if (!motDePasse) {
       Dialog.show({
         type: ALERT_TYPE.DANGER,
-        title: "Modification du mot de passe impossible",
-        textBody: "Le nouveau mot de passe ne respecte pas les règles attendues",
-        button: "Fermer",
+        title: t("voletParametre.popup_erreur.title"),
+        textBody: t(`voletParametre.popup_erreur.mdp_incorrect`),
+        button: t("voletParametre.popup_erreur.button"),
       });
-
       return;
     }
 
@@ -53,16 +55,16 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
       await modifierMotDePasse(ancienMotDePasseValue, motDePasse.value)
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Modification du mot de passe terminée",
-        textBody: "Votre mot de passe a bien été modifié !",
-        button: "Fermer",
+        title: t("voletParametre.popup_confirmation.title"),
+        textBody: t("voletParametre.popup_confirmation.textBody"),
+        button: t("voletParametre.popup_confirmation.button"),
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       Dialog.show({
         type: ALERT_TYPE.DANGER,
-        title: "Modification du mot de passe impossible",
+        title: t("voletParametre.popup_erreur.title"),
         textBody: t(`erreur.auth.${error}`),
-        button: "Fermer",
+        button: t("voletParametre.popup_erreur.button"),
       });
     }
   }
@@ -72,18 +74,14 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-
     <>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay} />
       </TouchableWithoutFeedback>
 
-      <View style={styles.volet}>
-
+      <View style={[styles.volet, Platform.select({ android: styles.voletAndroid })]}>
         <TouchableOpacity onPress={onClose}>
-          <View style={styles.closeButtonLogo} >
-            <Logo imageSource={require('../../assets/icons/icon-refus.png')} color='white' size={30} />
-          </View>
+          <Croix style={styles.closeButtonLogo}/>
         </TouchableOpacity>
 
         {/* Contenu du volet */}
@@ -92,8 +90,9 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
           <Text style={styles.text}>{utilisateur?.mail}</Text>
 
           {/* Formulaire de modification de mot de passe */}
-          <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Ancien mot de passe"} isPassword />
-          <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={"Nouveau mot de passe"} isPassword />
+          <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={t('voletParametre.ancienPwd')} onSubmitEditing={handleModifierMotDePasse} isPassword/>
+          <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={t('voletParametre.nouveauPwd')} onSubmitEditing={handleModifierMotDePasse}  isPassword/>
+
           <ReglesMDP
             rules={motDePasseRegles}
             whiteMode
@@ -139,13 +138,16 @@ const styles = StyleSheet.create({
   volet: {
     width: '80%',
     height: '100%',
-    paddingTop: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingTop: 80,
+    paddingLeft: 5,
+    paddingRight: 3,
     backgroundColor: '#1E375A',
     position: 'absolute',
     top: 0,
     right: 0,
+  },
+  voletAndroid:{
+    paddingTop: 50,
   },
   voletContent: {
     alignItems: 'center',
@@ -153,9 +155,10 @@ const styles = StyleSheet.create({
     height: "90%",
   },
   closeButtonLogo: {
-    color: '#FFF',
-    fontSize: 16,
-    padding: 10,
+    marginLeft: 260,
+    marginTop: -20,
+    width: 100,
+    padding: 15  
   },
   text: {
     color: "white",

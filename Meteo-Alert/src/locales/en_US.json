@@ -94,7 +94,19 @@
         },
         "voletParametre": {
             "deconnexion": "Logout",
-            "changePwd": "Change your password"
+            "changePwd": "Change your password",
+            "ancienPwd": "Old password",
+            "nouveauPwd": "New password",
+                "popup_confirmation" : {
+                    "title": "Password modification completed",
+                    "textBody": "Your password has been changed !",
+                    "button": "Close"
+                },
+                "popup_erreur" : {
+                    "title": "Password cannot be changed",
+                    "mdp_incorrect": "New password does not comply with expected rules",
+                    "button": "Close"
+                }
         },
         "aUnite": {
             "mesure-undefined": "Unavailable" 
