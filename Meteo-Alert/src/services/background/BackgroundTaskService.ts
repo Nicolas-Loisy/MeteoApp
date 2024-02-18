@@ -1,6 +1,6 @@
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
-import { schedulePushNotification } from '../notification/NotificationService';
+import { sendNotificationsWithConditions } from '../notification/NotificationService';
 
 const BACKGROUND_FETCH_TASK = 'background-fetch';
 
@@ -19,7 +19,7 @@ export async function unregisterBackgroundFetchAsync() {
 TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
   const now = Date.now();
   console.log(`Got background fetch call at date: ${new Date(now).toISOString()}`);
-  await schedulePushNotification();
+  await sendNotificationsWithConditions();
   console.log("LA NOTIF !");
   return BackgroundFetch.BackgroundFetchResult.NewData;
 });
