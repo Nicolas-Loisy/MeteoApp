@@ -26,6 +26,7 @@ import utilisateurPersistence from '../../models/types/pertistence/utilisateurPe
 import lieuxFavorisPersistence from '../../models/types/pertistence/lieuxFavorisPersistence';
 import reglageAlertePersistence from '../../models/types/pertistence/reglageAlertePersistence';
 import utilisateurFront from '../../models/types/front/utilisateurFront';
+import ServiceBackgroundTask from '../background/ServiceBackgroundTask';
 
 // Définition des attributs disponibles
 type UtilisateurContextType = {
@@ -324,6 +325,13 @@ export const UtilisateurProvider = ({ children }: { children: ReactNode }) => {
       changeLanguage(utilisateurModele.getReglageApp().getLangue());
     }
   }, [utilisateurModele]);
+
+  // Enregistre une tâche de fond pour envoyer les notifs 
+  useEffect(() => {
+    if (utilisateurModele) {
+      ServiceBackgroundTask.registerBackgroundFetchAsync(lieuxFavoris, utilisateurModele)
+    }
+  }, [lieuxFavoris])
 
   return (
     <UtilisateurContext.Provider

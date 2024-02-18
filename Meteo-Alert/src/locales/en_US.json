@@ -118,6 +118,18 @@
                 "pressionMer": "Pressure (Sea)",
                 "nuage": "Clouds"
             }
-        }
+        },
+        "NotificationService": {
+            "notif": {
+                "title": "Weather Alerts",
+                "body": {
+                    "PRECIPITATION": "Attention, precipitation is expected. ☔️",
+                    "TEMPERATURE_EXTREME_BASSE": "Attention, extremely low temperatures are expected. ❄️",
+                    "TEMPERATURE_EXTREME_HAUTE": "Attention, extremely high temperatures are expected. ☀️",
+                    "VENT_VIOLENT": "Attention, violent winds are expected. 💨",
+                    "VISIBILITE_REDUITE": "Attention, reduced visibility is expected. 🌫️"
+                }
+            }
+        }        
     }
 }

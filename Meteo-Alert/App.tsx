@@ -2,38 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Text } from 'react-native';
 import Navigation from './src/navigation/Navigation';
 
-import * as TaskManager from 'expo-task-manager';
 import * as NavigationBar from 'expo-navigation-bar';
 import * as Font from 'expo-font';
-import * as BackgroundFetch from 'expo-background-fetch';
 
 import './src/services/i18n/i18n';
 
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { UtilisateurProvider } from './src/services/context/UtilisateurContext';
 import { GeographieProvider } from './src/services/context/GeographieContext';
-import { registerBackgroundFetchAsync } from './src/services/background/BackgroundTaskService';
 
 const App = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false);
-  const [status, setStatus] = useState<BackgroundFetch.BackgroundFetchStatus | null>(null);
-
-  const BACKGROUND_FETCH_TASK = 'background-fetch';
 
   useEffect(() => {
-    async function setupBackgroundTask() {
-      await registerBackgroundFetchAsync();
-      const currentStatus = await BackgroundFetch.getStatusAsync();
-      if (currentStatus !== null) {
-        setStatus(currentStatus);
-        const isRegistered = await TaskManager.isTaskRegisteredAsync(BACKGROUND_FETCH_TASK);
-        setIsRegistered(isRegistered);
-      } else {
-        console.error("Failed to get background fetch status.");
-      }
-    }
-
     async function loadFont() {
       await Font.loadAsync({
         'Inter-Black': require('./src/assets/fonts/Inter-Black.ttf'),
@@ -53,7 +34,6 @@ const App = () => {
     }
 
     loadFont();
-    setupBackgroundTask();
   }, []);
 
   if (!fontLoaded) {
