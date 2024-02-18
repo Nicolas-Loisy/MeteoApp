@@ -20,11 +20,13 @@ import Field from '../components/molecules/Field';
 import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
 import ArrowReturn from '../assets/icons/svg/arrow-left-short.svg';
 
-
 const Inscription = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { inscription } = useUtilisateur();
+
+  // style de la position du clavier remonté 
+  const keyboardVerticalOffset = -173;
 
   // États pour stocker les valeurs du formulaire
   const [email, setEmail] = useState('');
@@ -65,9 +67,9 @@ const Inscription = () => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? -40 : -10}>
+        keyboardVerticalOffset={keyboardVerticalOffset}>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <View style={styles.inner}>
+            <View style={[styles.inner, Platform.select({ android: styles.innerAndroid })]}>
 
               <View style={styles.goBack}>     
                 <TouchableOpacity
@@ -82,9 +84,9 @@ const Inscription = () => {
                 <LogoMeteo {...styles.logoMeteo}/>
                 <Text style={styles.text}>{t('inscription.titre')}</Text>
               </View>
-
+              
               {/* Formulaire prénom */}
-              <Field onChangeText={setPrenom} iconSource={require('../assets/icons/logo-utilisateur.png')} fieldName={t('inscription.prenom')} onSubmitEditing={handleInscription} displayValidation/>
+              <Field onChangeText={setPrenom} iconSource={require('../assets/icons/logo-utilisateur.png')} fieldName={t('inscription.prenom')} onSubmitEditing={handleInscription} autoCorrect={false} displayValidation/>
               
               {/* Formulaire adresse e-mail */}
               <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleInscription} displayValidation/>
@@ -117,13 +119,13 @@ const Inscription = () => {
 };
 
 const styles = StyleSheet.create({
-  containerHeader: {
-    alignSelf: 'center',
-    alignItems: 'center',
-    marginBottom: 30,
+  container:{
     flex: 1
   },
-  container:{
+  containerHeader: {
+    marginTop: 26,
+    alignSelf: 'center',
+    alignItems: 'center',
     flex: 1
   },
   inner: {
@@ -132,7 +134,10 @@ const styles = StyleSheet.create({
     height: 'auto',
     alignItems: 'center',
     flex: 1,
-    marginBottom: 30,
+    marginBottom: 100,
+  },
+  innerAndroid: {
+    marginBottom: 40,
   },
   button: {
     borderWidth: 1,

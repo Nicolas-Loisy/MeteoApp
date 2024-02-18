@@ -24,12 +24,12 @@ const window = Dimensions.get('window');
 const IMAGE_HEIGHT = window.width / 2;
 const IMAGE_HEIGHT_SMALL = window.width / 4;
 
-// style de la position du clavier remonté 
-const keyboardVerticalOffsetIOS = -130;
-const keyboardVerticalOffsetAndroid = -140;
-
 const Connexion = () => {
   const { t } = useTranslation();
+
+  // style de la position du clavier remonté 
+  const keyboardVerticalOffsetIOS = -130;
+  const keyboardVerticalOffsetAndroid = -120;
 
   // hook useUser pour accéder au contexte d'utilisateur
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -127,7 +127,7 @@ const Connexion = () => {
               {/* Formulaire d'adresse e-mail */}
               <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')} keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleConnexion} />
               {/* Formulaire de mot de passe */}
-              <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} onSubmitEditing={handleConnexion} isPassword />
+              <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} onSubmitEditing={handleConnexion} isPassword/>
 
               <View style={styles.viewForgetMdp}>
                 <ClickableText
