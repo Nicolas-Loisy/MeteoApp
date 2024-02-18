@@ -20,6 +20,10 @@ const RechercheLieu = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { rechercheLieux, resultatsRecherche } = useGeographie();
 
+  // style de la position du clavier remonté 
+  const keyboardVerticalOffsetIOS = 37;
+  const keyboardVerticalOffsetAndroid = 20;
+
   async function handleRecherche(nomLieu: string) {
     if (nomLieu) {
       try {
@@ -39,7 +43,8 @@ const RechercheLieu = () => {
 
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{ flex: 1 }}
+          style={styles.inner}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? keyboardVerticalOffsetIOS : keyboardVerticalOffsetAndroid}
         >
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container}>
@@ -89,6 +94,9 @@ const styles = StyleSheet.create({
     borderBottomColor: 'white',
     borderBottomWidth: 1,
     height: '94%'
+  },
+  inner: {
+    flex: 1
   },
   containerSearch: {
     alignItems: 'center',

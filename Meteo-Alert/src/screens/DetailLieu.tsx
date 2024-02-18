@@ -7,7 +7,6 @@ import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native
 
 import Lieu from '../models/valueObject/Lieu';
 import Meteo from '../models/valueObject/Meteo';
-import meteoType from '../models/types/meteoType';
 
 import { useUtilisateur } from '../services/context/UtilisateurContext';
 
