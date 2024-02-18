@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity, Dimensions } from 'react-native';
 
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -18,6 +18,7 @@ import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import Field from '../components/molecules/Field';
 
 import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
+import ArrowReturn from '../assets/icons/svg/arrow-left-short.svg';
 
 
 const Inscription = () => {
@@ -61,42 +62,56 @@ const Inscription = () => {
 
   return (
     <LayoutTemplate>
-      <View style={styles.containerHeader}>
-        <LogoMeteo {...styles.logoMeteo}/>
-        <Text style={styles.text}>{t('inscription.titre')}</Text>
-      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? -40 : -10}>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.inner}>
 
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.container}>
+              <View style={styles.goBack}>     
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+                >
+                  <ArrowReturn onPress={() => navigation.goBack()} />
+                </TouchableOpacity>
+              </View>
+              
+              <View style={styles.containerHeader}>
+                <LogoMeteo {...styles.logoMeteo}/>
+                <Text style={styles.text}>{t('inscription.titre')}</Text>
+              </View>
 
-          {/* Formulaire prénom */}
-          <Field onChangeText={setPrenom} iconSource={require('../assets/icons/logo-utilisateur.png')} fieldName={t('inscription.prenom')} displayValidation/>
-          
-          {/* Formulaire adresse e-mail */}
-          <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' keyboardType='email-address' displayValidation/>
+              {/* Formulaire prénom */}
+              <Field onChangeText={setPrenom} iconSource={require('../assets/icons/logo-utilisateur.png')} fieldName={t('inscription.prenom')} onSubmitEditing={handleInscription} displayValidation/>
+              
+              {/* Formulaire adresse e-mail */}
+              <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleInscription} displayValidation/>
 
-          {/* Formulaire de mot de passe */}
-          <Field onChangeText={setMotDePasseValue} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword/>
-          <ReglesMDP
-            rules={passwordRules}
-          />
+              {/* Formulaire de mot de passe */}
+              <Field onChangeText={setMotDePasseValue} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword onSubmitEditing={handleInscription}/>
+              <ReglesMDP
+                rules={passwordRules}
+              />
 
-          {/* Bouton Inscription */}
-          <Button
-            onPress={handleInscription}
-            title={t('inscription.inscription')}
-            styleBtn="whiteBg"
-          />
+              {/* Bouton Inscription */}
+              <Button
+                onPress={handleInscription}
+                title={t('inscription.inscription')}
+                styleBtn="whiteBg"
+              />
 
-          <View style={styles.textDejaInscrit} >
-            {/* Bouton pour aller à la page d'inscription */}
-            <ClickableText
-              text={t('inscription.deja_inscrit')}
-              onPress={() => navigation.navigate('Connexion')}
-            />
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
+              <View style={styles.textDejaInscrit} >
+                {/* Bouton pour aller à la page d'inscription */}
+                <ClickableText
+                  text={t('inscription.deja_inscrit')}
+                  onPress={() => navigation.navigate('Connexion')}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     </LayoutTemplate>
   );
 };
@@ -105,20 +120,19 @@ const styles = StyleSheet.create({
   containerHeader: {
     alignSelf: 'center',
     alignItems: 'center',
-    marginBottom: 30
+    marginBottom: 30,
+    flex: 1
   },
-  container: {
+  container:{
+    flex: 1
+  },
+  inner: {
     verticalAlign: 'bottom',
     display: 'flex',
     height: 'auto',
     alignItems: 'center',
-  },
-  input: {
-    width: '20%',
-    height: 40,
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
+    flex: 1,
+    marginBottom: 30,
   },
   button: {
     borderWidth: 1,
@@ -137,6 +151,13 @@ const styles = StyleSheet.create({
   },
   textDejaInscrit: {
     marginTop: 15
+  },
+  goBack: {
+    position: 'absolute',
+    zIndex: 1,
+    left: Dimensions.get('window').width * 0.10,
+    top: 10,
+    marginLeft: -35
   }
 });
 

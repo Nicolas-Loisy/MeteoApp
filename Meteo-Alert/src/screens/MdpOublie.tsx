@@ -64,7 +64,7 @@ const MdpOublie = () => {
             <Text style={styles.text}>{t("mdp_oublie.titre")}</Text>
 
             {/* Formulaire d'adresse e-mail */}
-            <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('mdp_oublie.email')}/>
+            <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('mdp_oublie.email')} keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleResetPassword}/>
           
           <View style={styles.resetButton}>
             {/* Bouton de resetPwd */}
@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     left: Dimensions.get('window').width * 0.10,
-    top: 30,
-    marginLeft: -25
+    top: 35,
+    marginLeft: -10
   },
   resetButton: {
     marginTop: 25
