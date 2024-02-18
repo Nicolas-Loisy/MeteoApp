@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Text, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text } from 'react-native';
 import Navigation from './src/navigation/Navigation';
 
 import * as TaskManager from 'expo-task-manager';
@@ -12,34 +12,14 @@ import './src/services/i18n/i18n';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { UtilisateurProvider } from './src/services/context/UtilisateurContext';
 import { GeographieProvider } from './src/services/context/GeographieContext';
-import { schedulePushNotification } from './src/notification/notificationUtils';
-
-const BACKGROUND_FETCH_TASK = 'background-fetch';
-
-TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
-  const now = Date.now();
-  console.log(`Got background fetch call at date: ${new Date(now).toISOString()}`);
-  await schedulePushNotification();
-  console.log("LA NOTIF !");
-  return BackgroundFetch.BackgroundFetchResult.NewData;
-});
-
-async function registerBackgroundFetchAsync() {
-  return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-    minimumInterval: 60 * 1, // 15 minutes
-    stopOnTerminate: false, // android only,
-    startOnBoot: true, // android only
-  });
-}
-
-async function unregisterBackgroundFetchAsync() {
-  return BackgroundFetch.unregisterTaskAsync(BACKGROUND_FETCH_TASK);
-}
+import { registerBackgroundFetchAsync } from './src/services/background/BackgroundTaskService';
 
 const App = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [status, setStatus] = useState<BackgroundFetch.BackgroundFetchStatus | null>(null);
+
+  const BACKGROUND_FETCH_TASK = 'background-fetch';
 
   useEffect(() => {
     async function setupBackgroundTask() {
@@ -74,10 +54,6 @@ const App = () => {
 
     loadFont();
     setupBackgroundTask();
-  }, []);
-
-  useEffect(() => {
-    // Push notifications registration and listeners...
   }, []);
 
   if (!fontLoaded) {

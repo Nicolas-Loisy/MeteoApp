@@ -1,6 +1,6 @@
 import * as Notifications from 'expo-notifications';
 
-async function schedulePushNotification() {
+export async function schedulePushNotification() {
   await Notifications.scheduleNotificationAsync({
     content: {
       title: "You've got mail! 📬",
@@ -10,5 +10,3 @@ async function schedulePushNotification() {
     trigger: { seconds: 2 },
   });
 }
-
-export { schedulePushNotification };
