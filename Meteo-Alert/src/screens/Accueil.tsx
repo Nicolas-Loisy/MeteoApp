@@ -5,7 +5,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 
 import { useUtilisateur } from '../services/context/UtilisateurContext';
-import { langues, langueDefaut } from "../services/i18n/i18n";
 
 import Button from '../components/atoms/Button';
 import MyStatusBar from '../components/atoms/MyStatusBar';

@@ -91,14 +91,16 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
 
           {/* Formulaire de modification de mot de passe */}
           <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={t('voletParametre.ancienPwd')} onSubmitEditing={handleModifierMotDePasse} isPassword/>
-          <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={t('voletParametre.nouveauPwd')} onSubmitEditing={handleModifierMotDePasse}  isPassword/>
+          <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={t('voletParametre.nouveauPwd')}  isPassword/>
 
-          <ReglesMDP
-            rules={motDePasseRegles}
-            whiteMode
-          />
+          <View style={styles.reglesMDPContainer}>
+            <ReglesMDP
+              rules={motDePasseRegles}
+              whiteMode
+            />
+          </View>
 
-          <View style={styles.button} >
+          <View>
             <Button
               onPress={handleModifierMotDePasse}
               title={t('voletParametre.changePwd')}
@@ -151,8 +153,8 @@ const styles = StyleSheet.create({
   },
   voletContent: {
     alignItems: 'center',
-    marginTop: 0,
-    height: "90%",
+    marginTop: 10,
+    height: "93%",
   },
   closeButtonLogo: {
     marginLeft: 260,
@@ -162,7 +164,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    marginLeft: 20,
     marginBottom: 5,
     fontSize: 15,
     fontFamily: "Karla-Medium"
@@ -170,8 +171,11 @@ const styles = StyleSheet.create({
   button: {
     marginBottom: 15
   },
+  reglesMDPContainer: {
+    marginLeft: 38
+  },
   footerVolet: {
-    flex: 1,
+    marginTop: 200,
     justifyContent: 'flex-end',
     alignItems: 'center'
   }
