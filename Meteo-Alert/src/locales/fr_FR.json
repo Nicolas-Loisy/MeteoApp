@@ -94,7 +94,7 @@
         "voletParametre": {
             "deconnexion": "Déconnexion",
             "changePwd": "Modifier votre mot de passe",
-            "ancienPwd": "Ancien mot de passe",
+            "actualPwd": "Mot de passe actuel",
             "nouveauPwd": "Nouveau mot de passe",
             "popup_confirmation" : {
                 "title": "Modification du mot de passe terminée",

@@ -95,7 +95,7 @@
         "voletParametre": {
             "deconnexion": "Logout",
             "changePwd": "Change your password",
-            "ancienPwd": "Old password",
+            "actualPwd": "Current password",
             "nouveauPwd": "New password",
                 "popup_confirmation" : {
                     "title": "Password modification completed",

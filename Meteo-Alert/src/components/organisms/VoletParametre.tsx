@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, TouchableWithoutFeedback, Platform } from 'react-native';
 
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import { useTranslation } from 'react-i18next';
 
 import { useUtilisateur } from '../../services/context/UtilisateurContext';
 import { langues, langueDefaut } from "../../services/i18n/i18n";
-import { useTranslation } from 'react-i18next';
 
 import dtMotDePasse from '../../models/datatype/dtMotDePasse';
 
@@ -42,6 +42,7 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
 
   const handleModifierMotDePasse = async () => {
     if (!motDePasse) {
+      console.log('Mot de passe non défini');
       Dialog.show({
         type: ALERT_TYPE.DANGER,
         title: t("voletParametre.popup_erreur.title"),
@@ -90,7 +91,7 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
           <Text style={styles.text}>{utilisateur?.mail}</Text>
 
           {/* Formulaire de modification de mot de passe */}
-          <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={t('voletParametre.ancienPwd')} onSubmitEditing={handleModifierMotDePasse} isPassword/>
+          <Field onChangeText={setAncienMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={t('voletParametre.actualPwd')} onSubmitEditing={handleModifierMotDePasse} isPassword/>
           <Field onChangeText={setMotDePasseValue} iconSource={require('../../assets/icons/key-solid.png')} fieldName={t('voletParametre.nouveauPwd')}  isPassword/>
 
           <View style={styles.reglesMDPContainer}>

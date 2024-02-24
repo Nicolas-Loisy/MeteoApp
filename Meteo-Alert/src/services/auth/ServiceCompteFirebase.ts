@@ -69,7 +69,7 @@ export default class ServiceCompteFirebase implements iServiceCompte {
     const auth = FirebaseConfig.getInstance().auth;
     try {
       const isConnexionVerifiee = await this.verifierConnexion(ancienMotDePasse);
-      if (isConnexionVerifiee) throw new Error("FirebaseError: reauthentication failed");
+      if (!isConnexionVerifiee) throw new Error("FirebaseError: reauthentication failed");
 
       /* Mise à jour du mot de passe */
       await updatePassword(auth.currentUser!, motDePasse);
