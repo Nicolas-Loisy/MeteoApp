@@ -175,9 +175,8 @@ const styles = StyleSheet.create({
     marginLeft: 38
   },
   footerVolet: {
-    marginTop: 200,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
+    bottom: -230,
+    alignItems: 'center',
   }
 });
 
