@@ -109,16 +109,20 @@ const Connexion = () => {
     <>
       <MyStatusBar />
       <LayoutTemplate>
+
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.container}
           keyboardVerticalOffset={Platform.OS === 'ios' ? keyboardVerticalOffsetIOS : keyboardVerticalOffsetAndroid}>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+
             <View style={styles.inner}>
+
               <KeyboardAvoidingView>
                 <Animated.View style={[[styles.logoMeteo, Platform.select({ android: styles.logoMeteoAndroid })], { height: imageHeight }]}>
                   <LogoMeteo />
                 </Animated.View>
+
                 <Animated.Text style={[styles.text, { transform: [{ translateY: textTranslateY }] }]}>
                   {t('connexion.titre')}
                 </Animated.Text>
@@ -159,6 +163,7 @@ const Connexion = () => {
                 langueDefaut={ i18n.language }
                 onChange={(langue: string) => i18n.changeLanguage(langue)}
               />
+              
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

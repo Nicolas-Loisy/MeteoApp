@@ -42,12 +42,11 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
 
   const handleModifierMotDePasse = async () => {
     if (!motDePasse) {
-      console.log('Mot de passe non défini');
       Dialog.show({
         type: ALERT_TYPE.DANGER,
-        title: t("voletParametre.popup_erreur.title"),
-        textBody: t(`voletParametre.popup_erreur.mdp_incorrect`),
-        button: t("voletParametre.popup_erreur.button"),
+        title: t("voletParametre.popup_erreur_missing_pwd.title"),
+        textBody: t(`voletParametre.popup_erreur_missing_pwd.mdp_incorrect`),
+        button: t("voletParametre.popup_erreur_missing_pwd.button"),
       });
       return;
     }
@@ -63,9 +62,9 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
     } catch (error: unknown) {
       Dialog.show({
         type: ALERT_TYPE.DANGER,
-        title: t("voletParametre.popup_erreur.title"),
+        title: t("voletParametre.popup_erreur_rules.title"),
         textBody: t(`erreur.auth.${error}`),
-        button: t("voletParametre.popup_erreur.button"),
+        button: t("voletParametre.popup_erreur_rules.button"),
       });
     }
   }
@@ -81,12 +80,14 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
       </TouchableWithoutFeedback>
 
       <View style={[styles.volet, Platform.select({ android: styles.voletAndroid })]}>
+
         <TouchableOpacity onPress={onClose}>
           <Croix style={styles.closeButtonLogo}/>
         </TouchableOpacity>
 
         {/* Contenu du volet */}
         <View style={styles.voletContent} >
+
           <Text style={styles.text}>{utilisateur?.prenom}</Text>
           <Text style={styles.text}>{utilisateur?.mail}</Text>
 
@@ -126,6 +127,7 @@ const VoletParametre: React.FC<VoletParametreProps> = ({ isOpen, onClose }) => {
                 text={t('voletParametre.deconnexion')}
               />
             </View>
+            
           </View>
         </View>
       </View>

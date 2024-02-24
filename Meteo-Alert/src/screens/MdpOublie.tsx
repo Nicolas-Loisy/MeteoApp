@@ -44,11 +44,11 @@ const MdpOublie = () => {
 
   return (
     <LayoutTemplate>
+
       <View style={styles.goBack}>     
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
-        >
+          hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}>
           <ArrowReturn onPress={() => navigation.goBack()} />
         </TouchableOpacity>
       </View>
@@ -60,11 +60,12 @@ const MdpOublie = () => {
 
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
-            {/* Titre */}
-            <Text style={styles.text}>{t("mdp_oublie.titre")}</Text>
 
-            {/* Formulaire d'adresse e-mail */}
-            <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('mdp_oublie.email')} keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleResetPassword}/>
+          {/* Titre */}
+          <Text style={styles.text}>{t("mdp_oublie.titre")}</Text>
+
+          {/* Formulaire d'adresse e-mail */}
+          <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('mdp_oublie.email')} keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleResetPassword}/>
           
           <View style={styles.resetButton}>
             {/* Bouton de resetPwd */}
@@ -73,6 +74,7 @@ const MdpOublie = () => {
               title={t('mdp_oublie.button')}
               styleBtn="whiteBg"
             />
+
           </View>
         </View>
       </TouchableWithoutFeedback>

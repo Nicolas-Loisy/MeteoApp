@@ -101,7 +101,12 @@
                 "textBody": "Votre mot de passe a bien été modifié !",
                 "button": "Fermer"
             },
-            "popup_erreur" : {
+            "popup_erreur_missing_pwd" : {
+                "title": "Modification du mot de passe impossible",
+                "mdp_incorrect": "Le mot de passe n'est pas renseigné",
+                "button": "Fermer"
+            },
+            "popup_erreur_rules" : {
                 "title": "Modification du mot de passe impossible",
                 "mdp_incorrect": "Le nouveau mot de passe ne respecte pas les règles attendues",
                 "button": "Fermer"

@@ -102,7 +102,12 @@
                     "textBody": "Your password has been changed !",
                     "button": "Close"
                 },
-                "popup_erreur" : {
+                "popup_erreur_missing_pwd" : {
+                    "title": "Password cannot be changed",
+                    "mdp_incorrect": "The password is not entered",
+                    "button": "Fermer"
+                },
+                "popup_erreur_rules" : {
                     "title": "Password cannot be changed",
                     "mdp_incorrect": "New password does not comply with expected rules",
                     "button": "Close"

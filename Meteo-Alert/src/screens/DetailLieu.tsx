@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, ScrollView, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 import { useTranslation } from 'react-i18next';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -15,7 +15,6 @@ import TrashButton from '../components/atoms/TrashButton';
 import ReglageAlerte from '../components/molecules/ReglageAlerte';
 import TimeAgoText from '../components/atoms/TimeAgoText';
 import GoBackButton from '../components/atoms/GoBackButton';
-import Button from '../components/atoms/Button';
 import ListeInfoMeteo from '../components/molecules/ListInfoMeteo';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
 
@@ -63,26 +62,25 @@ const DetailLieu = () => {
 
   return (
     <LayoutTemplate>
+
       <View style={styles.actionButton}>
         <GoBackButton onPress={navigation.goBack} iconType='arrowReturn'/>
         <TrashButton onPress={handleSupprimerLieuFavori} />
       </View>
 
-      <View style={styles.inner}>   
+      <View style={styles.inner}>  
+
         <Title text={lieu?.nom} fontSize={50} />
         <Title text={lieu?.region} fontSize={20} />
         <TimeAgoText lastUpdateDate={meteo?.heureActualisation} fontSize={15} />
 
-          
-            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-
-                  <Title text={t("detailLieu.releveDirect")} fontSize={22} />
-                  <ListeInfoMeteo meteo={meteo} blacklist={['heureActualisation']} />
-                  <ReglageAlerte lieu={lieu} />
-
-                  </KeyboardAwareScrollView>
-            </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+            <Title text={t("detailLieu.releveDirect")} fontSize={22} />
+            <ListeInfoMeteo meteo={meteo} blacklist={['heureActualisation']} />
+            <ReglageAlerte lieu={lieu} />
+          </KeyboardAwareScrollView>
+        </TouchableWithoutFeedback>
           
       </View>
     </LayoutTemplate>

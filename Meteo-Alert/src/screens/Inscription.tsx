@@ -64,11 +64,13 @@ const Inscription = () => {
 
   return (
     <LayoutTemplate>
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
         keyboardVerticalOffset={keyboardVerticalOffset}>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+
             <View style={[styles.inner, Platform.select({ android: styles.innerAndroid })]}>
 
               <View style={styles.goBack}>     
@@ -111,6 +113,7 @@ const Inscription = () => {
                   onPress={() => navigation.navigate('Connexion')}
                 />
               </View>
+              
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
