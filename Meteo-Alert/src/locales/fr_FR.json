@@ -93,7 +93,24 @@
         },
         "voletParametre": {
             "deconnexion": "Déconnexion",
-            "changePwd": "Modifier votre mot de passe"
+            "changePwd": "Modifier votre mot de passe",
+            "actualPwd": "Mot de passe actuel",
+            "nouveauPwd": "Nouveau mot de passe",
+            "popup_confirmation" : {
+                "title": "Modification du mot de passe terminée",
+                "textBody": "Votre mot de passe a bien été modifié !",
+                "button": "Fermer"
+            },
+            "popup_erreur_missing_pwd" : {
+                "title": "Modification du mot de passe impossible",
+                "mdp_incorrect": "Le mot de passe n'est pas renseigné",
+                "button": "Fermer"
+            },
+            "popup_erreur_rules" : {
+                "title": "Modification du mot de passe impossible",
+                "mdp_incorrect": "Le nouveau mot de passe ne respecte pas les règles attendues",
+                "button": "Fermer"
+            }
         },
         "aUnite": {
             "mesure-undefined": "Indisponible"

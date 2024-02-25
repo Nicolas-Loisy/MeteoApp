@@ -1,5 +1,15 @@
 {
     "react-native": {
+        "erreur": {
+            "auth": {
+                "ERREUR_IDENTIFIANTS_INVALIDES": "Invalid identifiers",
+                "ERREUR_EMAIL_INVALIDE": "Invalid e-mail address format",
+                "ERREUR_EMAIL_UTILISE": "This e-mail address is already in use",
+                "ERREUR_MDP_FAIBLE": "This password is too weak",
+                "ERREUR_RECONNEXION_NECESSAIRE": "Reconnection is necessary",
+                "ERREUR_COMPTE_DESACTIVE": "Your account is deactivated"
+            }
+        },
         "accueil": {
             "titre": "Home",
             "rechercheLieu": "Add a location"
@@ -84,7 +94,24 @@
         },
         "voletParametre": {
             "deconnexion": "Logout",
-            "changePwd": "Change your password"
+            "changePwd": "Change your password",
+            "actualPwd": "Current password",
+            "nouveauPwd": "New password",
+                "popup_confirmation" : {
+                    "title": "Password modification completed",
+                    "textBody": "Your password has been changed !",
+                    "button": "Close"
+                },
+                "popup_erreur_missing_pwd" : {
+                    "title": "Password cannot be changed",
+                    "mdp_incorrect": "The password is not entered",
+                    "button": "Fermer"
+                },
+                "popup_erreur_rules" : {
+                    "title": "Password cannot be changed",
+                    "mdp_incorrect": "New password does not comply with expected rules",
+                    "button": "Close"
+                }
         },
         "aUnite": {
             "mesure-undefined": "Unavailable" 

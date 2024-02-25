@@ -18,7 +18,7 @@ const ReglesMDP: React.FC<Props> = ({ rules, whiteMode=false }) => {
             <Logo 
               imageSource={value ? require('../../assets/icons/circle-check-regular.png') : require('../../assets/icons/circle-xmark-regular.png')} 
               size={18} 
-              color= {value ? '#1E375A' : '#C83434'}
+              color= {value ? '#00FF00' : '#C83434'}
             />
             <Text style={whiteMode ? { color: 'white' } : null} >{t("summaryRules." + key) }</Text>
           </View>
