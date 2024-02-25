@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity, Dimensions } from 'react-native';
 
-import {ParamListBase, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import { useTranslation } from 'react-i18next';
 
@@ -18,17 +18,20 @@ import LayoutTemplate from '../components/organisms/LayoutTemplate';
 import Field from '../components/molecules/Field';
 
 import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
-
+import ArrowReturn from '../assets/icons/svg/arrow-left-short.svg';
 
 const Inscription = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { inscription } = useUtilisateur();
 
+  // style de la position du clavier remonté 
+  const keyboardVerticalOffset = -173;
+
   // États pour stocker les valeurs du formulaire
   const [email, setEmail] = useState('');
   const [prenom, setPrenom] = useState('');
-  
+
   const [motDePasseValue, setMotDePasseValue] = useState<string>('');
   const [motDePasse, setMotDePasse] = useState<dtMotDePasse | null>(null);
   const passwordRules = dtMotDePasse.checkRules(motDePasseValue);
@@ -61,68 +64,88 @@ const Inscription = () => {
 
   return (
     <LayoutTemplate>
-      <View style={styles.containerHeader}>
-        <LogoMeteo {...styles.logoMeteo}/>
-        <Text style={styles.text}>{t('inscription.titre')}</Text>
-      </View>
 
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+        keyboardVerticalOffset={keyboardVerticalOffset}
+      >
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 
-          {/* Formulaire prénom */}
-          <Field onChangeText={setPrenom} iconSource={require('../assets/icons/logo-utilisateur.png')} fieldName={t('inscription.prenom')} displayValidation/>
-          
-          {/* Formulaire adresse e-mail */}
-          <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' keyboardType='email-address' displayValidation/>
+          <View style={[styles.inner, Platform.select({ android: styles.innerAndroid })]}>
 
-          {/* Formulaire de mot de passe */}
-          <Field onChangeText={setMotDePasseValue} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword/>
-          <ReglesMDP
-            rules={passwordRules}
-          />
+            <View style={styles.goBack}>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+              >
+                <ArrowReturn onPress={() => navigation.goBack()} />
+              </TouchableOpacity>
+            </View>
 
-          {/* Bouton Inscription */}
-          <Button
-            onPress={handleInscription}
-            title={t('inscription.inscription')}
-            styleBtn="whiteBg"
-          />
+            <View style={styles.containerHeader}>
+              <LogoMeteo {...styles.logoMeteo} />
+              <Text style={styles.text}>{t('inscription.titre')}</Text>
+            </View>
 
-          <View style={styles.textDejaInscrit} >
-            {/* Bouton pour aller à la page d'inscription */}
-            <ClickableText
-              text={t('inscription.deja_inscrit')}
-              onPress={() => navigation.navigate('Connexion')}
+            {/* Formulaire prénom */}
+            <Field onChangeText={setPrenom} iconSource={require('../assets/icons/logo-utilisateur.png')} fieldName={t('inscription.prenom')} onSubmitEditing={handleInscription} autoCorrect={false} displayValidation />
+
+            {/* Formulaire adresse e-mail */}
+            <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('inscription.email')} validationType='mail' keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleInscription} displayValidation />
+
+            {/* Formulaire de mot de passe */}
+            <Field onChangeText={setMotDePasseValue} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('inscription.mdp')} isPassword onSubmitEditing={handleInscription} />
+            <ReglesMDP
+              rules={passwordRules}
             />
+
+            {/* Bouton Inscription */}
+            <Button
+              onPress={handleInscription}
+              title={t('inscription.inscription')}
+              styleBtn="whiteBg"
+            />
+
+            <View style={styles.textDejaInscrit} >
+              {/* Bouton pour aller à la page d'inscription */}
+              <ClickableText
+                text={t('inscription.deja_inscrit')}
+                onPress={() => navigation.navigate('Connexion')}
+              />
+            </View>
+
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </LayoutTemplate>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   containerHeader: {
+    marginTop: 26,
     alignSelf: 'center',
     alignItems: 'center',
-    marginBottom: 30
+    flex: 1
   },
-  container: {
+  inner: {
     verticalAlign: 'bottom',
     display: 'flex',
     height: 'auto',
     alignItems: 'center',
+    flex: 1,
+    marginBottom: 100,
   },
-  input: {
-    width: '20%',
-    height: 40,
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
+  innerAndroid: {
+    marginBottom: 40,
   },
   button: {
     borderWidth: 1,
-    borderColor:'blue',
+    borderColor: 'blue',
     padding: 10,
     borderRadius: 5,
   },
@@ -137,6 +160,13 @@ const styles = StyleSheet.create({
   },
   textDejaInscrit: {
     marginTop: 15
+  },
+  goBack: {
+    position: 'absolute',
+    zIndex: 1,
+    left: Dimensions.get('window').width * 0.10,
+    top: 10,
+    marginLeft: -35
   }
 });
 

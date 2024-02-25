@@ -16,7 +16,7 @@ class AlerteVisibiliteReduite extends aAlerte {
     this.criteres = {
       visibilite: {
         valeur: 10,
-        operateurComparaison: '>',
+        operateurComparaison: '<',
         uniteMesure: UniteVitesseEnum[systemMesure],
       },
     };
@@ -28,7 +28,7 @@ class AlerteVisibiliteReduite extends aAlerte {
     }
 
     return (
-      mesureMeteo.visibilite.getValeur() > this.criteres.visibilite.valeur
+      mesureMeteo.visibilite.getValeur() < this.criteres.visibilite.valeur
     );
   }
 }

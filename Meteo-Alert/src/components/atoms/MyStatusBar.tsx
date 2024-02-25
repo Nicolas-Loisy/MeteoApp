@@ -4,11 +4,11 @@ import { StyleSheet, StatusBar } from 'react-native';
 const MyStatusBar = ({ }) => {
   return (
     <StatusBar
-        animated={true}
-        backgroundColor="black"
-        barStyle={"dark-content"}
-        showHideTransition={"fade"}
-        hidden={false}
+      animated={true}
+      backgroundColor="black"
+      barStyle={"dark-content"}
+      showHideTransition={"fade"}
+      hidden={false}
     />
   );
 };

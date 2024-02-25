@@ -11,7 +11,7 @@ const TrashButton: React.FC<GoBackButtonProps> = ({ onPress }) => {
     return (
         <TouchableOpacity
             onPress={onPress}
-            style={ styles.trash }
+            style={styles.trash}
             hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
         >
             <Trash />

@@ -19,7 +19,7 @@ import InputLangue from '../components/atoms/InputLangue';
 import LogoMeteo from '../assets/icons/svg/logo-meteo.svg';
 
 
-// Paramètrer la taille du logo météo pour son animation
+// Paramètrer la taille du logo météo pour son animation selon l'écran du téléphone
 const window = Dimensions.get('window');
 const IMAGE_HEIGHT = window.width / 2;
 const IMAGE_HEIGHT_SMALL = window.width / 4;
@@ -27,10 +27,15 @@ const IMAGE_HEIGHT_SMALL = window.width / 4;
 const Connexion = () => {
   const { t } = useTranslation();
 
+  // style de la position du clavier remonté 
+  const keyboardVerticalOffsetIOS = -130;
+  const keyboardVerticalOffsetAndroid = -120;
+
   // hook useUser pour accéder au contexte d'utilisateur
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { connexion } = useUtilisateur();
 
+  // paramètre pour définir l'état de l'animation
   const [textTranslateY] = useState(new Animated.Value(0));
   const [imageHeight] = useState(new Animated.Value(IMAGE_HEIGHT));
 
@@ -70,7 +75,6 @@ const Connexion = () => {
     };
   }, []);
 
-  // Pour ios
   const keyboardWillShow = () => {
     Animated.parallel([
       Animated.timing(imageHeight, {
@@ -80,7 +84,7 @@ const Connexion = () => {
       }),
       Animated.timing(textTranslateY, {
         duration: 400,
-        toValue: 20,
+        toValue: Platform.OS === 'ios' ? 20 : 35,
         useNativeDriver: false,
       }),
     ]).start();
@@ -105,16 +109,21 @@ const Connexion = () => {
     <>
       <MyStatusBar />
       <LayoutTemplate>
+
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.container}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? -70 : -40}>
+          keyboardVerticalOffset={Platform.OS === 'ios' ? keyboardVerticalOffsetIOS : keyboardVerticalOffsetAndroid}
+        >
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+
             <View style={styles.inner}>
+
               <KeyboardAvoidingView>
-                <Animated.View style={[styles.logoMeteo, { height: imageHeight }]}>
+                <Animated.View style={[[styles.logoMeteo, Platform.select({ android: styles.logoMeteoAndroid })], { height: imageHeight }]}>
                   <LogoMeteo />
                 </Animated.View>
+
                 <Animated.Text style={[styles.text, { transform: [{ translateY: textTranslateY }] }]}>
                   {t('connexion.titre')}
                 </Animated.Text>
@@ -123,7 +132,7 @@ const Connexion = () => {
               {/* Formulaire d'adresse e-mail */}
               <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('connexion.email')} keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleConnexion} />
               {/* Formulaire de mot de passe */}
-              <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} onSubmitEditing={handleConnexion} isPassword />
+              <Field onChangeText={setMotDePasse} iconSource={require('../assets/icons/key-solid.png')} fieldName={t('connexion.mdp')} onSubmitEditing={handleConnexion} isPassword/>
 
               <View style={styles.viewForgetMdp}>
                 <ClickableText
@@ -155,6 +164,7 @@ const Connexion = () => {
                 langueDefaut={ i18n.language }
                 onChange={(langue: string) => i18n.changeLanguage(langue)}
               />
+              
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -184,11 +194,9 @@ const styles = StyleSheet.create({
     height: IMAGE_HEIGHT,
     width: 200,
     marginLeft: 45,
-    ...Platform.select({
-      android: {
-        marginBottom: -40, // Ajustez cette valeur selon votre besoin
-      },
-    }),
+  },
+  logoMeteoAndroid: {
+    marginBottom: -40,
   },
   viewForgetMdp: {
     width: '85%',

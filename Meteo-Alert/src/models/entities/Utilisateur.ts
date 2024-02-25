@@ -1,4 +1,4 @@
-import ReglageApp from '../ReglageApp';
+import ReglageApp from '../../config/ReglageApp';
 import ErreurUtilisateur from '../enum/erreurs/ErreurUtilisateur';
 import utilisateurInfosType from '../types/utilisateurInfosType';
 import Lieu from '../valueObject/Lieu';

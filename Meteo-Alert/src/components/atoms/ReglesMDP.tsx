@@ -12,14 +12,13 @@ type Props = {
 const ReglesMDP: React.FC<Props> = ({ rules, whiteMode=false }) => {
   return (
     <View>
-      {/* <Text style={styles.title}>Summary Rules:</Text> */}
       <View style={styles.listContainer}>
         {Object.entries(rules).map(([key, value]) => (
           <View key={key} style={styles.listItem}>
             <Logo 
               imageSource={value ? require('../../assets/icons/circle-check-regular.png') : require('../../assets/icons/circle-xmark-regular.png')} 
               size={18} 
-              color= {value ? '#1E375A' : '#C83434'}
+              color= {value ? '#00FF00' : '#C83434'}
             />
             <Text style={whiteMode ? { color: 'white' } : null} >{t("summaryRules." + key) }</Text>
           </View>

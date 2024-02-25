@@ -15,7 +15,7 @@ const GoBackButton: React.FC<GoBackButtonProps> = ({ onPress, iconType = 'croix'
     return (
         <TouchableOpacity
             onPress={onPress}
-            style={iconType === 'arrowReturn' ? styles.arrowReturn : styles.croix }
+            style={iconType === 'arrowReturn' ? styles.arrowReturn : styles.croix}
             hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
         >
             <Icon />

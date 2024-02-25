@@ -5,10 +5,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 
 import { useUtilisateur } from '../services/context/UtilisateurContext';
-import { langues, langueDefaut } from "../services/i18n/i18n";
 
 import Button from '../components/atoms/Button';
-import InputLangue from '../components/atoms/InputLangue';
 import MyStatusBar from '../components/atoms/MyStatusBar';
 import EngrenageParametre from '../components/atoms/EngrenageParametre';
 import LayoutTemplate from '../components/organisms/LayoutTemplate';
@@ -29,6 +27,7 @@ const Accueil = () => {
     <>
       <MyStatusBar />
       <LayoutTemplate>
+
         <Modal
           transparent={true}
           animationType="fade"
@@ -38,12 +37,12 @@ const Accueil = () => {
           <VoletParametre isOpen={isVoletOpen} onClose={handleVolet} />
         </Modal>
 
-
         <View style={styles.containerHeader}>
           <EngrenageParametre onOpenVolet={handleVolet} />
         </View>
 
         <View style={styles.container}>
+
           <View style={styles.list}>
             {/* Liste scrollable avec des cartes contenants les lieux avec le nom et la temperature */}
             <LieuxSection lieux={lieuxFavoris} />
@@ -54,6 +53,7 @@ const Accueil = () => {
             title={t('accueil.rechercheLieu')}
             styleBtn="whiteBg"
           />
+          
         </View>
       </LayoutTemplate>
     </>

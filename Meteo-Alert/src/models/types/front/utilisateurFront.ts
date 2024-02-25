@@ -1,4 +1,4 @@
-import ReglageApp from "../../ReglageApp";
+import ReglageApp from "../../../config/ReglageApp";
 import SystemeMesureEnum from "../../enum/SystemeMesureEnum";
 
 type utilisateurFront = {

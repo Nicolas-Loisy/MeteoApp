@@ -1,6 +1,6 @@
 import { langueDefaut, langues } from "../services/i18n/i18n";
-import SystemeMesureEnum from "./enum/SystemeMesureEnum";
-import reglagePersistence from "./types/pertistence/reglageAppPersistence";
+import SystemeMesureEnum from "../models/enum/SystemeMesureEnum";
+import reglagePersistence from "../models/types/pertistence/reglageAppPersistence";
 
 class ReglageApp {
   private static instance: ReglageApp | null;

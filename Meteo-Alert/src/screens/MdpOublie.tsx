@@ -44,7 +44,8 @@ const MdpOublie = () => {
 
   return (
     <LayoutTemplate>
-      <View style={styles.goBack}>     
+
+      <View style={styles.goBack}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
@@ -52,20 +53,21 @@ const MdpOublie = () => {
           <ArrowReturn onPress={() => navigation.goBack()} />
         </TouchableOpacity>
       </View>
-      
+
       <View style={styles.containerHeader}>
-        <LogoMeteo {...styles.logoMeteo}/>
+        <LogoMeteo {...styles.logoMeteo} />
         <Text style={styles.textTitle}>{t('mdp_oublie.logo')}</Text>
       </View>
 
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
-            {/* Titre */}
-            <Text style={styles.text}>{t("mdp_oublie.titre")}</Text>
 
-            {/* Formulaire d'adresse e-mail */}
-            <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('mdp_oublie.email')}/>
-          
+          {/* Titre */}
+          <Text style={styles.text}>{t("mdp_oublie.titre")}</Text>
+
+          {/* Formulaire d'adresse e-mail */}
+          <Field onChangeText={setEmail} iconSource={require('../assets/icons/at-solid.png')} fieldName={t('mdp_oublie.email')} keyboardType='email-address' autoCorrect={false} onSubmitEditing={handleResetPassword} />
+
           <View style={styles.resetButton}>
             {/* Bouton de resetPwd */}
             <Button
@@ -73,6 +75,7 @@ const MdpOublie = () => {
               title={t('mdp_oublie.button')}
               styleBtn="whiteBg"
             />
+
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -111,8 +114,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     left: Dimensions.get('window').width * 0.10,
-    top: 30,
-    marginLeft: -25
+    top: 35,
+    marginLeft: -10
   },
   resetButton: {
     marginTop: 25
