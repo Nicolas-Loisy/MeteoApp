@@ -15,8 +15,9 @@ const AjouterRetirerButton: React.FC<AjouterRetirerButtonProps> = ({ isAdd = tru
     return (
         <TouchableOpacity
             onPress={onPress}
-            style={isAdd ? styles.plusAjouter : styles.moinsRetirer }
-            hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}>
+            style={isAdd ? styles.plusAjouter : styles.moinsRetirer}
+            hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+        >
             <Icon />
         </TouchableOpacity>
     );

@@ -113,7 +113,8 @@ const Connexion = () => {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.container}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? keyboardVerticalOffsetIOS : keyboardVerticalOffsetAndroid}>
+          keyboardVerticalOffset={Platform.OS === 'ios' ? keyboardVerticalOffsetIOS : keyboardVerticalOffsetAndroid}
+        >
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 
             <View style={styles.inner}>

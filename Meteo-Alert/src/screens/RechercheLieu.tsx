@@ -44,19 +44,20 @@ const RechercheLieu = () => {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.inner}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? keyboardVerticalOffsetIOS : keyboardVerticalOffsetAndroid}>
+          keyboardVerticalOffset={Platform.OS === 'ios' ? keyboardVerticalOffsetIOS : keyboardVerticalOffsetAndroid}
+        >
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            
+
             <View style={styles.container}>
               <View style={styles.containerList}>
                 {resultatsRecherche && resultatsRecherche.length > 0 ? (
-                    <FlatList
-                      data={resultatsRecherche}
-                      keyExtractor={(item, index) => index.toString()}
-                      renderItem={({ item }) => (
-                        <LieuSearchCard lieu={item} />
-                      )}
-                    />
+                  <FlatList
+                    data={resultatsRecherche}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item }) => (
+                      <LieuSearchCard lieu={item} />
+                    )}
+                  />
                 ) : (
                   <>
                     <View style={styles.logo}>
