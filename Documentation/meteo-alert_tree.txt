@@ -1,131 +1,92 @@
 src
 ├── assets
-│   ├── adaptive-icon.png
-│   ├── favicon.png
-│   ├── fonts
-│   │   ├── Inter-Black.ttf
-│   │   ├── Inter-Bold.ttf
-│   │   ├── Inter-ExtraBold.ttf
-│   │   ├── Inter-ExtraLight.ttf
-│   │   ├── Inter-Light.ttf
-│   │   ├── Inter-Medium.ttf
-│   │   ├── Inter-Regular.ttf
-│   │   ├── Inter-SemiBold.ttf
-│   │   ├── Inter-Thin.ttf
-│   │   ├── Jomhuria-Regular.ttf
-│   │   └── Karla-Medium.ttf
-│   ├── icon.png
-│   ├── icons
-│   │   ├── at-solid.png
-│   │   ├── check-solid.png
-│   │   ├── chevron-right-solid.png
-│   │   ├── circle-check-regular.png
-│   │   ├── circle-dot-regular.png
-│   │   ├── circle-regular.png
-│   │   ├── circle-xmark-regular.png
-│   │   ├── cloud-showers-heavy-solid.png
-│   │   ├── gear-solid.png
-│   │   ├── icon-refus.png
-│   │   ├── Icons1.png
-│   │   ├── key-solid.png
-│   │   ├── logo-meteo.png
-│   │   ├── logo-utilisateur.png
-│   │   ├── magnifying-glass-solid.png
-│   │   ├── svg
-│   │   │   ├── at-solid.svg
-│   │   │   ├── check-solid.svg
-│   │   │   ├── chevron-right-solid.svg
-│   │   │   ├── circle-check-regular.svg
-│   │   │   ├── circle-dot-regular.svg
-│   │   │   ├── circle-regular.svg
-│   │   │   ├── circle-xmark-regular.svg
-│   │   │   ├── cloud-drizzle.svg
-│   │   │   ├── cloud-moon.svg
-│   │   │   ├── cloud-showers-heavy-solid.svg
-│   │   │   ├── cloud-sun.svg
-│   │   │   ├── clouds.svg
-│   │   │   ├── cloudy.svg
-│   │   │   ├── gear-solid.svg
-│   │   │   ├── icon-refus.svg
-│   │   │   ├── Icons1.svg
-│   │   │   ├── key-solid.svg
-│   │   │   ├── logo-meteo.svg
-│   │   │   ├── logo-utilisateur.svg
-│   │   │   ├── magnifying-glass-solid.svg
-│   │   │   ├── moon.svg
-│   │   │   ├── sun.svg
-│   │   │   ├── temperature-low-solid.svg
-│   │   │   ├── thermometer-snow.svg
-│   │   │   ├── thermometer-sun.svg
-│   │   │   ├── vector.svg
-│   │   │   ├── warning-circle-2.svg
-│   │   │   ├── warning-circle.svg
-│   │   │   └── warning-triangle.svg
-│   │   ├── temperature-low-solid.png
-│   │   ├── vector.png
-│   │   ├── warning-circle.png
-│   │   └── warning-triangle.png
-│   └── splash.png
 ├── components
 │   ├── atoms
+│   │   ├── AjouterRetirerButton.tsx
 │   │   ├── Button.tsx
 │   │   ├── ClickableText.tsx
-│   │   ├── Criteria.tsx
+│   │   ├── Critere.tsx
 │   │   ├── EngrenageParametre.tsx
+│   │   ├── GoBackButton.tsx
+│   │   ├── InfoMeteo.tsx
+│   │   ├── InputLangue.tsx
 │   │   ├── Logo.tsx
 │   │   ├── MyStatusBar.tsx
-│   │   └── SummaryRules.tsx
+│   │   ├── ReglesMDP.tsx
+│   │   ├── TimeAgoText.tsx
+│   │   ├── Title.tsx
+│   │   └── TrashButton.tsx
 │   ├── molecules
 │   │   ├── Field.tsx
 │   │   ├── LieuCard.tsx
-│   │   └── LieuList.tsx
+│   │   ├── LieuList.tsx
+│   │   ├── LieuSearchCard.tsx
+│   │   ├── ListInfoMeteo.tsx
+│   │   └── ReglageAlerte.tsx
 │   └── organisms
 │       ├── LayoutTemplate.jsx
 │       ├── LieuxSection.tsx
 │       └── VoletParametre.tsx
+├── config
+│   ├── FirebaseConfig.ts
+│   └── ReglageApp.ts
 ├── locales
-│   ├── EN_en.json
-│   └── FR_fr.json
+│   ├── en_US.json
+│   └── fr_FR.json
 ├── models
-│   ├── abstract
-│   │   ├── aRestService.ts
-│   │   └── aUnite.ts
 │   ├── builder
-│   │   ├── LieuxFavorisBuilder.ts
 │   │   └── MeteoBuilder.ts
 │   ├── datatype
-│   │   ├── dtPassword.ts
-│   │   ├── dtUniteCoordonnee.ts
-│   │   ├── dtUniteHumidite.ts
-│   │   ├── dtUniteNuage.ts
-│   │   ├── dtUnitePrecipitation.ts
-│   │   ├── dtUnitePression.ts
-│   │   ├── dtUniteTemperature.ts
-│   │   ├── dtUniteVentDirection.ts
-│   │   ├── dtUniteVentVitesse.ts
-│   │   └── dtUniteVisibilite.ts
+│   │   ├── dtMotDePasse.ts
+│   │   └── unite
+│   │       ├── aUnite.ts
+│   │       ├── dtUniteCoordonnee.ts
+│   │       ├── dtUniteHumidite.ts
+│   │       ├── dtUniteNuage.ts
+│   │       ├── dtUnitePrecipitation.ts
+│   │       ├── dtUnitePression.ts
+│   │       ├── dtUniteTemperature.ts
+│   │       ├── dtUniteVentDirection.ts
+│   │       ├── dtUniteVentVitesse.ts
+│   │       ├── dtUniteVisibilite.ts
+│   │       └── iUnite.ts
+│   ├── entities
+│   │   └── Utilisateur.ts
 │   ├── enum
-│   │   ├── EvenementsEnum.ts
-│   │   ├── InputTypeEnum.ts
-│   │   ├── LangueEnum.ts
+│   │   ├── erreurs
+│   │   │   ├── ErreurAlerte.ts
+│   │   │   ├── ErreurAuth.ts
+│   │   │   ├── ErreurBDD.ts
+│   │   │   ├── ErreurContextGeographie.ts
+│   │   │   ├── ErreurContexUtilisateur.ts
+│   │   │   ├── ErreurLieu.ts
+│   │   │   ├── ErreurMdp.ts
+│   │   │   └── ErreurUtilisateur.ts
+│   │   ├── EvenementEnum.ts
 │   │   ├── SystemeMesureEnum.ts
-│   │   ├── UniteCoordonneeEnum.ts
-│   │   ├── UniteDirectionEnum.ts
-│   │   ├── UniteDistanceEnum.ts
-│   │   ├── UnitePourcentageEnum.ts
-│   │   ├── UnitePressionEnum.ts
-│   │   ├── UniteTailleEnum.ts
-│   │   ├── UniteTempEnum.ts
-│   │   └── UniteVitesseEnum.ts
-│   ├── interface
-│   │   ├── iServiceGeographie.ts
-│   │   ├── iServiceMeteo.ts
-│   │   └── iUnite.ts
-│   ├── ReglageApp.ts
+│   │   └── unite
+│   │       ├── UniteCoordonneeEnum.ts
+│   │       ├── UniteDirectionEnum.ts
+│   │       ├── UniteDistanceEnum.ts
+│   │       ├── UnitePourcentageEnum.ts
+│   │       ├── UnitePressionEnum.ts
+│   │       ├── UniteTailleEnum.ts
+│   │       ├── UniteTempEnum.ts
+│   │       └── UniteVitesseEnum.ts
 │   ├── types
+│   │   ├── criteresType.ts
+│   │   ├── critereUniqueType.ts
+│   │   ├── front
+│   │   │   └── utilisateurFront.ts
 │   │   ├── lieuType.ts
-│   │   └── meteoType.ts
-│   ├── Utilisateur.ts
+│   │   ├── meteoType.ts
+│   │   ├── operateurComparaisonType.ts
+│   │   ├── pertistence
+│   │   │   ├── lieuxFavorisPersistence.ts
+│   │   │   ├── reglageAlertePersistence.ts
+│   │   │   ├── reglageAppPersistence.ts
+│   │   │   └── utilisateurPersistence.ts
+│   │   └── utilisateurInfosType.ts
 │   └── valueObject
 │       ├── Lieu.ts
 │       └── Meteo.ts
@@ -134,25 +95,45 @@ src
 ├── screens
 │   ├── Accueil.tsx
 │   ├── Connexion.tsx
-│   ├── Demo.tsx
 │   ├── DetailLieu.tsx
 │   ├── Inscription.tsx
+│   ├── MdpOublie.tsx
 │   └── RechercheLieu.tsx
-└── services
-    ├── compteUtilisateur
-    │   ├── AccountContext.tsx
-    │   ├── iObserverConnexion.ts
-    │   ├── iServiceCompte.ts
-    │   ├── ObserverConnexion.ts
-    │   ├── ServiceCompteFactory.ts
-    │   └── ServiceCompteFirebase.ts
-    ├── context
-    │   └── UserContext.tsx
-    ├── FirebaseConfig.ts
-    ├── i18n.tsx
-    ├── persistence
-    │   ├── iServicePersistence.ts
-    │   ├── ServicePersistenceFactory.ts
-    │   └── ServicePersistenceFirebase.ts
-    ├── ServiceGeographieOW.ts
-    └── ServiceMeteoOW.ts
+├── services
+│   ├── alertes
+│   │   ├── aAlerte.ts
+│   │   ├── AlerteFactory.ts
+│   │   ├── AlertePrecipitation.ts
+│   │   ├── AlerteTemperatureExtremeBasse.ts
+│   │   ├── AlerteTemperatureExtremeHaute.ts
+│   │   ├── AlerteVentViolent.ts
+│   │   ├── AlerteVisibiliteReduite.ts
+│   │   └── iAlerte.ts
+│   ├── aRestService.ts
+│   ├── auth
+│   │   ├── iServiceCompte.ts
+│   │   ├── ServiceCompteFactory.ts
+│   │   └── ServiceCompteFirebase.ts
+│   ├── background
+│   │   └── ServiceBackgroundTask.ts
+│   ├── context
+│   │   ├── GeographieContext.tsx
+│   │   └── UtilisateurContext.tsx
+│   ├── geographie
+│   │   ├── iServiceGeographie.ts
+│   │   ├── ServiceGeographieFactory.ts
+│   │   └── ServiceGeographieOW.ts
+│   ├── i18n
+│   │   └── i18n.tsx
+│   ├── meteo
+│   │   ├── iServiceMeteo.ts
+│   │   ├── ServiceMeteoFactory.ts
+│   │   └── ServiceMeteoOW.ts
+│   ├── notification
+│   │   └── NotificationService.ts
+│   └── persistence
+│       ├── iServicePersistence.ts
+│       ├── ServicePersistenceFactory.ts
+│       └── ServicePersistenceFirebase.ts
+└── utils
+    └── LieuUtils.ts
